@@ -1,0 +1,68 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "c1364a9ca395f2e93e57bee15003c7f8",
+    "packages": [
+        {
+            "name": "carica/io",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
+                "reference": "07e9f0a23d6f63f1802b026eb83cbb992d694001"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/07e9f0a23d6f63f1802b026eb83cbb992d694001.zip",
+                "reference": "07e9f0a23d6f63f1802b026eb83cbb992d694001",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Carica\\Io": "src"
+                }
+            },
+            "notification-url": "http://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Weinert",
+                    "email": "thomas@weinert.info"
+                }
+            ],
+            "description": "Non blocking I/O and Arduino firmata support for PHP",
+            "homepage": "https://bitbucket.org/ThomasWeinert/carica-io/",
+            "keywords": [
+                "arduino",
+                "asynchronous-io",
+                "firmata",
+                "non-blocking-io"
+            ],
+            "time": "2013-04-20 13:44:14"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "carica/io": 20
+    },
+    "platform": {
+        "php": ">=5.4"
+    },
+    "platform-dev": [
+
+    ]
+}
