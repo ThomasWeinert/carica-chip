@@ -3,20 +3,62 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3abe7897245444e4b8323d190a894bd2",
+    "hash": "27b6d018269ce4ae7e54ec1aadcacedf",
     "packages": [
+        {
+            "name": "carica/firmata",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
+                "reference": "02dc2c912bf0f633431c400945469bf9068da070"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/02dc2c912bf0f633431c400945469bf9068da070.zip",
+                "reference": "02dc2c912bf0f633431c400945469bf9068da070",
+                "shasum": ""
+            },
+            "require": {
+                "carica/io": "dev-master",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Carica\\Io": "src"
+                }
+            },
+            "notification-url": "http://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Weinert",
+                    "email": "thomas@weinert.info"
+                }
+            ],
+            "description": "Firmata client library",
+            "homepage": "https://bitbucket.org/ThomasWeinert/carica-firmata/",
+            "keywords": [
+                "arduino",
+                "firmata"
+            ],
+            "time": "2013-05-25 13:49:49"
+        },
         {
             "name": "carica/io",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "be0cac732511f95385de5ebc810ecefd131b7017"
+                "reference": "2da04341d623b4d2267f31a4f8220704e076c7de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/be0cac732511f95385de5ebc810ecefd131b7017.zip",
-                "reference": "be0cac732511f95385de5ebc810ecefd131b7017",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/2da04341d623b4d2267f31a4f8220704e076c7de.zip",
+                "reference": "2da04341d623b4d2267f31a4f8220704e076c7de",
                 "shasum": ""
             },
             "require": {
@@ -38,15 +80,13 @@
                     "email": "thomas@weinert.info"
                 }
             ],
-            "description": "Non blocking I/O and Arduino firmata support for PHP",
+            "description": "Non blocking I/O for PHP",
             "homepage": "https://bitbucket.org/ThomasWeinert/carica-io/",
             "keywords": [
-                "arduino",
                 "asynchronous-io",
-                "firmata",
                 "non-blocking-io"
             ],
-            "time": "2013-05-05 10:56:00"
+            "time": "2013-05-25 13:08:18"
         }
     ],
     "packages-dev": [
@@ -57,7 +97,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "carica/io": 20
+        "carica/io": 20,
+        "carica/firmata": 20
     },
     "platform": {
         "php": ">=5.4"

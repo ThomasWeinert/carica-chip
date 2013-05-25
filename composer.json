@@ -10,7 +10,8 @@
   ],
   "require": {
     "php": ">=5.4",
-    "carica/io": "dev-master"
+    "carica/io": "dev-master",
+    "carica/firmata": "dev-master"
   },
   "autoload": {
     "psr-0": { "Carica\\Chip": "src" }
