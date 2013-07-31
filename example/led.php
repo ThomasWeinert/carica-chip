@@ -1,15 +1,11 @@
 <?php
-require('../vendor/autoload.php');
-require('../src/Carica/Chip/Led.php');
+$board = require(__DIR__.'/bootstrap.php');
 
-$board = new Carica\Io\Firmata\Board(
-  new Carica\Io\Stream\Tcp('127.0.0.1', 5339)
-);
 $board
   ->activate()
   ->done(
     function () use ($board) {
-      $led = new Carica\Chip\Led($board, 13);
+      $led = new Carica\Chip\Led($board, 9);
       $led->blink();
     }
   )

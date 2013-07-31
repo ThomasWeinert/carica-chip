@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "02dc2c912bf0f633431c400945469bf9068da070"
+                "reference": "74ba9267b3a967548f312f3754827796227ada83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/02dc2c912bf0f633431c400945469bf9068da070.zip",
-                "reference": "02dc2c912bf0f633431c400945469bf9068da070",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/74ba9267b3a967548f312f3754827796227ada83.zip",
+                "reference": "74ba9267b3a967548f312f3754827796227ada83",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
             "type": "library",
             "autoload": {
                 "psr-0": {
-                    "Carica\\Io": "src"
+                    "Carica\\Firmata": "src"
                 }
             },
             "notification-url": "http://packagist.org/downloads/",
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-05-25 13:49:49"
+            "time": "2013-07-05 18:48:18"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "2da04341d623b4d2267f31a4f8220704e076c7de"
+                "reference": "2551b675808def1f7fa0511cca41ebb7b8e66935"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/2da04341d623b4d2267f31a4f8220704e076c7de.zip",
-                "reference": "2da04341d623b4d2267f31a4f8220704e076c7de",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/2551b675808def1f7fa0511cca41ebb7b8e66935.zip",
+                "reference": "2551b675808def1f7fa0511cca41ebb7b8e66935",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2013-05-25 13:08:18"
+            "time": "2013-07-30 19:03:49"
         }
     ],
     "packages-dev": [

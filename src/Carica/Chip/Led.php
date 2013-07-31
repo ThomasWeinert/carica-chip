@@ -2,7 +2,7 @@
 
 namespace Carica\Chip {
 
-  use Carica\Io\Firmata;
+  use Carica\Firmata;
   use Carica\Io\Event;
 
   class Led {
