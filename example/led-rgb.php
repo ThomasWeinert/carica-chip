@@ -5,22 +5,22 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
+      $colors = array(
+        '#F00', '#0F0', '#00F'
+      );
       $led = new Carica\Chip\Led\Rgb($board, 10, 11, 9);
       $led->setColor('#000');
-      $led
-        ->fadeTo('#F00')
-        ->done(
-          function () use ($led) {
-            $led
-              ->fadeTo('#0F0')
-              ->done(
-                function () use ($led) {
-                  $led
-                    ->fadeTo('#00F');
-                }
-              );
-          }
-        );
+      $index = 0;
+      $next = function() use ($led, $colors, &$index, &$next) {
+        if (isset($colors[$index])) {
+          $color = $colors[$index];
+          $led->fadeTo($color)->done($next);
+        }
+        if (++$index >= count($colors)) {
+          $index = 0;
+        }
+      };
+      $next();
     }
   )
   ->fail(
