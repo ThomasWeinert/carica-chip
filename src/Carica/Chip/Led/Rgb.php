@@ -29,8 +29,12 @@ namespace Carica\Chip\Led {
       $this->_pinBlue = (int)$pinBlue;
     }
 
+    /**
+     * Send data to the board
+     *
+     * @param array $color
+     */
     private function send(array $color) {
-      var_dump($color);
       $this->_board->pins[$this->_pinRed]->mode = Firmata\PIN_STATE_PWM;
       $this->_board->pins[$this->_pinGreen]->mode = Firmata\PIN_STATE_PWM;
       $this->_board->pins[$this->_pinBlue]->mode = Firmata\PIN_STATE_PWM;
