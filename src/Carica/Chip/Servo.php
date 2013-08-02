@@ -3,6 +3,7 @@
 namespace Carica\Chip {
 
   use Carica\Firmata;
+  use Carica\Io;
   use Carica\Io\Event;
 
   class Servo {
@@ -13,6 +14,12 @@ namespace Carica\Chip {
     private $_pin = 0;
     private $_range = 180;
     private $_invert = FALSE;
+
+    /**
+     * the time in milliseconds needed to move the servo by one degree
+     * @var float
+     */
+    private $_timePerDegree = 23;
 
     public function __construct(Firmata\Board $board, $pin, $range = 180) {
       $this->_board = $board;
@@ -25,15 +32,81 @@ namespace Carica\Chip {
       $this->_range = abs($range);
     }
 
-    public function setDegrees($value) {
-      $this->_board->pins[$this->_pin]->mode = Firmata\PIN_STATE_SERVO;
-      $value = ($this->_invert)  ? $this->_range - $value : $value;
-      $this->_board->pins[$this->_pin]->analog = $value;
+    /**
+     * Return the current position
+     *
+     * @return integer
+     */
+    public function getPosition() {
+      $position = $this->_board->pins[$this->_pin]->analog;
+      return ($this->_invert)  ? $this->_range - $position : $position;
     }
 
-    public function getDegrees() {
-      $value = $this->_board->pins[$this->_pin]->analog;
-      return ($this->_invert)  ? $this->_range - $value : $value;
+    /**
+     * Move to minimum position (0 degrees)
+     *
+     * @return \Carica\Io\Deferred\Promise
+     */
+    public function min() {
+      return $this->moveTo(0);
+    }
+
+    /**
+     * Move to maximum position (range or 255)
+     *
+     * @return \Carica\Io\Deferred\Promise
+     */
+    public function max() {
+      return $this->moveTo($this->_range);
+    }
+
+    /**
+     * Center the servo
+     *
+     * @return \Carica\Io\Deferred\Promise
+     */
+    public function center() {
+      return $this->moveTo(round($this->_range / 2));
+    }
+
+    /**
+     * Move the servo to a given position
+     *
+     * @param integer $position
+     * @return \Carica\Io\Deferred\Promise
+     */
+    public function moveTo($position) {
+      $this->_board->pins[$this->_pin]->mode = Firmata\PIN_STATE_SERVO;
+      $offset = abs($this->getPosition() - $position);
+      $defer = new Io\Deferred();
+      $position = ($this->_invert)  ? $this->_range - $position : $position;
+      $this->_board->pins[$this->_pin]->analog = $position;
+      $this->loop()->setTimeout(
+        function () use ($defer, $position) {
+          $defer->resolve($position);
+        },
+        round($offset * $this->_timePerDegree)
+      );
+      return $defer->promise();
+    }
+
+    /**
+     * Validate that the given position is within the range of the servo
+     *
+     * @throws \OutOfRangeException
+     * @return boolean
+     */
+    private function validatePosition($position) {
+      if ($position < 0 || $position > $this->_range) {
+        throw new \OutOfRangeException(
+          sprintf(
+            'Position %d is outside servo range 0 to %d.',
+            $position,
+            $this->_range
+          )
+        );
+      }
+      return TRUE;
     }
   }
 }

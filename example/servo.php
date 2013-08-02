@@ -15,8 +15,8 @@ $board
         $next = function () use ($servo, $positions, &$index) {
           if (isset($positions[$index])) {
             $position = $positions[$index];
-            $servo->setDegrees($position);
-            echo $position, " Grad , ", $servo->getDegrees(), " Grad\n";
+            $servo->moveTo($position);
+            echo $position, " Grad , ", $servo->getPosition(), " Grad\n";
           }
           if (++$index >= count($positions)) {
             $index = 0;
