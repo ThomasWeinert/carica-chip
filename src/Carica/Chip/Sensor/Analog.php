@@ -28,6 +28,7 @@ namespace Carica\Chip\Sensor {
     public function __construct(Firmata\Board $board, $pin) {
       $this->_board = $board;
       $this->_pin = $pin;
+      $this->_pin->mode = Firmata\PIN_STATE_ANALOG;
       $board->analogRead(
         $pin,
         function ($value) {
