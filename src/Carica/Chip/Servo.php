@@ -76,7 +76,7 @@ namespace Carica\Chip {
      * @return \Carica\Io\Deferred\Promise
      */
     public function moveTo($position) {
-      $this->_board->pins[$this->_pin]->mode = Firmata\PIN_STATE_SERVO;
+      $this->_board->pins[$this->_pin]->mode = Firmata\Board::PIN_STATE_SERVO;
       $offset = abs($this->getPosition() - $position);
       $defer = new Io\Deferred();
       $position = ($this->_invert)  ? $this->_range - $position : $position;
