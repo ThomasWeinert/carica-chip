@@ -16,7 +16,7 @@ namespace Carica\Chip\Sensor {
     private $_board = NULL;
 
     /**
-     * @var integer $_pin
+     * @var Carica\firmata\Pin $_pin
      */
     private $_pin = 0;
 
@@ -27,7 +27,7 @@ namespace Carica\Chip\Sensor {
 
     public function __construct(Firmata\Board $board, $pin) {
       $this->_board = $board;
-      $this->_pin = $pin;
+      $this->_pin = $this->_board->pins[$pin];
       $this->_pin->mode = Firmata\Board::PIN_STATE_ANALOG;
       $board->analogRead(
         $pin,
@@ -37,8 +37,12 @@ namespace Carica\Chip\Sensor {
       );
     }
 
+    public function getValue() {
+      return $this->_pin->getValue();
+    }
+
     public function __toString() {
-      return (string)$this->_board->pins[$this->_pin]->analog;
+      return number_format($this->_pin->analog, 6, '.', ',');
     }
   }
 }
