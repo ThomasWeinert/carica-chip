@@ -38,7 +38,7 @@ namespace Carica\Chip {
      * @return integer
      */
     public function getPosition() {
-      $position = $this->_board->pins[$this->_pin]->analog;
+      $position = round($this->_board->pins[$this->_pin]->analog * 360);
       return ($this->_invert)  ? $this->_range - $position : $position;
     }
 
@@ -80,7 +80,7 @@ namespace Carica\Chip {
       $offset = abs($this->getPosition() - $position);
       $defer = new Io\Deferred();
       $position = ($this->_invert)  ? $this->_range - $position : $position;
-      $this->_board->pins[$this->_pin]->analog = $position;
+      $this->_board->pins[$this->_pin]->analog = $position / 360;
       $this->loop()->setTimeout(
         function () use ($defer, $position) {
           $defer->resolve($position);

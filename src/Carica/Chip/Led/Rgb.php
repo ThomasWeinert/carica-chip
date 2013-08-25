@@ -38,9 +38,9 @@ namespace Carica\Chip\Led {
       $this->_board->pins[$this->_pinRed]->mode = Firmata\Board::PIN_STATE_PWM;
       $this->_board->pins[$this->_pinGreen]->mode = Firmata\Board::PIN_STATE_PWM;
       $this->_board->pins[$this->_pinBlue]->mode = Firmata\Board::PIN_STATE_PWM;
-      $this->_board->pins[$this->_pinRed]->analog = (int)$color[0];
-      $this->_board->pins[$this->_pinGreen]->analog = (int)$color[1];
-      $this->_board->pins[$this->_pinBlue]->analog = (int)$color[2];
+      $this->_board->pins[$this->_pinRed]->analog = $color[0] / 255;
+      $this->_board->pins[$this->_pinGreen]->analog = $color[1] / 255;
+      $this->_board->pins[$this->_pinBlue]->analog = $color[2] / 255;
     }
 
     /**
@@ -65,9 +65,9 @@ namespace Carica\Chip\Led {
      */
     public function getColor() {
       return array(
-        $this->_board->pins[$this->_pinRed]->analog,
-        $this->_board->pins[$this->_pinGreen]->analog,
-        $this->_board->pins[$this->_pinBlue]->analog
+        round($this->_board->pins[$this->_pinRed]->analog * 255),
+        round($this->_board->pins[$this->_pinGreen]->analog * 255),
+        round($this->_board->pins[$this->_pinBlue]->analog * 255)
       );
     }
 

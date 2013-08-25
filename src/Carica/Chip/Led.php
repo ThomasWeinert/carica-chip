@@ -41,7 +41,7 @@ namespace Carica\Chip {
     public function brightness($brightness = 0) {
       $pin = $this->getPin();
       $pin->mode = Firmata\Board::PIN_STATE_PWM;
-      $pin->analog = $brightness;
+      $pin->analog = $brightness / 255;
     }
 
     public function blink($duration = 1000) {
