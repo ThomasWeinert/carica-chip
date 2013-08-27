@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "27b6d018269ce4ae7e54ec1aadcacedf",
+    "hash": "5b7270b960d89f7a5f42f4397dc9d5ab",
     "packages": [
         {
             "name": "carica/firmata",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "00cba4845898ae51981337a1be24769071569e31"
+                "reference": "d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/00cba4845898ae51981337a1be24769071569e31.zip",
-                "reference": "00cba4845898ae51981337a1be24769071569e31",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa.zip",
+                "reference": "d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-08-25 19:48:15"
+            "time": "2013-08-27 18:22:38"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "2551b675808def1f7fa0511cca41ebb7b8e66935"
+                "reference": "7879329bcfed876261ae3147a6f85b837c3bbc18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/2551b675808def1f7fa0511cca41ebb7b8e66935.zip",
-                "reference": "2551b675808def1f7fa0511cca41ebb7b8e66935",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/7879329bcfed876261ae3147a6f85b837c3bbc18.zip",
+                "reference": "7879329bcfed876261ae3147a6f85b837c3bbc18",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2013-07-30 19:03:49"
+            "time": "2013-08-26 20:30:27"
         }
     ],
     "packages-dev": [
