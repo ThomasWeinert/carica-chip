@@ -28,19 +28,19 @@ namespace Carica\Chip {
 
     public function on() {
       $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_STATE_OUTPUT;
+      $pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
       $pin->digital = TRUE;
     }
 
     public function off() {
       $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_STATE_OUTPUT;
+      $pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
       $pin->digital = FALSE;
     }
 
     public function brightness($brightness = 0) {
       $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_STATE_PWM;
+      $pin->mode = Firmata\Board::PIN_MODE_PWM;
       $pin->analog = $brightness / 255;
     }
 

@@ -35,9 +35,9 @@ namespace Carica\Chip\Led {
      * @param array $color
      */
     private function send(array $color) {
-      $this->_board->pins[$this->_pinRed]->mode = Firmata\Board::PIN_STATE_PWM;
-      $this->_board->pins[$this->_pinGreen]->mode = Firmata\Board::PIN_STATE_PWM;
-      $this->_board->pins[$this->_pinBlue]->mode = Firmata\Board::PIN_STATE_PWM;
+      $this->_board->pins[$this->_pinRed]->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_board->pins[$this->_pinGreen]->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_board->pins[$this->_pinBlue]->mode = Firmata\Board::PIN_MODE_PWM;
       $this->_board->pins[$this->_pinRed]->analog = $color[0] / 255;
       $this->_board->pins[$this->_pinGreen]->analog = $color[1] / 255;
       $this->_board->pins[$this->_pinBlue]->analog = $color[2] / 255;
