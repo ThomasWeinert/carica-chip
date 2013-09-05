@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa"
+                "reference": "abf34042a60d050732861db224239799b99d318a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa.zip",
-                "reference": "d1becbf2fc8ea17da7c078671f0d22d4bf0fadaa",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/abf34042a60d050732861db224239799b99d318a.zip",
+                "reference": "abf34042a60d050732861db224239799b99d318a",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-08-27 18:22:38"
+            "time": "2013-09-01 14:50:52"
         },
         {
             "name": "carica/io",
