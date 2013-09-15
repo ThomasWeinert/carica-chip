@@ -10,7 +10,7 @@ namespace Carica\Chip\Sensor {
     use ChangeCallbacks;
 
     /**
-     * @var Carica\Firmata\Board $_board
+     * @var Firmata\Board $_board
      */
     private $_board = NULL;
 
@@ -19,18 +19,13 @@ namespace Carica\Chip\Sensor {
      */
     private $_pin = 0;
 
-    /**
-     * @var Carica\Io\Callbacks $_callbacks
-     */
-    private $_callbacks = NULL;
-
     public function __construct(Firmata\Board $board, $pin) {
       $this->_board = $board;
       $this->_pin = $pin;
       $this->_pin->mode = Firmata\Board::PIN_MODE_INPUT;
       $board->digitalRead(
         $pin,
-        function ($value) {
+        function () {
           $this->callbacks()->fire($this);
         }
       );

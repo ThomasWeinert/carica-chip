@@ -76,6 +76,7 @@ namespace Carica\Chip {
      * @return \Carica\Io\Deferred\Promise
      */
     public function moveTo($position) {
+      $this->validatePosition($position);
       $this->_board->pins[$this->_pin]->mode = Firmata\Board::PIN_MODE_SERVO;
       $offset = abs($this->getPosition() - $position);
       $defer = new Io\Deferred();
@@ -92,6 +93,8 @@ namespace Carica\Chip {
 
     /**
      * Validate that the given position is within the range of the servo
+     *
+     * @param integer $position
      *
      * @throws \OutOfRangeException
      * @return boolean

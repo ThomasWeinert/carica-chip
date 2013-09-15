@@ -4,11 +4,12 @@ namespace Carica\Chip\Led {
 
   use Carica\Firmata;
   use Carica\Io;
-  use Carica\Io\Event;
 
-  class Rgb {
+  class Rgb
+    implements
+      Io\Event\HasLoop {
 
-    use Event\Loop\Aggregation;
+    use Io\Event\Loop\Aggregation;
 
     private $_board = NULL;
     private $_pinRed = 0;
@@ -20,6 +21,10 @@ namespace Carica\Chip\Led {
      * @var integer
      */
     private $_resolution = 20;
+
+    /**
+     * @var Io\Deferred $_defer
+     */
     private $_defer = NULL;
 
     public function __construct(Firmata\Board $board, $pinRed, $pinGreen, $pinBlue) {
@@ -74,9 +79,10 @@ namespace Carica\Chip\Led {
     /**
      * Fade the current color to the target color in the given seconds.
      *
-     * @param array:integer|string $color
-     * @param number $seconds
-     * @return Carica\io\Deferred\Promise
+     * @param array(integer)|string $color
+     * @param int $milliseconds
+     *
+     * @return Io\Deferred\Promise
      */
     public function fadeTo($color, $milliseconds = 3000) {
       if (is_string($color)) {

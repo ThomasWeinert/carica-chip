@@ -58,7 +58,7 @@ namespace Carica\Chip {
 
     public function stop() {
       if (isset($this->_timer)) {
-        $this->loop()->remove($this->timer());
+        $this->loop()->remove($this->_timer);
       }
     }
   }
