@@ -5,3 +5,5 @@
 /vendor
 
 /example/configuration.php
+
+/.idea
