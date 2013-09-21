@@ -10,8 +10,10 @@ namespace Carica\Chip {
 
     use Event\Loop\Aggregation;
 
-    private $_board = NULL;
-    private $_pin = 0;
+    /**
+     * @var Firmata\Pin
+     */
+    private $_pin = NULL;
     private $_range = 180;
     private $_invert = FALSE;
 
@@ -21,9 +23,8 @@ namespace Carica\Chip {
      */
     private $_timePerDegree = 23;
 
-    public function __construct(Firmata\Board $board, $pin, $range = 180) {
-      $this->_board = $board;
-      $this->_pin = (int)$pin;
+    public function __construct(Firmata\Pin $pin, $range = 180) {
+      $this->_pin = $pin;
       if (abs($range) > 255) {
         throw new \InvalidArgumentException('Invalid servo range: '.(int)$range);
       } elseif ($range < 0) {
@@ -38,7 +39,7 @@ namespace Carica\Chip {
      * @return integer
      */
     public function getPosition() {
-      $position = round($this->_board->pins[$this->_pin]->analog * 360);
+      $position = round($this->_pin->analog * 360);
       return ($this->_invert)  ? $this->_range - $position : $position;
     }
 
@@ -77,11 +78,11 @@ namespace Carica\Chip {
      */
     public function moveTo($position) {
       $this->validatePosition($position);
-      $this->_board->pins[$this->_pin]->mode = Firmata\Board::PIN_MODE_SERVO;
+      $this->_pin->mode = Firmata\Board::PIN_MODE_SERVO;
       $offset = abs($this->getPosition() - $position);
       $defer = new Io\Deferred();
       $position = ($this->_invert)  ? $this->_range - $position : $position;
-      $this->_board->pins[$this->_pin]->analog = $position / 360;
+      $this->_pin->analog = $position / 360;
       $this->loop()->setTimeout(
         function () use ($defer, $position) {
           $defer->resolve($position);

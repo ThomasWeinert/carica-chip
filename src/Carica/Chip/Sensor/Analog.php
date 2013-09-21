@@ -10,21 +10,15 @@ namespace Carica\Chip\Sensor {
     use ChangeCallbacks;
 
     /**
-     * @var Firmata\Board $_board
-     */
-    private $_board = NULL;
-
-    /**
      * @var Firmata\Pin $_pin
      */
-    private $_pin = 0;
+    private $_pin = NULL;
 
-    public function __construct(Firmata\Board $board, $pin) {
-      $this->_board = $board;
-      $this->_pin = $this->_board->pins[$pin];
+    public function __construct(Firmata\Pin $pin) {
+      $this->_pin = $pin;
       $this->_pin->mode = Firmata\Board::PIN_MODE_ANALOG;
-      $board->analogRead(
-        $pin,
+      $this->_pin->events()->on(
+        'change-value',
         function () {
           $this->callbacks()->fire($this);
         }

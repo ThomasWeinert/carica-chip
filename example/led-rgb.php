@@ -8,7 +8,11 @@ $board
       $colors = array(
         '#F00', '#0F0', '#00F'
       );
-      $led = new Carica\Chip\Led\Rgb($board, 10, 11, 9);
+      $led = new Carica\Chip\Led\Rgb(
+        $board->pins[20],
+        $board->pins[21],
+        $board->pins[22]
+      );
       $led->setColor('#000');
       $index = 0;
       $next = function() use ($led, $colors, &$index, &$next) {

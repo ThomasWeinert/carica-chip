@@ -5,9 +5,11 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $sensor = new Carica\Chip\Sensor\Analog($board, 14);
+      $sensor = new Carica\Chip\Sensor\Analog(
+        $board->pins[16]
+      );
       $sensor->onChange(
-        function ($sensor) {
+        function (Carica\Chip\Sensor\Analog $sensor) {
           echo $sensor, "\n";
         }
       );
