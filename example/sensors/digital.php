@@ -10,7 +10,9 @@ $board
       );
       $sensor->onChange(
         function (Carica\Chip\Sensor\Digital $sensor) {
-          echo (string)$sensor, "\n";
+          echo $sensor->isHigh()
+            ? 'Key down  ______________' : 'Key up    |""""""""""""|',
+            "\n\n";
         }
       );
     }
