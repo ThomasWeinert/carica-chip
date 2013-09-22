@@ -10,7 +10,9 @@ $board
       );
       $sensor->onChange(
         function (Carica\Chip\Sensor\Analog $sensor) {
-          echo $sensor, "\n";
+          echo $sensor, ' ';
+          echo str_repeat('=', 60 * $sensor->get());
+          echo "\n";
         }
       );
     }
