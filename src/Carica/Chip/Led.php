@@ -9,39 +9,33 @@ namespace Carica\Chip {
 
     use Event\Loop\Aggregation;
 
-    private $_board = NULL;
-    private $_pin = 0;
+    /**
+     * @var Firmata\Pin
+     */
+    private $_pin = NULL;
     private $_timer = NULL;
 
-    public function __construct(Firmata\Board $board, $pin) {
-      $this->_board = $board;
-      $this->_pin = (int)$pin;
-    }
-
-    private function getPin() {
-      return $this->_board->pins[$this->_pin];
+    public function __construct(Firmata\Pin $pin) {
+      $this->_pin = $pin;
     }
 
     public function isOn() {
-      return $this->getPin()->value > 0;
+      return $this->_pin->value > 0;
     }
 
     public function on() {
-      $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
-      $pin->digital = TRUE;
+      $this->_pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+      $this->_pin->digital = TRUE;
     }
 
     public function off() {
-      $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
-      $pin->digital = FALSE;
+      $this->_pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+      $this->_pin->digital = FALSE;
     }
 
     public function brightness($brightness = 0) {
-      $pin = $this->getPin();
-      $pin->mode = Firmata\Board::PIN_MODE_PWM;
-      $pin->analog = $brightness / 255;
+      $this->_pin->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_pin->analog = $brightness / 255;
     }
 
     public function blink($duration = 1000) {
@@ -58,7 +52,7 @@ namespace Carica\Chip {
 
     public function stop() {
       if (isset($this->_timer)) {
-        $this->loop()->remove($this->timer());
+        $this->loop()->remove($this->_timer);
       }
     }
   }

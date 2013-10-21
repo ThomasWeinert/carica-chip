@@ -5,14 +5,14 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $sensor = new Carica\Chip\Sensor\Analog(
+      $sensor = new Carica\Chip\Sensor\Digital(
         $board->pins[16]
       );
       $sensor->onChange(
-        function (Carica\Chip\Sensor\Analog $sensor) {
-          echo $sensor, ' ';
-          echo str_repeat('=', 60 * $sensor->get());
-          echo "\n";
+        function (Carica\Chip\Sensor\Digital $sensor) {
+          echo $sensor->isHigh()
+            ? 'Key down  ______________' : 'Key up    |""""""""""""|',
+            "\n\n";
         }
       );
     }

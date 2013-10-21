@@ -10,7 +10,7 @@ $board
       $positions = array(
         0, 45, 90, 180
       );
-      $servo = new Carica\Chip\Servo($board, 7, -180);
+      $servo = new Carica\Chip\Servo($board->pins[7], -180);
       $index = 0;
       $loop->setInterval(
         $next = function () use ($servo, $positions, &$index) {

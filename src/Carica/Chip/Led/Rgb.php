@@ -4,29 +4,41 @@ namespace Carica\Chip\Led {
 
   use Carica\Firmata;
   use Carica\Io;
-  use Carica\Io\Event;
 
-  class Rgb {
+  class Rgb
+    implements
+      Io\Event\HasLoop {
 
-    use Event\Loop\Aggregation;
+    use Io\Event\Loop\Aggregation;
 
-    private $_board = NULL;
-    private $_pinRed = 0;
-    private $_pinGreen = 0;
-    private $_pinBlue = 0;
+    /**
+     * @var Firmata\Pin
+     */
+    private $_pinRed = NULL;
+    /**
+     * @var Firmata\Pin
+     */
+    private $_pinGreen = NULL;
+    /**
+     * @var Firmata\Pin
+     */
+    private $_pinBlue = NULL;
 
     /**
      * changes per second
      * @var integer
      */
     private $_resolution = 20;
+
+    /**
+     * @var Io\Deferred $_defer
+     */
     private $_defer = NULL;
 
-    public function __construct(Firmata\Board $board, $pinRed, $pinGreen, $pinBlue) {
-      $this->_board = $board;
-      $this->_pinRed = (int)$pinRed;
-      $this->_pinGreen = (int)$pinGreen;
-      $this->_pinBlue = (int)$pinBlue;
+    public function __construct(Firmata\Pin $pinRed, Firmata\Pin $pinGreen, Firmata\Pin $pinBlue) {
+      $this->_pinRed = $pinRed;
+      $this->_pinGreen = $pinGreen;
+      $this->_pinBlue = $pinBlue;
     }
 
     /**
@@ -35,12 +47,12 @@ namespace Carica\Chip\Led {
      * @param array $color
      */
     private function send(array $color) {
-      $this->_board->pins[$this->_pinRed]->mode = Firmata\Board::PIN_MODE_PWM;
-      $this->_board->pins[$this->_pinGreen]->mode = Firmata\Board::PIN_MODE_PWM;
-      $this->_board->pins[$this->_pinBlue]->mode = Firmata\Board::PIN_MODE_PWM;
-      $this->_board->pins[$this->_pinRed]->analog = $color[0] / 255;
-      $this->_board->pins[$this->_pinGreen]->analog = $color[1] / 255;
-      $this->_board->pins[$this->_pinBlue]->analog = $color[2] / 255;
+      $this->_pinRed->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_pinGreen->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_pinBlue->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_pinRed->analog = $color[0] / 255;
+      $this->_pinGreen->analog = $color[1] / 255;
+      $this->_pinBlue->analog = $color[2] / 255;
     }
 
     /**
@@ -65,18 +77,19 @@ namespace Carica\Chip\Led {
      */
     public function getColor() {
       return array(
-        round($this->_board->pins[$this->_pinRed]->analog * 255),
-        round($this->_board->pins[$this->_pinGreen]->analog * 255),
-        round($this->_board->pins[$this->_pinBlue]->analog * 255)
+        round($this->_pinRed->analog * 255),
+        round($this->_pinGreen->analog * 255),
+        round($this->_pinBlue->analog * 255)
       );
     }
 
     /**
      * Fade the current color to the target color in the given seconds.
      *
-     * @param array:integer|string $color
-     * @param number $seconds
-     * @return Carica\io\Deferred\Promise
+     * @param array(integer)|string $color
+     * @param int $milliseconds
+     *
+     * @return Io\Deferred\Promise
      */
     public function fadeTo($color, $milliseconds = 3000) {
       if (is_string($color)) {
