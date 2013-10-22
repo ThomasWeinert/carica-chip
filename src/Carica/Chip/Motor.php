@@ -4,12 +4,34 @@ namespace Carica\Chip {
 
   use Carica\Firmata;
 
+  /**
+   * A DC motor control for up to 3 pins (h bridge). Single pin will allow only forward, backward will
+   * trigger an exception. If you provide the direction pins, backward will be possible.
+   *
+   * @package Carica\Chip
+   */
   class Motor {
 
+    /**
+     * @var Firmata\Pin
+     */
     private $_speedPin = NULL;
+
+    /**
+     * @var Firmata\Pin|NULL
+     */
     private $_directionPin = NULL;
+
+    /**
+     * @var Firmata\Pin|NULL
+     */
     private $_reverseDirectionPin = NULL;
 
+    /**
+     * @param Firmata\Pin $speedPin PWM capable pin for speed
+     * @param Firmata\Pin $directionPin direction pin
+     * @param Firmata\Pin $reverseDirectionPin reverse direction pin, for H bridge setup
+     */
     public function __construct(
       Firmata\Pin $speedPin,
       Firmata\Pin $directionPin = NULL,
@@ -17,9 +39,28 @@ namespace Carica\Chip {
       $this->_speedPin = $speedPin;
       $this->_directionPin = $directionPin;
       $this->_reverseDirectionPin = $reverseDirectionPin;
-
     }
 
+    /**
+     * Positive values mean forward, negative values backward. Zero stops the motor.
+     *
+     * @param float|integer $speed the speed as a, float value between -1 and 1
+     */
+    public function speed($speed) {
+      if ($speed > 0) {
+        $this->forward($speed);
+      } elseif ($speed < 0) {
+        $this->backward(abs($speed));
+      } else {
+        $this->stop();
+      }
+    }
+
+    /**
+     * Activate forward rotation with the given speed.
+     *
+     * @param float|integer $speed the speed as a, float value between 0 and 1
+     */
     public function forward($speed) {
       $this->setPinModes();
       if (NULL !== $this->_directionPin) {
@@ -31,10 +72,15 @@ namespace Carica\Chip {
       $this->_speedPin->analog($speed);
     }
 
+    /**
+     * Activate baclward rotation with the given speed.
+     *
+     * @param float|integer $speed the speed as a, float value between 0 and 1
+     */
     public function backward($speed) {
       $this->setPinModes();
       if (NULL == $this->_directionPin) {
-        throw new LogicException('No direction pin(s) provided.');
+        throw new \LogicException('No direction pin(s) provided.');
       }
       $this->_directionPin->digital = TRUE;
       if (NULL !== $this->_reverseDirectionPin) {
@@ -43,6 +89,9 @@ namespace Carica\Chip {
       $this->_speedPin->analog($speed);
     }
 
+    /**
+     * Stop the motor.
+     */
     public function stop() {
       $this->setPinModes();
       $this->_speedPin->analog(0);
@@ -54,6 +103,9 @@ namespace Carica\Chip {
       }
     }
 
+    /**
+     * Set the modes of all provided pins.
+     */
     private function setPinModes() {
       $this->_speedPin->mode = Firmata\Board::PIN_MODE_PWM;
       if (NULL !== $this->_directionPin) {
@@ -63,6 +115,5 @@ namespace Carica\Chip {
         $this->_directionPin->mode = Firmata\Board::PIN_MODE_OUTPUT;
       }
     }
-
   }
 }
