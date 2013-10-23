@@ -66,16 +66,18 @@ namespace Carica\Chip {
       if (NULL !== $this->_directionPin) {
         $this->_directionPin->digital = FALSE;
         if (NULL !== $this->_reverseDirectionPin) {
-          $this->_directionPin->digital = !$this->_directionPin->digital;
+          $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
         }
       }
-      $this->_speedPin->analog($speed);
+      $this->_speedPin->analog = $speed;
     }
 
     /**
      * Activate baclward rotation with the given speed.
      *
      * @param float|integer $speed the speed as a, float value between 0 and 1
+     *
+     * @throws \LogicException
      */
     public function backward($speed) {
       $this->setPinModes();
@@ -84,9 +86,9 @@ namespace Carica\Chip {
       }
       $this->_directionPin->digital = TRUE;
       if (NULL !== $this->_reverseDirectionPin) {
-        $this->_directionPin->digital = !$this->_directionPin->digital;
+        $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
       }
-      $this->_speedPin->analog($speed);
+      $this->_speedPin->analog = $speed;
     }
 
     /**
@@ -94,7 +96,7 @@ namespace Carica\Chip {
      */
     public function stop() {
       $this->setPinModes();
-      $this->_speedPin->analog(0);
+      $this->_speedPin->analog = 0;
       if (NULL !== $this->_directionPin) {
         $this->_directionPin->digital = FALSE;
         if (NULL !== $this->_reverseDirectionPin) {
