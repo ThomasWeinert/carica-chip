@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "7467c2d56338c030c3cb4c9451dc3e6b6ee6e2f2"
+                "reference": "1a6684aceab570b1897bf5f288b10b90b0c10841"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/7467c2d56338c030c3cb4c9451dc3e6b6ee6e2f2.zip",
-                "reference": "7467c2d56338c030c3cb4c9451dc3e6b6ee6e2f2",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/1a6684aceab570b1897bf5f288b10b90b0c10841.zip",
+                "reference": "1a6684aceab570b1897bf5f288b10b90b0c10841",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-09-21 10:44:46"
+            "time": "2013-09-21 12:37:38"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "dde381847694cfc6f3e08c4bd6dc6a45c8e18449"
+                "reference": "35f04fa18a10ea31bfc6d7197b985edb5393207a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/dde381847694cfc6f3e08c4bd6dc6a45c8e18449.zip",
-                "reference": "dde381847694cfc6f3e08c4bd6dc6a45c8e18449",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/35f04fa18a10ea31bfc6d7197b985edb5393207a.zip",
+                "reference": "35f04fa18a10ea31bfc6d7197b985edb5393207a",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2013-09-20 13:22:40"
+            "time": "2013-10-04 17:47:15"
         }
     ],
     "packages-dev": [
