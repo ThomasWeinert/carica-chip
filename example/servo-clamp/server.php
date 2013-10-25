@@ -33,17 +33,11 @@ $board
       );
       $route->startsWith(
         '/files',
-        new \Carica\Io\Network\Http\Route\File(__DIR__)
+        new \Carica\Io\Network\Http\Route\Directory(__DIR__)
       );
       $route->match(
         '/',
-        function (Http\Request $request) {
-          $response = $request->createResponse();
-          $response->content = new Http\Response\Content\File(
-            __DIR__.'/index.html', 'text/html; charset=utf-8'
-          );
-          return $response;
-        }
+        new \Carica\Io\Network\Http\Route\File(__DIR__.'/index.html')
       );
 
       $server = new Carica\Io\Network\Http\Server($route);
