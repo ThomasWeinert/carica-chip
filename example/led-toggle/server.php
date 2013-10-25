@@ -27,10 +27,7 @@ $board
           return $response;
         }
       );
-      $route->match(
-        '/',
-        new \Carica\Io\Network\Http\Route\File(__DIR__.'/index.html')
-      );
+      $route->match('/', new \Carica\Io\Network\Http\Route\File(__DIR__.'/index.html'));
 
       $server = new Carica\Io\Network\Http\Server($route);
       $server->listen();
