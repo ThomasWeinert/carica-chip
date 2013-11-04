@@ -6,7 +6,7 @@ $board
   ->done(
     function () use ($board) {
       $sensor = new Carica\Chip\Sensor\Digital(
-        $board->pins[16]
+        $board->pins[2]
       );
       $sensor->onChange(
         function (Carica\Chip\Sensor\Digital $sensor) {

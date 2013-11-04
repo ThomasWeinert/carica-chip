@@ -3,6 +3,7 @@
 namespace Carica\Chip {
 
   use Carica\Firmata;
+  use Carica\Io;
 
   /**
    * A DC motor control for up to 3 pins (h bridge). Single pin will allow only forward, backward will
@@ -11,6 +12,8 @@ namespace Carica\Chip {
    * @package Carica\Chip
    */
   class Motor {
+
+    use Io\Event\Loop\Aggregation;
 
     /**
      * @var Firmata\Pin
@@ -26,6 +29,11 @@ namespace Carica\Chip {
      * @var Firmata\Pin|NULL
      */
     private $_reverseDirectionPin = NULL;
+
+    /**
+     * @var float $threshold minimum power needed for starting the motor
+     */
+    private $_threshold = 0.75;
 
     /**
      * @param Firmata\Pin $speedPin PWM capable pin for speed
@@ -69,7 +77,7 @@ namespace Carica\Chip {
           $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
         }
       }
-      $this->_speedPin->analog = $speed;
+      $this->setPower($speed);
     }
 
     /**
@@ -88,7 +96,7 @@ namespace Carica\Chip {
       if (NULL !== $this->_reverseDirectionPin) {
         $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
       }
-      $this->_speedPin->analog = $speed;
+      $this->setPower($speed);
     }
 
     /**
@@ -115,6 +123,20 @@ namespace Carica\Chip {
       }
       if (NULL !== $this->_reverseDirectionPin) {
         $this->_directionPin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+      }
+    }
+
+    private function setPower($speed) {
+      if ($speed < $this->_threshold) {
+        $this->_speedPin->analog = $this->_threshold;
+        $this->loop()->setTimeout(
+          function() use ($speed) {
+            $this->_speedPin->analog = $speed;
+          },
+          10
+        );
+      } else {
+        $this->_speedPin->analog = $speed;
       }
     }
   }

@@ -31,10 +31,8 @@ $board
           return $response;
         }
       );
-      $route->startsWith(
-        '/files',
-        new \Carica\Io\Network\Http\Route\File(__DIR__)
-      );
+      $route->startsWith('/files', new \Carica\Io\Network\Http\Route\Directory(__DIR__));
+      $route->match('/', new \Carica\Io\Network\Http\Route\File(__DIR__.'/index.html'));
 
       $server = new Carica\Io\Network\Http\Server($route);
       $server->listen();
