@@ -34,4 +34,4 @@ dependency into your own projects.
 
 You can use the skeleton project, too:
 
- $ composer create-project carica/chip-skeleton path --stability=dev
+	$ composer create-project carica/chip-skeleton path --stability=dev
