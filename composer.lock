@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "89a15678a6d90efe984d27238d930728590da24f"
+                "reference": "3e4b9d89ff542bf84e15e4fbab6026704d7a7337"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/89a15678a6d90efe984d27238d930728590da24f.zip",
-                "reference": "89a15678a6d90efe984d27238d930728590da24f",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/3e4b9d89ff542bf84e15e4fbab6026704d7a7337.zip",
+                "reference": "3e4b9d89ff542bf84e15e4fbab6026704d7a7337",
                 "shasum": ""
             },
             "require": {
@@ -29,7 +29,7 @@
                     "Carica\\Firmata": "src"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-10-25 19:04:40"
+            "time": "2013-11-29 00:38:34"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "8b8a4a9d966aa455c579b41835539ab2633198f9"
+                "reference": "cb64e4bb49175dad53e3325857f59f6128a7807b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/8b8a4a9d966aa455c579b41835539ab2633198f9.zip",
-                "reference": "8b8a4a9d966aa455c579b41835539ab2633198f9",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/cb64e4bb49175dad53e3325857f59f6128a7807b.zip",
+                "reference": "cb64e4bb49175dad53e3325857f59f6128a7807b",
                 "shasum": ""
             },
             "require": {
@@ -70,7 +70,7 @@
                     "Carica\\Io": "src"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2013-10-25 18:55:18"
+            "time": "2013-11-28 23:46:30"
         }
     ],
     "packages-dev": [

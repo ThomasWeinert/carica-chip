@@ -9,9 +9,9 @@ $board
         '#F00', '#0F0', '#00F'
       );
       $led = new Carica\Chip\Led\Rgb(
-        $board->pins[20],
-        $board->pins[21],
-        $board->pins[22]
+        $board->pins[3],
+        $board->pins[5],
+        $board->pins[6]
       );
       $led->setColor('#000');
       $index = 0;
