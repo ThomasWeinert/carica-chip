@@ -14,6 +14,8 @@
     "carica/firmata": "dev-master"
   },
   "autoload": {
-    "psr-0": { "Carica\\Chip": "src" }
+    "psr-4": {
+      "Carica\\Chip\\": "src\\"
+    }
   }
 }

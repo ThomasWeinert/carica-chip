@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "247a96c57fe405a0d06e3c5489d03150",
+    "hash": "699ed306ea5fcb28bb86baab9f92d902",
     "packages": [
         {
             "name": "carica/firmata",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "3e4b9d89ff542bf84e15e4fbab6026704d7a7337"
+                "reference": "4105bf145c2765bb3bd36737d49b0f8a2bca3aa5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/3e4b9d89ff542bf84e15e4fbab6026704d7a7337.zip",
-                "reference": "3e4b9d89ff542bf84e15e4fbab6026704d7a7337",
+                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/4105bf145c2765bb3bd36737d49b0f8a2bca3aa5.zip",
+                "reference": "4105bf145c2765bb3bd36737d49b0f8a2bca3aa5",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2013-11-29 00:38:34"
+            "time": "2014-01-27 20:50:22"
         },
         {
             "name": "carica/io",
