@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "699ed306ea5fcb28bb86baab9f92d902",
+    "hash": "17563d9d801fe94f0fbde13aae55650a",
     "packages": [
         {
             "name": "carica/firmata",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata.git",
-                "reference": "4105bf145c2765bb3bd36737d49b0f8a2bca3aa5"
+                "url": "https://github.com/ThomasWeinert/carica-firmata.git",
+                "reference": "e0b0c521c9567c7f7ad05508b4e0e1945332ca66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-firmata/get/4105bf145c2765bb3bd36737d49b0f8a2bca3aa5.zip",
-                "reference": "4105bf145c2765bb3bd36737d49b0f8a2bca3aa5",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/e0b0c521c9567c7f7ad05508b4e0e1945332ca66",
+                "reference": "e0b0c521c9567c7f7ad05508b4e0e1945332ca66",
                 "shasum": ""
             },
             "require": {
@@ -25,8 +25,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Carica\\Firmata": "src"
+                "psr-4": {
+                    "Carica\\Firmata\\": "src\\"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -40,25 +40,25 @@
                 }
             ],
             "description": "Firmata client library",
-            "homepage": "https://bitbucket.org/ThomasWeinert/carica-firmata/",
+            "homepage": "https://github.com/ThomasWeinert/carica-firmata",
             "keywords": [
                 "arduino",
                 "firmata"
             ],
-            "time": "2014-01-27 20:50:22"
+            "time": "2014-02-28 22:55:38"
         },
         {
             "name": "carica/io",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io.git",
-                "reference": "cb64e4bb49175dad53e3325857f59f6128a7807b"
+                "url": "https://github.com/ThomasWeinert/carica-io.git",
+                "reference": "02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/ThomasWeinert/carica-io/get/cb64e4bb49175dad53e3325857f59f6128a7807b.zip",
-                "reference": "cb64e4bb49175dad53e3325857f59f6128a7807b",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690",
+                "reference": "02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690",
                 "shasum": ""
             },
             "require": {
@@ -66,8 +66,8 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Carica\\Io": "src"
+                "psr-4": {
+                    "Carica\\Io\\": "src\\"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -81,12 +81,12 @@
                 }
             ],
             "description": "Non blocking I/O for PHP",
-            "homepage": "https://bitbucket.org/ThomasWeinert/carica-io/",
+            "homepage": "https://github.com/ThomasWeinert/carica-io",
             "keywords": [
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2013-11-28 23:46:30"
+            "time": "2014-03-05 21:10:30"
         }
     ],
     "packages-dev": [
