@@ -13,6 +13,9 @@
     "carica/io": "dev-master",
     "carica/firmata": "dev-master"
   },
+  "require-dev": {
+    "phake/phake": "1.*"
+  },
   "autoload": {
     "psr-4": {
       "Carica\\Chip\\": "src\\"

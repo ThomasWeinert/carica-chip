@@ -2,19 +2,15 @@
 
 namespace Carica\Chip {
 
-  include_once(__DIR__.'/Mocks/ConsecutiveParameters.php');
+  use Phake;
 
   abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
-    public function withConsecutive() {
-      return new Tests\Mocks\ConsecutiveParameters(func_get_args());
-    }
-
+    /**
+     * @return \Phake_IMock|\Carica\Firmata\Pin
+     */
     protected function getMockForPin() {
-      $pin = $this
-        ->getMockBuilder('\\Carica\\Firmata\\Pin')
-        ->disableOriginalConstructor()
-        ->getMock();
+      $pin = Phake::mock('\\Carica\\Firmata\\Pin');
       return $pin;
     }
   }

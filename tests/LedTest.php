@@ -4,7 +4,10 @@ namespace Carica\Chip {
 
   include_once(__DIR__ . '/Bootstrap.php');
 
+  use Phake;
+
   use Carica\Firmata\Board;
+  use Carica\Io\Event\Loop\Clock;
 
   class LedTest extends TestCase {
 
@@ -24,12 +27,9 @@ namespace Carica\Chip {
      */
     public function testIsOnExpectingTrue() {
       $pin = $this->getMockForPin();
+      Phake::when($pin)->__get('value')->thenReturn(23);
+
       $led = new Led($pin);
-      $pin
-        ->expects($this->once())
-        ->method('__get')
-        ->with('value')
-        ->will($this->returnValue(23));
       $this->assertTrue($led->isOn());
     }
 
@@ -38,12 +38,9 @@ namespace Carica\Chip {
      */
     public function testIsOnExpectingFalse() {
       $pin = $this->getMockForPin();
+      Phake::when($pin)->__get('value')->thenReturn(0);
+
       $led = new Led($pin);
-      $pin
-        ->expects($this->once())
-        ->method('__get')
-        ->with('value')
-        ->will($this->returnValue(0));
       $this->assertFalse($led->isOn());
     }
 
@@ -52,16 +49,12 @@ namespace Carica\Chip {
      */
     public function testOn() {
       $pin = $this->getMockForPin();
+
       $led = new Led($pin);
-      $pin
-        ->expects($this->exactly(2))
-        ->method('__set')
-        ->getMatcher()
-        ->parametersMatcher = $this->withConsecutive(
-          ['mode', Board::PIN_MODE_OUTPUT],
-          ['digital', TRUE]
-        );
       $led->on();
+
+      Phake::verify($pin)->__set('mode', Board::PIN_MODE_OUTPUT);
+      Phake::verify($pin)->__set('digital', TRUE);
     }
 
     /**
@@ -69,65 +62,58 @@ namespace Carica\Chip {
      */
     public function testOff() {
       $pin = $this->getMockForPin();
+
       $led = new Led($pin);
-      $pin
-        ->expects($this->exactly(2))
-        ->method('__set')
-        ->getMatcher()
-        ->parametersMatcher = $this->withConsecutive(
-          ['mode', Board::PIN_MODE_OUTPUT],
-          ['digital', FALSE]
-        );
       $led->off();
+
+      Phake::verify($pin)->__set('mode', Board::PIN_MODE_OUTPUT);
+      Phake::verify($pin)->__set('digital', FALSE);
     }
 
     /**
      * @covers Carica\Chip\Led::blink
      */
     public function testBlinkChanges3TimesIn3Seconds() {
-      $loop = new \Carica\Io\Event\Loop\Clock();
       $pin = $this->getMockForPin();
-      $pin
-        ->expects($this->any())
-        ->method('__get')
-        ->with('value')
-        ->will(
-          $this->onConsecutiveCalls(0, 1, 0)
-        );
-      $pin
-        ->expects($this->any())
-        ->method('__set')
-        ->getMatcher()
-        ->parametersMatcher = $this->withConsecutive(
-          ['mode', Board::PIN_MODE_OUTPUT],
-          ['digital', TRUE],
-          ['mode', Board::PIN_MODE_OUTPUT],
-          ['digital', FALSE],
-          ['mode', Board::PIN_MODE_OUTPUT],
-          ['digital', TRUE]
-        );
+      Phake::when($pin)
+        ->__get('value')
+        ->thenReturn(0)
+        ->thenReturn(1)
+        ->thenReturn(0);
 
+      $loop = new Clock();
       $led = new Led($pin);
       $led->loop($loop);
       $led->blink();
       $loop->tick(3000);
+
+      $modeChange = Phake::verify($pin, Phake::times(3))->__set('mode', Board::PIN_MODE_OUTPUT);
+      $digitalTrue = Phake::verify($pin, Phake::times(2))->__set('digital', TRUE);
+      $digitalFalse = Phake::verify($pin)->__set('digital', FALSE);
+      Phake::inOrder(
+        $modeChange,
+        $digitalTrue,
+        $modeChange,
+        $digitalFalse,
+        $modeChange,
+        $digitalTrue
+      );
     }
 
     /**
      * @covers Carica\Chip\Led::stop
      */
     public function testStopBlinking() {
-      $loop = new \Carica\Io\Event\Loop\Clock();
       $pin = $this->getMockForPin();
-      $pin
-        ->expects($this->never())
-        ->method('__set');
 
+      $loop = new Clock();
       $led = new Led($pin);
       $led->loop($loop);
       $led->blink();
       $led->stop();
       $loop->tick(3000);
+
+      Phake::verify($pin, Phake::never())->__set();
     }
   }
 }
