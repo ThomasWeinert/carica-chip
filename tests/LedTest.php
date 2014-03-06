@@ -4,7 +4,9 @@ namespace Carica\Chip {
 
   include_once(__DIR__ . '/Bootstrap.php');
 
-  class LedTest extends \PHPUnit_Framework_TestCase {
+  use Carica\Firmata\Board;
+
+  class LedTest extends TestCase {
 
     /**
      * @covers Carica\Chip\Led::blink()
@@ -23,35 +25,22 @@ namespace Carica\Chip {
           $this->onConsecutiveCalls(0, 1, 0)
         );
       $pin
-        ->expects($this->at(1))
+        ->expects($this->any())
         ->method('__set')
-        ->with('mode', \Carica\Firmata\Board::PIN_MODE_OUTPUT);
-      $pin
-        ->expects($this->at(2))
-        ->method('__set')
-        ->with('digital', TRUE);
-      $pin
-        ->expects($this->at(4))
-        ->method('__set')
-        ->with('mode', \Carica\Firmata\Board::PIN_MODE_OUTPUT);
-      $pin
-        ->expects($this->at(5))
-        ->method('__set')
-        ->with('digital', FALSE);
-      $pin
-        ->expects($this->at(7))
-        ->method('__set')
-        ->with('mode', \Carica\Firmata\Board::PIN_MODE_OUTPUT);
-      $pin
-        ->expects($this->at(8))
-        ->method('__set')
-        ->with('digital', TRUE);
+        ->getMatcher()
+        ->parametersMatcher = $this->withConsecutive(
+          ['mode', Board::PIN_MODE_OUTPUT],
+          ['digital', TRUE],
+          ['mode', Board::PIN_MODE_OUTPUT],
+          ['digital', FALSE],
+          ['mode', Board::PIN_MODE_OUTPUT],
+          ['digital', TRUE]
+        );
 
       $led = new Led($pin);
       $led->loop($loop);
       $led->blink();
       $loop->tick(3000);
     }
-
   }
 }

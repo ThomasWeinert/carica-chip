@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "17563d9d801fe94f0fbde13aae55650a",
+    "hash": "7a0102b9f15831ffcb3f2510a0c788a1",
     "packages": [
         {
             "name": "carica/firmata",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690"
+                "reference": "b2dc8b80fadde06ace312f20182c4acdaedf54e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690",
-                "reference": "02a2e33ea6b47dc7aff1e276b92ea49ea6cb6690",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/b2dc8b80fadde06ace312f20182c4acdaedf54e9",
+                "reference": "b2dc8b80fadde06ace312f20182c4acdaedf54e9",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-03-05 21:10:30"
+            "time": "2014-03-06 17:03:14"
         }
     ],
     "packages-dev": [
