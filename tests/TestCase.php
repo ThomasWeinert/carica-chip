@@ -9,5 +9,13 @@ namespace Carica\Chip {
     public function withConsecutive() {
       return new Tests\Mocks\ConsecutiveParameters(func_get_args());
     }
+
+    protected function getMockForPin() {
+      $pin = $this
+        ->getMockBuilder('\\Carica\\Firmata\\Pin')
+        ->disableOriginalConstructor()
+        ->getMock();
+      return $pin;
+    }
   }
 }
