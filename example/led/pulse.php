@@ -1,12 +1,12 @@
 <?php
-$board = require(__DIR__.'/bootstrap.php');
+$board = require(__DIR__.'/../bootstrap.php');
 
 $board
   ->activate()
   ->done(
     function () use ($board) {
-      $led = new Carica\Chip\Led($board->pins[13]);
-      $led->blink();
+      $led = new Carica\Chip\Led($board->pins[3]);
+      $led->pulse(3000)->on();
     }
   )
   ->fail(
