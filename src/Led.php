@@ -146,6 +146,54 @@ namespace Carica\Chip {
     }
 
     /**
+     *
+     * @param int|float $brightness
+     * @param int $duration
+     */
+    public function fade($brightness = NULL, $duration = 1000) {
+      if (!$this->_supportsPwm) {
+        return $this;
+      }
+      if (NULL === $brightness) {
+        $to = $this->_direction > 0 ? 1 : 0;
+      } elseif (is_float($brightness)) {
+        $to = $brightness;
+      } else {
+        $to = $brightness / 255;
+      }
+      $this->_brightness = $this->_pin->analog;
+      $steps = round(abs($to - $this->_brightness) * 255);
+      if ($steps > 0) {
+        $step = 1 / 255 * ($to > $this->_brightness ? 1 : -1);
+        $this->_timer = $this->loop()->setInterval(
+          function () use ($to, $step) {
+            $valueAt = ($this->_brightness += $step);
+            $this->_pin->analog = $valueAt;
+            if ($step > 0) {
+              if ($valueAt >= $to || $valueAt >= 1) {
+                $this->stop();
+              }
+            } else {
+              if ($valueAt <= $to || $valueAt <= 0) {
+                $this->stop();
+              }
+            }
+          },
+          $duration / $steps
+        );
+      }
+      return $this;
+    }
+
+    public function fadeIn($duration = 1000) {
+      $this->fade(1.0, $duration);
+    }
+
+    public function fadeOut($duration = 1000) {
+      $this->fade(0.0, $duration);
+    }
+
+    /**
      * Blink the led in the provided interval
      *
      * @param int $duration milliseconds
@@ -179,9 +227,7 @@ namespace Carica\Chip {
      * @return self
      */
     public function pulse($duration = 1000) {
-      if (isset($this->_timer)) {
-        $this->loop()->remove($this->_timer);
-      }
+      $this->stop();
       $steps = 255;
       $to = round($duration / ($steps * 2));
       $step = 1 / $steps;
