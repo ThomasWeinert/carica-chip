@@ -7,7 +7,7 @@ License: [The MIT License](http://www.opensource.org/licenses/mit-license.php)
 
 Copyright: 2013 Thomas Weinert <thomas@weinert.info>
 
-Carica Chip provice abstraction for hardware access. It implements classes for physical
+Carica Chip provides abstraction for hardware access. It implements classes for physical
 devices connected to an Arduino (or compatible microcontroller) running Firmata.
 
 ***It's a learning project not a product. Use it at your own risk.***
