@@ -29,7 +29,7 @@ namespace Carica\Chip\Sensor {
      */
     public function __construct(Firmata\Pin $pin) {
       $this->_pin = $pin;
-      $this->_pin->mode = Firmata\Board::PIN_MODE_ANALOG;
+      $this->_pin->mode = Firmata\Pin::MODE_ANALOG;
       $this->_pin->events()->on(
         'change-value',
         function () {

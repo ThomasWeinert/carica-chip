@@ -5,6 +5,10 @@ namespace Carica\Chip {
   use Carica\Firmata;
   use Carica\Io\Event;
 
+  /**
+   * A class for an single color led. You can switch it on and off, set the
+   *  brightness, let it strobe, pulse or fade.
+   */
   class Led {
 
     use Event\Loop\Aggregation;
@@ -38,14 +42,15 @@ namespace Carica\Chip {
     private $_direction = 1;
 
     /**
-     * Create led object and initalize pin mode
+     * Create led object and initalize pin mode. If the pin supports PWM
+     * it will be used.
      *
      * @param Firmata\Pin $pin
      */
     public function __construct(Firmata\Pin $pin) {
       $this->_pin = $pin;
-      if ($pin->supports(Firmata\Board::PIN_MODE_PWM)) {
-        $this->_pin->mode = Firmata\Board::PIN_MODE_PWM;
+      if ($pin->supports(Firmata\Pin::MODE_PWM)) {
+        $this->_pin->mode = Firmata\Pin::MODE_PWM;
         if ($brightness = $this->_pin->analog) {
           $this->_brightness = $brightness;
           $this->_on = $this->_brightness > 0;
@@ -55,7 +60,7 @@ namespace Carica\Chip {
         }
         $this->_supportsPwm = TRUE;
       } else {
-        $this->_pin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+        $this->_pin->mode = Firmata\Pin::MODE_OUTPUT;
         $this->_on = $this->_pin->digital;
       }
     }
@@ -146,6 +151,12 @@ namespace Carica\Chip {
     }
 
     /**
+     * Fade the led to the provided brightness. If the brightness is an int it
+     * is considered a byte value (0 to 255). If it is a float it is considered
+     * between 0 and 1.
+     *
+     * If no brightness is last brightness change is continued until the led
+     * is fully on or off.
      *
      * @param int|float $brightness
      * @param int $duration
@@ -185,10 +196,20 @@ namespace Carica\Chip {
       return $this;
     }
 
+    /**
+     * Fade the led from the current brightness to fully on.
+     *
+     * @param int $duration
+     */
     public function fadeIn($duration = 1000) {
       $this->fade(1.0, $duration);
     }
 
+    /**
+     * Fade the led from the current brightness to fully off.
+     *
+     * @param int $duration
+     */
     public function fadeOut($duration = 1000) {
       $this->fade(0.0, $duration);
     }
