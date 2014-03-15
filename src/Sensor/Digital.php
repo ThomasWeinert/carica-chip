@@ -6,11 +6,15 @@ namespace Carica\Chip\Sensor {
   use Carica\Firmata;
 
   /**
-   * Class Analog
+   * A digital sensor. It read a low/high value from an pin and triggers events if the
+   * status changes.
    *
-   * @method onChange(callable $callback) attach a change callback
-   * @method onHigh(callable $callback) attach a callback if the value changes to high
-   * @method onLow(callable $callback) attach a call if the value changes to low
+   * @method onChange(callable $callback)
+   * @method onHigh(callable $callback)
+   * @method onLow(callable $callback)
+   * @method onceChange(callable $callback)
+   * @method onceHigh(callable $callback)
+   * @method onceLow(callable $callback)
    */
   class Digital {
 
@@ -23,10 +27,15 @@ namespace Carica\Chip\Sensor {
      */
     private $_pin = NULL;
 
+    /**
+     * Create object, store pin and attach events
+     *
+     * @param Firmata\Pin $pin
+     */
     public function __construct(Firmata\Pin $pin) {
       $this->_pin = $pin;
-      $this->_pin->mode = Firmata\Board::PIN_MODE_INPUT;
-      $this->_pin->events()->on(
+      $pin->mode = Firmata\Pin::MODE_INPUT;
+      $pin->events()->on(
         'change-value',
         function () {
           $this->emitEvent($this->isHigh() ? 'high' : 'low', $this);
@@ -35,6 +44,14 @@ namespace Carica\Chip\Sensor {
       );
     }
 
+    /**
+     * Lazy init for the event emitter, they get created if the first
+     * event is attached.
+     *
+     * Define the possible events.
+     *
+     * @return Emitter
+     */
     protected function createEventEmitter() {
       $emitter = new Emitter;
       $emitter->defineEvents(
@@ -43,14 +60,25 @@ namespace Carica\Chip\Sensor {
       return $emitter;
     }
 
+    /**
+     * Return a string representation of the sensor state
+     *
+     * @return string
+     */
     public function __toString() {
       return $this->isHigh() ? 'high' : 'low';
     }
 
+    /**
+     * @return bool
+     */
     public function isLow() {
       return !$this->_pin->digital;
     }
 
+    /**
+     * @return bool
+     */
     public function isHigh() {
       return $this->_pin->digital;
     }

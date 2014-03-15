@@ -6,9 +6,10 @@ namespace Carica\Chip\Sensor {
   use Carica\Firmata;
 
   /**
-   * Class Analog
+   * An analog sensor, returns a value between 0 and 1 and triggers an event if it changes.
    *
    * @method onChange(callable $callback) attach a change callback
+   * @method onceChange(callable $callback) attach a change callback that is executed once
    */
   class Analog {
 
@@ -21,6 +22,11 @@ namespace Carica\Chip\Sensor {
      */
     private $_pin = NULL;
 
+    /**
+     * Create object, store pin object and attach event
+     *
+     * @param Firmata\Pin $pin
+     */
     public function __construct(Firmata\Pin $pin) {
       $this->_pin = $pin;
       $this->_pin->mode = Firmata\Board::PIN_MODE_ANALOG;
@@ -32,6 +38,11 @@ namespace Carica\Chip\Sensor {
       );
     }
 
+    /**
+     * Lazy create for the event emitter, defines the possible event.
+     *
+     * @return Emitter
+     */
     protected function createEventEmitter() {
       $emitter = new Emitter;
       $emitter->defineEvents(
@@ -40,10 +51,20 @@ namespace Carica\Chip\Sensor {
       return $emitter;
     }
 
+    /**
+     * Return the sensor value. This is a value between 0 and 1.
+     *
+     * @return float
+     */
     public function get() {
       return $this->_pin->analog;
     }
 
+    /**
+     * Return the current sensor, value as string.
+     *
+     * @return string
+     */
     public function __toString() {
       return number_format($this->_pin->analog, 6, '.', ',');
     }
