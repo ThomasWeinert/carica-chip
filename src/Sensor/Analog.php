@@ -2,12 +2,19 @@
 
 namespace Carica\Chip\Sensor {
 
-  use Carica\Io;
+  use Carica\Io\Event\Emitter;
   use Carica\Firmata;
 
-  class Analog implements Changeable {
+  /**
+   * Class Analog
+   *
+   * @method onChange(callable $callback) attach a change callback
+   */
+  class Analog {
 
-    use ChangeCallbacks;
+    use Emitter\Aggregation {
+      Emitter\Aggregation::callEmitter as __call;
+    }
 
     /**
      * @var Firmata\Pin $_pin
@@ -20,9 +27,17 @@ namespace Carica\Chip\Sensor {
       $this->_pin->events()->on(
         'change-value',
         function () {
-          $this->callbacks()->fire($this);
+          $this->emitEvent('change', $this);
         }
       );
+    }
+
+    protected function createEventEmitter() {
+      $emitter = new Emitter;
+      $emitter->defineEvents(
+        array('change')
+      );
+      return $emitter;
     }
 
     public function get() {
