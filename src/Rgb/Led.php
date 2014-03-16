@@ -31,9 +31,14 @@ namespace Carica\Chip\Rgb {
     private $_resolution = 20;
 
     /**
-     * @var Io\Deferred $_defer
+     * @var Io\Deferred
      */
     private $_defer = NULL;
+
+    /**
+     * @var object
+     */
+    private $_timer = NULL;
 
     /**
      * @var array|NULL
@@ -44,6 +49,11 @@ namespace Carica\Chip\Rgb {
      * @var bool
      */
     private $_isActive = FALSE;
+
+    /**
+     * @var array|FALSE color or FALSE
+     */
+    private $_status = FALSE;
 
     public function __construct(Pin $pinRed, Pin $pinGreen, Pin $pinBlue) {
       $pinRed->mode = Pin::MODE_PWM;
@@ -66,6 +76,7 @@ namespace Carica\Chip\Rgb {
      * Set the color from an rgb array or and hexadecimal color string
      *
      * @param string|array:integer|array:float $color
+     * @return $this
      */
     public function color($color = NULL) {
       if (isset($color)) {
@@ -89,12 +100,8 @@ namespace Carica\Chip\Rgb {
      * Switch the led on, update the pin values.
      */
     public function on() {
-      $this->stop();
-      if (!isset($this->_color)) {
-        $this->_color = [1.0, 1.0, 1.0];
-      }
       $this->_isActive = TRUE;
-      $this->update($this->_color);
+      $this->update($this->_status = $this->getColor(1.0));
       return $this;
     }
 
@@ -102,12 +109,34 @@ namespace Carica\Chip\Rgb {
      * Switch the led off, update the pin values.
      */
     public function off() {
-      $this->stop();
-      if (!isset($this->_color)) {
-        $this->_color = [1.0, 1.0, 1.0];
-      }
-      $this->_isActive = TRUE;
+      $this->_isActive = FALSE;
       $this->update([0, 0, 0]);
+      return $this;
+    }
+
+    /**
+     * Blink the led in the provided interval
+     *
+     * @param int $duration milliseconds
+     * @return self
+     */
+    public function strobe($duration = 1000) {
+      $this->stop();
+      $this->_timer = $this
+        ->loop()
+        ->setInterval(
+          function () {
+            if ($this->isOn()) {
+              if ($this->_status) {
+                $this->_status = FALSE;
+                $this->update([0,0,0]);
+              } else {
+                $this->update($this->_status = $this->getColor());
+              }
+            }
+          },
+          $duration
+        );
       return $this;
     }
 
@@ -115,22 +144,19 @@ namespace Carica\Chip\Rgb {
      * Fade the current color to the target color in the given seconds.
      *
      * @param array:int|array:float|string $color
-     * @param int $milliseconds
+     * @param int $duration
      *
      * @return Io\Deferred\Promise
      */
-    public function fadeTo($color, $milliseconds = 3000) {
+    public function fadeTo($color, $duration = 3000) {
       $this->stop();
       $color = $this->normalizeColor($color);
-      if ($milliseconds < 1000) {
-        $milliseconds = 1000;
-      }
-      if (!isset($this->_color)) {
-        $this->_color = [0, 0, 0];
+      if ($duration < 1000) {
+        $duration = 1000;
       }
       $this->_active = TRUE;
-      $current = $this->_color;
-      $steps = floor($milliseconds / 1000 * $this->_resolution);
+      $current = $this->getColor();
+      $steps = floor($duration / 1000 * $this->_resolution);
       $sizes = [
         ($color[0] - $current[0]) / $steps,
         ($color[1] - $current[1]) / $steps,
@@ -167,6 +193,10 @@ namespace Carica\Chip\Rgb {
      * Cancel the current animation - reject the deferred object.
      */
     public function stop() {
+      if (isset($this->_timer)) {
+        $this->loop()->remove($this->_timer);
+        $this->_timer = NULL;
+      }
       if (isset($this->_defer)) {
         $this->_defer->reject();
         $this->_defer = NULL;
@@ -186,16 +216,22 @@ namespace Carica\Chip\Rgb {
     }
 
     /**
-     * Set the internal color value, the color can be an hexdecimal string in CSS style or and
-     * array. If it is an array, integer values are considered using a range between 0 and 255.
+     * Set the internal color value, the color can be an hexdecimal string in CSS style a number
+     * or an array of numbers.
+     *
+     * If it is a single number, it is used for all color parts.
+     *
+     * If it is an array, integer values are considered using a range between 0 and 255.
      * Float values use a range from 0.0 to 1.0.
      *
-     * @param string|array $color
+     * @param string|int|float|array $color
      * @throws \UnexpectedValueException
      * @return array:float
      */
     private function normalizeColor($color) {
-      if (is_string($color)) {
+      if (is_int($color) || is_float($color)) {
+        $color = [$color, $color, $color];
+      } elseif (is_string($color)) {
         if (0 === strpos($color, '#')) {
           $color = substr($color, 1);
         }
@@ -229,7 +265,7 @@ namespace Carica\Chip\Rgb {
     /**
      * @param array $array
      * @param array $keys
-     * @param int $default
+     * @param float|int $default
      * @return float
      */
     private function readColorValue(array $array, array $keys, $default = 0.0) {
@@ -248,6 +284,18 @@ namespace Carica\Chip\Rgb {
         return $value / 255;
       } else {
         return (float)$value;
+      }
+    }
+
+    /**
+     * @param float $default
+     * @return array|NULL
+     */
+    private function getColor($default = 1.0) {
+      if (!isset($this->_color)) {
+        return [$default, $default, $default];
+      } else {
+        return $this->_color;
       }
     }
   }
