@@ -2,16 +2,16 @@
 
 namespace Carica\Chip {
 
-  use Carica\Firmata;
-  use Carica\Io;
   use Carica\Io\Event;
+  use Carica\Io\Deferred;
+  use Carica\Firmata\Pin;
 
   class Servo {
 
     use Event\Loop\Aggregation;
 
     /**
-     * @var Firmata\Pin
+     * @var Pin
      */
     private $_pin = NULL;
     private $_range = 180;
@@ -23,7 +23,7 @@ namespace Carica\Chip {
      */
     private $_timePerDegree = 23;
 
-    public function __construct(Firmata\Pin $pin, $range = 180) {
+    public function __construct(Pin $pin, $range = 180) {
       $this->_pin = $pin;
       if (abs($range) > 255) {
         throw new \InvalidArgumentException('Invalid servo range: '.(int)$range);
@@ -46,7 +46,7 @@ namespace Carica\Chip {
     /**
      * Move to minimum position (0 degrees)
      *
-     * @return \Carica\Io\Deferred\Promise
+     * @return Deferred\Promise
      */
     public function min() {
       return $this->moveTo(0);
@@ -55,7 +55,7 @@ namespace Carica\Chip {
     /**
      * Move to maximum position (range or 255)
      *
-     * @return \Carica\Io\Deferred\Promise
+     * @return Deferred\Promise
      */
     public function max() {
       return $this->moveTo($this->_range);
@@ -64,7 +64,7 @@ namespace Carica\Chip {
     /**
      * Center the servo
      *
-     * @return \Carica\Io\Deferred\Promise
+     * @return Deferred\Promise
      */
     public function center() {
       return $this->moveTo(round($this->_range / 2));
@@ -74,13 +74,13 @@ namespace Carica\Chip {
      * Move the servo to a given position
      *
      * @param integer $position
-     * @return \Carica\Io\Deferred\Promise
+     * @return Deferred\Promise
      */
     public function moveTo($position) {
       $this->validatePosition($position);
-      $this->_pin->mode = Firmata\Board::PIN_MODE_SERVO;
+      $this->_pin->mode = Pin::MODE_SERVO;
       $offset = abs($this->getPosition() - $position);
-      $defer = new Io\Deferred();
+      $defer = new Deferred();
       $position = ($this->_invert)  ? $this->_range - $position : $position;
       $this->_pin->analog = $position / 360;
       $this->loop()->setTimeout(

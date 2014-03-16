@@ -3,7 +3,7 @@
 namespace Carica\Chip\Sensor {
 
   use Carica\Io\Event\Emitter;
-  use Carica\Firmata;
+  use Carica\Firmata\Pin;
 
   /**
    * An analog sensor, returns a value between 0 and 1 and triggers an event if it changes.
@@ -18,18 +18,18 @@ namespace Carica\Chip\Sensor {
     }
 
     /**
-     * @var Firmata\Pin $_pin
+     * @var Pin $_pin
      */
     private $_pin = NULL;
 
     /**
      * Create object, store pin object and attach event
      *
-     * @param Firmata\Pin $pin
+     * @param Pin $pin
      */
-    public function __construct(Firmata\Pin $pin) {
+    public function __construct(Pin $pin) {
       $this->_pin = $pin;
-      $this->_pin->mode = Firmata\Pin::MODE_ANALOG;
+      $this->_pin->mode = Pin::MODE_ANALOG;
       $this->_pin->events()->on(
         'change-value',
         function () {

@@ -2,7 +2,7 @@
 
 namespace Carica\Chip {
 
-  use Carica\Firmata;
+  use Carica\Firmata\Pin;
   use Carica\Io;
 
   /**
@@ -16,17 +16,17 @@ namespace Carica\Chip {
     use Io\Event\Loop\Aggregation;
 
     /**
-     * @var Firmata\Pin
+     * @var Pin
      */
     private $_speedPin = NULL;
 
     /**
-     * @var Firmata\Pin|NULL
+     * @var Pin|NULL
      */
     private $_directionPin = NULL;
 
     /**
-     * @var Firmata\Pin|NULL
+     * @var Pin|NULL
      */
     private $_reverseDirectionPin = NULL;
 
@@ -36,14 +36,14 @@ namespace Carica\Chip {
     private $_threshold = 0.75;
 
     /**
-     * @param Firmata\Pin $speedPin PWM capable pin for speed
-     * @param Firmata\Pin $directionPin direction pin
-     * @param Firmata\Pin $reverseDirectionPin reverse direction pin, for H bridge setup
+     * @param Pin $speedPin PWM capable pin for speed
+     * @param Pin $directionPin direction pin
+     * @param Pin $reverseDirectionPin reverse direction pin, for H bridge setup
      */
     public function __construct(
-      Firmata\Pin $speedPin,
-      Firmata\Pin $directionPin = NULL,
-      Firmata\Pin $reverseDirectionPin = NULL) {
+      Pin $speedPin,
+      Pin $directionPin = NULL,
+      Pin $reverseDirectionPin = NULL) {
       $this->_speedPin = $speedPin;
       $this->_directionPin = $directionPin;
       $this->_reverseDirectionPin = $reverseDirectionPin;
@@ -117,12 +117,12 @@ namespace Carica\Chip {
      * Set the modes of all provided pins.
      */
     private function setPinModes() {
-      $this->_speedPin->mode = Firmata\Board::PIN_MODE_PWM;
+      $this->_speedPin->mode = Pin::MODE_PWM;
       if (NULL !== $this->_directionPin) {
-        $this->_directionPin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+        $this->_directionPin->mode = Pin::MODE_OUTPUT;
       }
       if (NULL !== $this->_reverseDirectionPin) {
-        $this->_directionPin->mode = Firmata\Board::PIN_MODE_OUTPUT;
+        $this->_directionPin->mode = Pin::MODE_OUTPUT;
       }
     }
 

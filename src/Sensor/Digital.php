@@ -3,7 +3,7 @@
 namespace Carica\Chip\Sensor {
 
   use Carica\Io\Event\Emitter;
-  use Carica\Firmata;
+  use Carica\Firmata\Pin;
 
   /**
    * A digital sensor. It read a low/high value from an pin and triggers events if the
@@ -23,18 +23,18 @@ namespace Carica\Chip\Sensor {
     }
 
     /**
-     * @var Firmata\Pin $_pin
+     * @var Pin $_pin
      */
     private $_pin = NULL;
 
     /**
      * Create object, store pin and attach events
      *
-     * @param Firmata\Pin $pin
+     * @param Pin $pin
      */
-    public function __construct(Firmata\Pin $pin) {
+    public function __construct(Pin $pin) {
       $this->_pin = $pin;
-      $pin->mode = Firmata\Pin::MODE_INPUT;
+      $pin->mode = Pin::MODE_INPUT;
       $pin->events()->on(
         'change-value',
         function () {

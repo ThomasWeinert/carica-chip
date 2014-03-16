@@ -2,8 +2,8 @@
 
 namespace Carica\Chip {
 
-  use Carica\Firmata;
   use Carica\Io\Event;
+  use Carica\Firmata\Pin;
 
   /**
    * A class for an single color led. You can switch it on and off, set the
@@ -14,7 +14,7 @@ namespace Carica\Chip {
     use Event\Loop\Aggregation;
 
     /**
-     * @var Firmata\Pin
+     * @var Pin
      */
     private $_pin = NULL;
     /**
@@ -45,12 +45,12 @@ namespace Carica\Chip {
      * Create led object and initalize pin mode. If the pin supports PWM
      * it will be used.
      *
-     * @param Firmata\Pin $pin
+     * @param Pin $pin
      */
-    public function __construct(Firmata\Pin $pin) {
+    public function __construct(Pin $pin) {
       $this->_pin = $pin;
-      if ($pin->supports(Firmata\Pin::MODE_PWM)) {
-        $this->_pin->mode = Firmata\Pin::MODE_PWM;
+      if ($pin->supports(Pin::MODE_PWM)) {
+        $this->_pin->mode = Pin::MODE_PWM;
         if ($brightness = $this->_pin->analog) {
           $this->_brightness = $brightness;
           $this->_on = $this->_brightness > 0;
@@ -60,7 +60,7 @@ namespace Carica\Chip {
         }
         $this->_supportsPwm = TRUE;
       } else {
-        $this->_pin->mode = Firmata\Pin::MODE_OUTPUT;
+        $this->_pin->mode = Pin::MODE_OUTPUT;
         $this->_on = $this->_pin->digital;
       }
     }
