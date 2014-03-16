@@ -140,6 +140,50 @@ namespace Carica\Chip\Rgb {
       return $this;
     }
 
+    public function pulse($duration = 1000) {
+      $this->stop();
+      $color = $this->getColor();
+      $interval = round($duration / 510);
+      if ($interval < 10) {
+        $interval = 10;
+      }
+      $stepCount = round($duration / 2 / $interval);
+      $steps = [
+        $color[0] / $stepCount,
+        $color[1] / $stepCount,
+        $color[2] / $stepCount
+      ];
+      $direction = 1;
+      $this->_timer = $this->loop()->setInterval(
+        function() use ($color, $steps, &$direction) {
+          if ($this->isOn()) {
+            $counter = 0;
+            if (!$this->_status) {
+              $this->_status = [0,0,0];
+            }
+            for ($i = 0; $i < 3; ++$i) {
+              $value = $this->_status[$i] + ($steps[$i] * $direction);
+              if ($value >= $color[$i]) {
+                $this->_status[$i] = $color[$i];
+                $counter++;
+              } elseif ($value <= 0) {
+                $this->_status[$i] = 0.0;
+                $counter++;
+              } else {
+                $this->_status[$i] = $value;
+              }
+            }
+            $this->update($this->_status);
+            if ($counter >= 3) {
+              $direction *= -1;
+            }
+          }
+        },
+        $interval
+      );
+      return $this;
+    }
+
     /**
      * Fade the current color to the target color in the given seconds.
      *
