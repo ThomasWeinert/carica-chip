@@ -228,7 +228,6 @@ namespace Carica\Chip {
           function () {
             if ($this->isOn()) {
               if ($this->_supportsPwm) {
-                var_dump($this->_brightness, $this->_pin->analog);
                 $this->_pin->analog = $this->_pin->analog > 0 ? 0 : $this->_brightness;
               } else {
                 $this->_pin->digital = !$this->_pin->digital;
