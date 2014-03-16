@@ -1,5 +1,5 @@
 <?php
-$board = require(__DIR__.'/bootstrap.php');
+$board = require(__DIR__.'/../bootstrap.php');
 
 $board
   ->activate()
@@ -8,12 +8,12 @@ $board
       $colors = array(
         '#F00', '#0F0', '#00F'
       );
-      $led = new Carica\Chip\Led\Rgb(
+      $led = new Carica\Chip\Rgb\Led(
         $board->pins[3],
         $board->pins[5],
         $board->pins[6]
       );
-      $led->setColor('#000');
+      $led->color('#000');
       $index = 0;
       $next = function() use ($led, $colors, &$index, &$next) {
         if (isset($colors[$index])) {
