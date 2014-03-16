@@ -140,6 +140,12 @@ namespace Carica\Chip\Rgb {
       return $this;
     }
 
+    /**
+     * pulse led between off and the current color.
+     *
+     * @param int $duration
+     * @return $this
+     */
     public function pulse($duration = 1000) {
       $this->stop();
       $color = $this->getColor();
