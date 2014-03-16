@@ -153,9 +153,9 @@ namespace Carica\Chip\Rgb {
         $color[1] / $stepCount,
         $color[2] / $stepCount
       ];
-      $direction = 1;
       $this->_timer = $this->loop()->setInterval(
-        function() use ($color, $steps, &$direction) {
+        function() use ($color, $steps) {
+          static $direction = 1;
           if ($this->isOn()) {
             $counter = 0;
             if (!$this->_status) {
