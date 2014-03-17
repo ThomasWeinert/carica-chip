@@ -198,7 +198,7 @@ namespace Carica\Chip\Rgb {
      *
      * @return Io\Deferred\Promise
      */
-    public function fadeTo($color, $duration = 3000) {
+    public function fade($color, $duration = 3000) {
       $this->stop();
       $color = $this->normalizeColor($color);
       if ($duration < 1000) {
@@ -206,30 +206,35 @@ namespace Carica\Chip\Rgb {
       }
       $this->_active = TRUE;
       $current = $this->getColor();
-      $steps = floor($duration / 1000 * $this->_resolution);
-      $sizes = [
-        ($color[0] - $current[0]) / $steps,
-        ($color[1] - $current[1]) / $steps,
-        ($color[2] - $current[2]) / $steps
+      $interval = round($duration / 510);
+      if ($interval < 10) {
+        $interval = 10;
+      }
+      $stepCount = round($duration / $interval);
+      $steps = [
+        ($color[0] - $current[0]) / $stepCount,
+        ($color[1] - $current[1]) / $stepCount,
+        ($color[2] - $current[2]) / $stepCount
       ];
-      $step = 0;
       $this->_defer = $defer = new Io\Deferred();
-      $timer = $this->loop()->setInterval(
-        function () use (&$step, $steps, $current, $color, $sizes, $defer) {
-          if ($step < $steps) {
-            $this->_color = [
-              $current[0] + $sizes[0] * $step,
-              $current[1] + $sizes[1] * $step,
-              $current[2] + $sizes[2] * $step
-            ];
-            $this->update($this->_color);
-            ++$step;
-          } else {
-            $this->update($color);
+      $this->_timer = $timer = $this->loop()->setInterval(
+        function () use ($steps, $color, $defer) {
+          $finished = 0;
+          foreach ($this->_color as $index => $value) {
+            $value += $steps[$index];
+            if (($steps[$index] >= 0 && $value >= $color[$index]) ||
+                ($steps[$index] < 0 && $value <= $color[$index])) {
+              $value = $color[$index];
+              $finished++;
+            }
+            $this->_color[$index] = $value;
+          }
+          $this->update($this->_color);
+          if ($finished >= 3) {
             $defer->resolve();
           }
         },
-        $this->_resolution
+        $interval
       );
       $defer->always(
         function() use ($timer) {
@@ -237,6 +242,32 @@ namespace Carica\Chip\Rgb {
         }
       );
       return $defer->promise();
+    }
+
+    /**
+     * Switches the led on, and fades from completely dark to the color.
+     *
+     * @param int $duration
+     * @return Io\Deferred\Promise
+     */
+    public function fadeIn($duration = 1000) {
+      $this->stop();
+      $toColor = $this->getColor();
+      return $this->color(0.0)->fade($toColor, $duration);
+    }
+
+
+    /**
+     * Switches the led on, and fades the color, to completlz dark
+     * and switches the led off.
+     *
+     * @param int $duration
+     * @return Io\Deferred\Promise
+     */
+    public function fadeOut($duration = 1000) {
+      $this->stop();
+      $this->_color = $this->getColor();
+      return $this->fade([0.0, 0.0, 0.0], $duration);
     }
 
     /**
@@ -288,9 +319,9 @@ namespace Carica\Chip\Rgb {
         $length = strlen($color);
         if ($length == 3) {
           $color = [
-            $color[0],
-            $color[1],
-            $color[2]
+            hexdec($color[0].$color[0]),
+            hexdec($color[1].$color[1]),
+            hexdec($color[2].$color[2])
           ];
         } elseif ($length == 6) {
           $color = [
@@ -299,14 +330,14 @@ namespace Carica\Chip\Rgb {
             hexdec($color[4].$color[5])
           ];
         } else {
-          $color = [];
+          $color = [0, 0, 0];
         }
       }
       if (is_array($color)) {
         return [
-          $this->readColorValue($color, ['red', 'r', 0], 0.0),
-          $this->readColorValue($color, ['green', 'g', 1], 0.0),
-          $this->readColorValue($color, ['blue', 'b', 2], 0.0),
+          (float)$this->readColorValue($color, ['red', 'r', 0], 0.0),
+          (float)$this->readColorValue($color, ['green', 'g', 1], 0.0),
+          (float)$this->readColorValue($color, ['blue', 'b', 2], 0.0),
         ];
       }
       throw new \UnexpectedValueException('Ïnvalid color value.');
@@ -326,12 +357,8 @@ namespace Carica\Chip\Rgb {
           break;
         }
       }
-      if (is_string($value)) {
-        return hexdec(
-          (strlen($value) < 2) ? str_repeat($value, 2) : $value
-        ) / 255;
-      } elseif (is_integer($value)) {
-        return $value / 255;
+      if (is_integer($value)) {
+        return (float)($value / 255);
       } else {
         return (float)$value;
       }
@@ -343,7 +370,7 @@ namespace Carica\Chip\Rgb {
      */
     private function getColor($default = 1.0) {
       if (!isset($this->_color)) {
-        return [$default, $default, $default];
+        return [(float)$default, (float)$default, (float)$default];
       } else {
         return $this->_color;
       }

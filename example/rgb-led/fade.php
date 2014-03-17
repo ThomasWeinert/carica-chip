@@ -18,7 +18,7 @@ $board
       $next = function() use ($led, $colors, &$index, &$next) {
         if (isset($colors[$index])) {
           $color = $colors[$index];
-          $led->fadeTo($color)->done($next);
+          $led->fade($color)->done($next);
         }
         if (++$index >= count($colors)) {
           $index = 0;
