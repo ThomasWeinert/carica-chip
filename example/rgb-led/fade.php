@@ -15,7 +15,8 @@ $board
       );
       $led->color('#000');
       $index = 0;
-      $next = function() use ($led, $colors, &$index, &$next) {
+      $next = function() use ($led, $colors, &$next) {
+        static $index = 0;
         if (isset($colors[$index])) {
           $color = $colors[$index];
           $led->fade($color)->done($next);
