@@ -4,6 +4,7 @@ namespace Carica\Chip\Rgb {
 
   use Carica\Io;
   use Carica\Firmata\Pin;
+  use Carica\Io\Deferred;
 
   class Led
     implements
@@ -25,13 +26,7 @@ namespace Carica\Chip\Rgb {
     private $_pinBlue = NULL;
 
     /**
-     * changes per second
-     * @var integer
-     */
-    private $_resolution = 20;
-
-    /**
-     * @var Io\Deferred
+     * @var Deferred
      */
     private $_defer = NULL;
 
@@ -204,7 +199,7 @@ namespace Carica\Chip\Rgb {
       if ($duration < 1000) {
         $duration = 1000;
       }
-      $this->_active = TRUE;
+      $this->_isActive = TRUE;
       $current = $this->getColor();
       $interval = round($duration / 510);
       if ($interval < 10) {
@@ -216,7 +211,7 @@ namespace Carica\Chip\Rgb {
         ($color[1] - $current[1]) / $stepCount,
         ($color[2] - $current[2]) / $stepCount
       ];
-      $this->_defer = $defer = new Io\Deferred();
+      $this->_defer = $defer = new Deferred();
       $this->_timer = $timer = $this->loop()->setInterval(
         function () use ($steps, $color, $defer) {
           $finished = 0;

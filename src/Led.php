@@ -2,6 +2,8 @@
 
 namespace Carica\Chip {
 
+  use Carica\Io;
+  use Carica\Io\Deferred;
   use Carica\Io\Event;
   use Carica\Firmata\Pin;
 
@@ -9,7 +11,9 @@ namespace Carica\Chip {
    * A class for an single color led. You can switch it on and off, set the
    *  brightness, let it strobe, pulse or fade.
    */
-  class Led {
+  class Led
+    implements
+      Io\Event\HasLoop {
 
     use Event\Loop\Aggregation;
 
@@ -40,6 +44,11 @@ namespace Carica\Chip {
      * @var int
      */
     private $_direction = 1;
+
+    /**
+     * @var Deferred;
+     */
+    private $_defer;
 
     /**
      * Create led object and initalize pin mode. If the pin supports PWM
@@ -160,6 +169,7 @@ namespace Carica\Chip {
      *
      * @param int|float $brightness
      * @param int $duration
+     * @return Deferred\Promise
      */
     public function fade($brightness = NULL, $duration = 1000) {
       if (!$this->_supportsPwm) {
@@ -174,44 +184,54 @@ namespace Carica\Chip {
       }
       $this->_brightness = $this->_pin->analog;
       $steps = round(abs($to - $this->_brightness) * 255);
+      $this->_defer = $defer = new Deferred();
       if ($steps > 0) {
         $step = 1 / 255 * ($to > $this->_brightness ? 1 : -1);
-        $this->_timer = $this->loop()->setInterval(
-          function () use ($to, $step) {
+        $this->_timer = $timer = $this->loop()->setInterval(
+          function () use ($to, $step, $defer) {
             $valueAt = ($this->_brightness += $step);
             $this->_pin->analog = $valueAt;
             if ($step > 0) {
               if ($valueAt >= $to || $valueAt >= 1) {
-                $this->stop();
+                $defer->resolve();
               }
             } else {
               if ($valueAt <= $to || $valueAt <= 0) {
-                $this->stop();
+                $defer->resolve();
               }
             }
           },
           $duration / $steps
         );
+        $this->_defer->always(
+          function() use ($timer) {
+            $this->loop()->remove($timer);
+          }
+        );
+      } else {
+        $this->_defer->resolve();
       }
-      return $this;
+      return $this->_defer->promise();
     }
 
     /**
      * Fade the led from the current brightness to fully on.
      *
      * @param int $duration
+     * @return Deferred\Promise
      */
     public function fadeIn($duration = 1000) {
-      $this->fade(1.0, $duration);
+      return $this->fade(1.0, $duration);
     }
 
     /**
      * Fade the led from the current brightness to fully off.
      *
      * @param int $duration
+     * @return Deferred\Promise
      */
     public function fadeOut($duration = 1000) {
-      $this->fade(0.0, $duration);
+      return $this->fade(0.0, $duration);
     }
 
     /**
@@ -243,7 +263,7 @@ namespace Carica\Chip {
      * Pulse the led between the off and the current brightness.
      * If here is no brightness stored, set it to full.
      *
-     * @param int $milliseconds
+     * @param int $duration
      * @return self
      */
     public function pulse($duration = 1000) {
@@ -275,6 +295,11 @@ namespace Carica\Chip {
     public function stop() {
       if (isset($this->_timer)) {
         $this->loop()->remove($this->_timer);
+        $this->_timer = NULL;
+      }
+      if (isset($this->_defer)) {
+        $this->_defer->reject();
+        $this->_defer = NULL;
       }
       return $this;
     }
