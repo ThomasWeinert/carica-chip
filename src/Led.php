@@ -38,12 +38,12 @@ namespace Carica\Chip {
     /**
      * @var float
      */
-    private $_brightness = 1;
+    private $_brightness = 1.0;
 
     /**
      * @var int
      */
-    private $_direction = 1;
+    private $_direction = 1.0;
 
     /**
      * @var Deferred;
@@ -150,9 +150,9 @@ namespace Carica\Chip {
         return $this;
       }
       if (!is_float($brightness)) {
-        $this->_brightness = $brightness / 255;
+        $this->_brightness = (float)$brightness / 255;
       } else {
-        $this->_brightness = $brightness;
+        $this->_brightness = (float)$brightness;
       }
       $this->_pin->analog = $this->_brightness;
       $this->_on = $this->_brightness > 0;
@@ -176,11 +176,11 @@ namespace Carica\Chip {
         return $this;
       }
       if (NULL === $brightness) {
-        $to = $this->_direction > 0 ? 1 : 0;
+        $to = $this->_direction > 0 ? 1.0 : 0.0;
       } elseif (is_float($brightness)) {
         $to = $brightness;
       } else {
-        $to = $brightness / 255;
+        $to = (float)$brightness / 255;
       }
       $this->_brightness = $this->_pin->analog;
       $steps = round(abs($to - $this->_brightness) * 255);
@@ -215,13 +215,15 @@ namespace Carica\Chip {
     }
 
     /**
-     * Fade the led from the current brightness to fully on.
+     * Fade the led from off to the defined brightness.
      *
      * @param int $duration
      * @return Deferred\Promise
      */
     public function fadeIn($duration = 1000) {
-      return $this->fade(1.0, $duration);
+      $to = $this->_brightness;
+      $this->brightness(0.0);
+      return $this->fade($to, $duration);
     }
 
     /**
