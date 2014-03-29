@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "ca8b11583f7da62fb78091c7e6be6bb55a0d2226"
+                "reference": "6a5a95926055bb538f8841efa09f39a99c8c5b5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/ca8b11583f7da62fb78091c7e6be6bb55a0d2226",
-                "reference": "ca8b11583f7da62fb78091c7e6be6bb55a0d2226",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/6a5a95926055bb538f8841efa09f39a99c8c5b5c",
+                "reference": "6a5a95926055bb538f8841efa09f39a99c8c5b5c",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2014-03-17 18:46:44"
+            "time": "2014-03-25 21:14:12"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "b8551f33b14424c7a2dfdec27ece14ecd4746e64"
+                "reference": "bbf603215d24c526c61c169f2ea1600426ef3339"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/b8551f33b14424c7a2dfdec27ece14ecd4746e64",
-                "reference": "b8551f33b14424c7a2dfdec27ece14ecd4746e64",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/bbf603215d24c526c61c169f2ea1600426ef3339",
+                "reference": "bbf603215d24c526c61c169f2ea1600426ef3339",
                 "shasum": ""
             },
             "require": {
@@ -86,7 +86,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-03-15 13:36:07"
+            "time": "2014-03-23 14:22:21"
         }
     ],
     "packages-dev": [
