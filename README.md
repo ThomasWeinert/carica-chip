@@ -1,7 +1,12 @@
 Carica Chip
 ===========
 
-[![Build Status](https://travis-ci.org/ThomasWeinert/carica-chip.png?branch=master)](https://travis-ci.org/ThomasWeinert/carica-chip)
+[![Build Status](https://travis-ci.org/ThomasWeinert/carica-chip.svg?branch=master)](https://travis-ci.org/ThomasWeinert/carica-chip)
+[![HHVM Status](http://hhvm.h4cc.de/badge/carica/chip.png)](http://hhvm.h4cc.de/package/carica/chip)
+[![License](https://poser.pugx.org/carica/chip/license.svg)](https://packagist.org/packages/carica/chip)
+[![Total Downloads](https://poser.pugx.org/carica/chip/downloads.svg)](https://packagist.org/packages/carica/chip)
+[![Latest Stable Version](https://poser.pugx.org/carica/chip/v/stable.svg)](https://packagist.org/packages/carica/chip)
+[![Latest Unstable Version](https://poser.pugx.org/carica/chip/v/unstable.svg)](https://packagist.org/packages/carica/chip)
 
 License: [The MIT License](http://www.opensource.org/licenses/mit-license.php)
 
