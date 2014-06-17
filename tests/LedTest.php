@@ -96,7 +96,7 @@ namespace Carica\Chip {
     }
 
     /**
-     * @covers Carica\Chip\Led::blink
+     * @covers Carica\Chip\Led::strobe
      */
     public function testStrobeChanges3TimesIn3Seconds() {
       $pin = $this->getMockForPin();
