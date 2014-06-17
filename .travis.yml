@@ -3,7 +3,9 @@ language: php
 php:
   - 5.4
   - 5.5
+  - 5.6
+  - hhvm
 
 install: composer install
 
-script: phpunit --configuration dist.phpunit.xml
+script: phpunit --configuration phpunit.xml.dist
