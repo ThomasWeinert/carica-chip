@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "6a5a95926055bb538f8841efa09f39a99c8c5b5c"
+                "reference": "ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/6a5a95926055bb538f8841efa09f39a99c8c5b5c",
-                "reference": "6a5a95926055bb538f8841efa09f39a99c8c5b5c",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3",
+                "reference": "ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2014-03-25 21:14:12"
+            "time": "2014-06-17 11:36:00"
         },
         {
             "name": "carica/io",
@@ -53,12 +53,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "bbf603215d24c526c61c169f2ea1600426ef3339"
+                "reference": "872644fc75afb57347164b4cf651a4017342b067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/bbf603215d24c526c61c169f2ea1600426ef3339",
-                "reference": "bbf603215d24c526c61c169f2ea1600426ef3339",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/872644fc75afb57347164b4cf651a4017342b067",
+                "reference": "872644fc75afb57347164b4cf651a4017342b067",
                 "shasum": ""
             },
             "require": {
@@ -86,26 +86,32 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-03-23 14:22:21"
+            "time": "2014-06-17 11:29:33"
         }
     ],
     "packages-dev": [
         {
             "name": "phake/phake",
-            "version": "v1.0.3",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlively/Phake.git",
-                "reference": "4d822246b401f4dc609500d47e42dac8df645f4f"
+                "reference": "14e4788698e4a21774220c22f3dcaa2e97648b61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlively/Phake/zipball/4d822246b401f4dc609500d47e42dac8df645f4f",
-                "reference": "4d822246b401f4dc609500d47e42dac8df645f4f",
+                "url": "https://api.github.com/repos/mlively/Phake/zipball/14e4788698e4a21774220c22f3dcaa2e97648b61",
+                "reference": "14e4788698e4a21774220c22f3dcaa2e97648b61",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "doctrine/common": "2.3.*",
+                "ext-soap": "*",
+                "hamcrest/hamcrest-php": "1.1.*",
+                "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
             "autoload": {
@@ -132,7 +138,7 @@
                 "mock",
                 "testing"
             ],
-            "time": "2012-05-14 15:06:51"
+            "time": "2014-04-16 14:49:56"
         }
     ],
     "aliases": [
