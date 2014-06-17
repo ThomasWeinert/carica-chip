@@ -6,7 +6,7 @@ $board
   ->done(
     function () use ($board) {
       $led = new Carica\Chip\Led($board->pins[3]);
-      $led->fadeIn(5000);
+      $led->brightness(0.5)->fadeIn(5000);
     }
   )
   ->fail(
