@@ -7,7 +7,7 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $led = new Carica\Chip\Led($board->pins[20]);
+      $led = new Carica\Chip\Led($board->pins[13]);
 
       $route = new Http\Route();
       $route->match(
