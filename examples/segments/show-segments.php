@@ -12,6 +12,7 @@ $board
         8, // green, latch,
         8
       );
+      // show one led on each segment
       $leds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'dp'];
       foreach ($leds as $index => $led) {
         $max[$index]->setSegment($led, TRUE);

@@ -76,7 +76,6 @@ namespace Carica\Chip\Max7219 {
      * @param int $value
      */
     private function transfer($address, $value) {
-      echo "0x", dechex($address), "  0x", dechex($value), "\n";
       $this->_latch->digital = FALSE;
       $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
       $this->_latch->digital = TRUE;

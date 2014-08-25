@@ -6,25 +6,25 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
 
   class Segment {
 
-    const SEGMENT_A = 64;
-    const SEGMENT_B = 32;
-    const SEGMENT_C = 16;
-    const SEGMENT_D = 8;
-    const SEGMENT_E = 4;
-    const SEGMENT_F = 2;
-    const SEGMENT_G = 1;
-    const SEGMENT_DP = 128;
+    const A = 64;
+    const B = 32;
+    const C = 16;
+    const D = 8;
+    const E = 4;
+    const F = 2;
+    const G = 1;
+    const DP = 128;
 
     private $_segments = [
-      'a' => self::SEGMENT_A,
-      'b' => self::SEGMENT_B,
-      'c' => self::SEGMENT_C,
-      'd' => self::SEGMENT_D,
-      'e' => self::SEGMENT_E,
-      'f' => self::SEGMENT_F,
-      'g' => self::SEGMENT_G,
-      'dp' => self::SEGMENT_DP,
-      '.' => self::SEGMENT_DP,
+      'a' => self::A,
+      'b' => self::B,
+      'c' => self::C,
+      'd' => self::D,
+      'e' => self::E,
+      'f' => self::F,
+      'g' => self::G,
+      'dp' => self::DP,
+      '.' => self::DP,
     ];
 
     private $_value = 0x00;
