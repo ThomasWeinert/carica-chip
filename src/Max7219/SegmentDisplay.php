@@ -92,14 +92,14 @@ namespace Carica\Chip\Max7219 {
     }
 
     public function brightness($value) {
+      $max = 15;
+      $value = round($max * $value);
       if ($value < 0) {
         $value = 0;
-      } elseif ($value > 1) {
-        $value = 255;
-      } else {
-        $value = 255 * $value;
+      } elseif ($value > $max) {
+        $value = $max;
       }
-      $this->transfer(self::MODE_INTENSITY, $value);
+      $this->transfer(self::MODE_INTENSITY, (int)$value);
       return $this;
     }
 
