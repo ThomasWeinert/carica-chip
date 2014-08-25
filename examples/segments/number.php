@@ -28,7 +28,6 @@ $board
         9 => Segment::A | Segment::B | Segment::G | Segment::C | Segment::D | Segment::F
       ];
 
-      // show one led on each segment
       for ($i = 0; $i < 8; $i++) {
         $max[$i]->setValue($numbers[$i + 2]);
         echo 'Digit: ', ($i + 2), ' 0x', str_pad(dechex($max[$i]->getValue()), 2, '0', STR_PAD_LEFT), "\n";
