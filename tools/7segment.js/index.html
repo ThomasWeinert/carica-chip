@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>7 Segment Bytes</title>
+  <style>
+    body {
+      background: #000;
+      font-family: monospace;
+      margin: auto;
+      width: 36em;
+      padding: 2em;
+    }
+    .digit {
+      position: relative;
+      width: 16em;
+      height: 32em;
+      float: left;
+      padding-left: 1em;
+    }
+    .segment {
+      background: #454545;
+      position: absolute;
+      border-radius: 0.3em;
+      text-align: center;
+      font-weight: bold;
+      font-size: 2em;
+    }
+    .segment:hover {
+      background-color: red;
+    }
+    .segment[data-active=yes] {
+      background-color: darkred;
+    }
+    .segmentHorizontal {
+      width: 4em;
+      height: 1em;
+      left: 1.5em;
+    }
+    .segmentVertical {
+      width: 1em;
+      height: 4em;
+      top: 1.5em;
+    }
+    .segmentB {
+      left : 6em;
+    }
+    .segmentC {
+      left : 6em;
+      top : 8em;
+    }
+    .segmentD {
+      top : 12.5em;
+    }
+    .segmentG {
+      top : 6.5em;
+    }
+    .segmentE {
+      top : 8em;
+    }
+    .segmentDP {
+      left : 7em;
+      top : 13em;
+      width: 1em;
+      height: 1em;
+    }
+    .outputHex {
+      color: green;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+      position: absolute;
+      top: 3em;
+      left: 2em;
+      width: 3em;
+    }
+    .outputDec {
+      color: green;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+      position: absolute;
+      top: 9.5em;
+      left: 2em;
+      width: 3em;
+    }
+  </style>
+</head>
+<body>
+  <div class="digit">
+    <div class="segment segmentHorizontal segmentA" data-byte="64">A</div>
+    <div class="segment segmentVertical segmentA segmentB" data-byte="32">B</div>
+    <div class="segment segmentVertical segmentC" data-byte="16">C</div>
+    <div class="segment segmentHorizontal segmentA segmentD" data-byte="8">D</div>
+    <div class="segment segmentVertical segmentE" data-byte="4">E</div>
+    <div class="segment segmentVertical segmentF" data-byte="2">F</div>
+    <div class="segment segmentHorizontal segmentA segmentG" data-byte="1">G</div>
+    <div class="segment segmentDP" data-byte="128"></div>
+    <div class="outputHex">0x00</div>
+    <div class="outputDec">0</div>
+  </div>
+  <div class="digit">
+    <div class="segment segmentHorizontal segmentA" data-byte="64">A</div>
+    <div class="segment segmentVertical segmentA segmentB" data-byte="32">B</div>
+    <div class="segment segmentVertical segmentC" data-byte="16">C</div>
+    <div class="segment segmentHorizontal segmentA segmentD" data-byte="8">D</div>
+    <div class="segment segmentVertical segmentE" data-byte="4">E</div>
+    <div class="segment segmentVertical segmentF" data-byte="2">F</div>
+    <div class="segment segmentHorizontal segmentA segmentG" data-byte="1">G</div>
+    <div class="segment segmentDP" data-byte="128"></div>
+    <div class="outputHex">0x00</div>
+    <div class="outputDec">0</div>
+  </div>
+<script type="text/javascript">
+  var SegmentDisplay = function(digit) {
+    var segment;
+    var that = this;
+    this.hex = digit.querySelector('.outputHex');
+    this.dec = digit.querySelector('.outputDec');
+    this.segments = digit.querySelectorAll('.segment');
+    for (var i = 0; i < this.segments.length; i++) {
+      this.segments[i].addEventListener(
+        'click',
+        function (segment) {
+          return function(event) {
+            that.onClick(segment);
+          };
+        }(this.segments[i])
+      );
+    }
+  };
+
+  SegmentDisplay.prototype.onClick = function(segment) {
+    if (segment.getAttribute('data-active') == 'yes') {
+      segment.setAttribute('data-active', 'no');
+    } else {
+      segment.setAttribute('data-active', 'yes');
+    }
+    var result, current;
+    result = 0;
+    for (var i = 0; i < this.segments.length; i++) {
+      if (this.segments[i].getAttribute('data-active') == 'yes')  {
+        current = parseInt(this.segments[i].getAttribute('data-byte'));
+        result |= current;
+      }
+    }
+    this.hex.textContent = '0x' + result.toString(16);
+    this.dec.textContent = result.toString();
+  };
+
+  var digits = document.querySelectorAll('.digit');
+  for (var i = 0; i < digits.length; i++) {
+    new SegmentDisplay(digits[i]);
+  }
+</script>
+</body>
+</html>
