@@ -1,7 +1,8 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
     ],
     "hash": "8f1e175a3ac792955a08d97a28f4cc03",
     "packages": [
@@ -53,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "872644fc75afb57347164b4cf651a4017342b067"
+                "reference": "0dd3d24ef1c68c6d0ec0356a7beb5be72515f892"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/872644fc75afb57347164b4cf651a4017342b067",
-                "reference": "872644fc75afb57347164b4cf651a4017342b067",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/0dd3d24ef1c68c6d0ec0356a7beb5be72515f892",
+                "reference": "0dd3d24ef1c68c6d0ec0356a7beb5be72515f892",
                 "shasum": ""
             },
             "require": {
@@ -70,7 +71,7 @@
                     "Carica\\Io\\": "src\\"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "notification-url": "http://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -86,7 +87,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-06-17 11:29:33"
+            "time": "2014-08-10 13:27:28"
         }
     ],
     "packages-dev": [
@@ -141,18 +142,15 @@
             "time": "2014-04-16 14:49:56"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "carica/io": 20,
         "carica/firmata": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
