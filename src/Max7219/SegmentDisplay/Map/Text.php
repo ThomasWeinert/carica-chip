@@ -55,14 +55,21 @@ namespace Carica\Chip\Max7219\SegmentDisplay\Map {
      ];
 
     private $_text = '';
+    private $_iterator = null;
 
     public function __construct($text) {
       $this->_text = strtoupper($text);
     }
 
     public function getIterator() {
-      return new Iterator($this->_text, $this->_map);
+      if (NULL === $this->_iterator) {
+        $this->_iterator = new Iterator($this->_text, $this->_map);
+      }
+      return $this->_iterator;
     }
 
+    public function count() {
+      return count($this->getIterator());
+    }
   }
 }

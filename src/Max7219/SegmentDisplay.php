@@ -4,8 +4,15 @@ namespace Carica\Chip\Max7219 {
 
   use Carica\Chip\Max7219\SegmentDisplay\Segment;
   use Carica\Firmata;
+  use Carica\Io\Event;
 
-  class SegmentDisplay implements \ArrayAccess {
+  class SegmentDisplay
+    implements \ArrayAccess, Event\HasLoop {
+
+    use Event\Loop\Aggregation;
+
+    const ANIMATE_LTR = 1;
+    const ANIMATE_RTL = 2;
 
     const MODE_DECODE = 0x09;
     const MODE_INTENSITY = 0x0A;
@@ -40,6 +47,8 @@ namespace Carica\Chip\Max7219 {
      * @var Segment[]
      */
     private $_segments = [];
+
+    private $_timer = NULL;
 
     /**
      * @param Firmata\Board $board
@@ -104,10 +113,44 @@ namespace Carica\Chip\Max7219 {
     }
 
     public function update() {
+      $this->stop();
       foreach ($this->_segments as $index => $segment) {
         $this->transfer($index + 1, $segment->getValue());
       }
       return $this;
+    }
+
+    public function scroll($bytes, $speed = 200) {
+      $this->stop();
+      $bytes = iterator_to_array($bytes);
+      $this->_timer = $this->loop()->setInterval(
+        $next = function() use ($bytes) {
+          static $offset = 0;
+          $length = count($bytes);
+          if (--$offset < 0) {
+            $offset = $length - 1;
+          }
+          $buffer = array_slice($bytes, $offset, 8);
+          $bufferLength = count($buffer);
+          if ($bufferLength < 8) {
+            array_splice(
+              $buffer, $bufferLength, 0, array_slice($bytes, 0, 8 - $bufferLength)
+            );
+          }
+          foreach ($buffer as $index => $byte) {
+            $this->transfer($index + 1, $byte);
+          }
+        },
+        $speed
+      );
+      $next();
+      return $this;
+    }
+
+    public function stop() {
+      if (isset($this->_timer)) {
+
+      }
     }
 
     /**

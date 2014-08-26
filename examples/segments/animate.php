@@ -14,14 +14,10 @@ $board
         8, // green, latch,
         8
       );
-      // show one led on each segment
-      $bytes = new Text('Hello!');
-      foreach ($bytes as $index => $byte) {
-        if (isset($max[$index])) {
-          $max[$index]->setValue($byte);
-        }
-      }
-      $max->brightness(1)->update()->on();
+      $max
+        ->brightness(0.6)
+        ->scroll(new Text('HELLO FROM PHP - '), 150)
+        ->on();
     }
   )
   ->fail(
