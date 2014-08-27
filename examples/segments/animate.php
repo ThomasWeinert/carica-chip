@@ -1,5 +1,5 @@
 <?php
-use Carica\Chip\Max7219\SegmentDisplay\Map\Text;
+use Carica\Chip\Max7219\SegmentDisplay;
 
 $board = require(__DIR__.'/../bootstrap.php');
 
@@ -7,7 +7,7 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $max = new Carica\Chip\Max7219\SegmentDisplay(
+      $max = new SegmentDisplay(
         $board,
         11,// white, data
         12, // blue, clock
@@ -15,7 +15,7 @@ $board
       );
       $max
         ->brightness(0.6)
-        ->scroll(new Text('PHP7 - '), 150)
+        ->scroll(new SegmentDisplay\Map\Text('PHP7 - '), 150)
         ->on();
     }
   )
