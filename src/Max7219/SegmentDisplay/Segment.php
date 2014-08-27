@@ -3,8 +3,18 @@
 namespace Carica\Chip\Max7219\SegmentDisplay {
 
   use Carica\Firmata;
+  use Carica\Io\Event\Emitter;
 
+  /**
+   *
+   * @method onChange(callable $callback) attach a change callback
+   * @method onceChange(callable $callback) attach a change callback that is executed once
+   */
   class Segment {
+
+    use Emitter\Aggregation {
+      Emitter\Aggregation::callEmitter as __call;
+    }
 
     const A = 64;
     const B = 32;
@@ -52,6 +62,19 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       }
     }
 
+    /**
+     * Lazy create for the event emitter, defines the possible event.
+     *
+     * @return Emitter
+     */
+    protected function createEventEmitter() {
+      $emitter = new Emitter;
+      $emitter->defineEvents(
+        array('change')
+      );
+      return $emitter;
+    }
+
     private function isSegmentName($name) {
       $name = strtolower($name);
       return (isset($this->_segments[$name])) ? $name : FALSE;
@@ -64,11 +87,13 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
     public function setValue($value) {
       $value = (int)$value;
       if ($value < 0) {
-        $this->_value = 0;
+        $value = 0;
       } elseif ($value > 255) {
-        $this->_value = 255;
-      } else {
+        $value = 255;
+      }
+      if ($value !== $this->_value) {
         $this->_value = $value;
+        $this->emitEvent('change', $this);
       }
     }
 
@@ -84,9 +109,13 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       if ($index = $this->isSegmentName($name)) {
         $bit = $this->_segments[$index];
         if ($active) {
-          $this->_value |= $bit;
+          $value = $this->_value | $bit;
         } else {
-          $this->_value &= ~$bit;
+          $value = $this->_value & ~$bit;
+        }
+        if ($value !== $this->_value) {
+          $this->_value = $value;
+          $this->emitEvent('change', $this);
         }
       }
     }

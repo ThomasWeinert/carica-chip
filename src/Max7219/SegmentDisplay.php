@@ -77,6 +77,11 @@ namespace Carica\Chip\Max7219 {
       $this->_segments = [];
       for ($i = 0; $i < $length; $i++) {
         $this->_segments[] = $segment = new Segment();
+        $segment->onChange(
+          function ($segment) use ($i) {
+            $this->transfer($i + 1, $segment->getValue());
+          }
+        );
       }
     }
 
@@ -112,16 +117,25 @@ namespace Carica\Chip\Max7219 {
       return $this;
     }
 
-    public function update() {
+    public function clear() {
+      for ($i = 1; $i <= 8; $i++) {
+        $this->transfer($i, 0x00);
+      }
+      return $this;
+    }
+
+    public function show($bytes) {
       $this->stop();
-      foreach ($this->_segments as $index => $segment) {
-        $this->transfer($index + 1, $segment->getValue());
+      $this->clear();
+      foreach ($bytes as $index => $byte) {
+        $this->_segments[$index]->setValue($byte);
       }
       return $this;
     }
 
     public function scroll($bytes, $speed = 200) {
       $this->stop();
+      $this->clear();
       $bytes = iterator_to_array($bytes);
       $this->_timer = $this->loop()->setInterval(
         $next = function() use ($bytes) {
@@ -132,13 +146,16 @@ namespace Carica\Chip\Max7219 {
           }
           $buffer = array_slice($bytes, $offset, 8);
           $bufferLength = count($buffer);
-          if ($bufferLength < 8) {
+          while ($bufferLength < 8) {
             array_splice(
               $buffer, $bufferLength, 0, array_slice($bytes, 0, 8 - $bufferLength)
             );
+            $bufferLength = count($buffer);
           }
           foreach ($buffer as $index => $byte) {
-            $this->transfer($index + 1, $byte);
+            if (isset($this->_segments[$index])) {
+              $this->_segments[$index]->setValue($byte);
+            }
           }
         },
         $speed

@@ -11,17 +11,12 @@ $board
         $board,
         11,// white, data
         12, // blue, clock
-        8, // green, latch,
-        8
+        8 // green, latch
       );
-      // show one led on each segment
-      $bytes = new Text('Hello!');
-      foreach ($bytes as $index => $byte) {
-        if (isset($max[$index])) {
-          $max[$index]->setValue($byte);
-        }
-      }
-      $max->brightness(1)->update()->on();
+      $max
+        ->brightness(0.4)
+        ->show(new Text('PHP "7"'))
+        ->on();
     }
   )
   ->fail(

@@ -11,12 +11,11 @@ $board
         $board,
         11,// white, data
         12, // blue, clock
-        8, // green, latch,
-        8
+        8 // green, latch
       );
       $max
         ->brightness(0.6)
-        ->scroll(new Text('HELLO FROM PHP - '), 150)
+        ->scroll(new Text('PHP7 - '), 150)
         ->on();
     }
   )
