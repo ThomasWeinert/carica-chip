@@ -25,6 +25,11 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
     const G = 1;
     const DP = 128;
 
+    /**
+     * Name the segments
+     *
+     * @var array
+     */
     private $_segments = [
       'a' => self::A,
       'b' => self::B,
@@ -39,6 +44,12 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
 
     private $_value = 0x00;
 
+    /**
+     * Allow to get segment by name or as value
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function __get($name) {
       if ($this->isSegmentName($name)) {
         return $this->getSegment($name);
@@ -50,6 +61,11 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       return NULL;
     }
 
+    /**
+     * Allow to set segment by name or as value
+     *
+     * @param string $name
+     */
     public function __set($name, $value) {
       if ($this->isSegmentName($name)) {
         $this->setSegment($name, (bool)$value);
@@ -75,15 +91,32 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       return $emitter;
     }
 
+    /**
+     * Check if the string is a valid segment name or
+     * and return it as lowercase.
+     *
+     * @param $name
+     * @return bool|string
+     */
     private function isSegmentName($name) {
       $name = strtolower($name);
       return (isset($this->_segments[$name])) ? $name : FALSE;
     }
 
+    /**
+     * Get the byte value of the segment
+     *
+     * @return int
+     */
     public function getValue() {
       return $this->_value;
     }
 
+    /**
+     * Set the byte value of the segment
+     *
+     * @param $value
+     */
     public function setValue($value) {
       $value = (int)$value;
       if ($value < 0) {
@@ -97,6 +130,12 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       }
     }
 
+    /**
+     * Get the status of a segment
+     *
+     * @param string $name
+     * @return bool
+     */
     public function getSegment($name) {
       if ($index = $this->isSegmentName($name)) {
         $bit = $this->_segments[$index];
@@ -105,6 +144,12 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
       return FALSE;
     }
 
+    /**
+     * Set the status of a segment
+     *
+     * @param $name
+     * @param $active
+     */
     public function setSegment($name, $active) {
       if ($index = $this->isSegmentName($name)) {
         $bit = $this->_segments[$index];

@@ -1,5 +1,7 @@
 <?php
+use Carica\Chip\Max7219\SegmentDisplay\Map\Pad;
 use Carica\Chip\Max7219\SegmentDisplay\Map\Text;
+use Carica\Chip\Max7219\SegmentDisplay\Segment;
 
 $board = require(__DIR__.'/../bootstrap.php');
 
@@ -15,7 +17,11 @@ $board
       );
       $max
         ->brightness(0.4)
-        ->show(new Text('PHP "7"'))
+        ->show(
+          new Pad(
+            new Text('PHP7'), 8
+          )
+        )
         ->on();
     }
   )

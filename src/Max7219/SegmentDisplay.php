@@ -11,9 +11,6 @@ namespace Carica\Chip\Max7219 {
 
     use Event\Loop\Aggregation;
 
-    const ANIMATE_LTR = 1;
-    const ANIMATE_RTL = 2;
-
     const MODE_DECODE = 0x09;
     const MODE_INTENSITY = 0x0A;
     const MODE_SCAN_LIMIT = 0x0B;
@@ -48,6 +45,10 @@ namespace Carica\Chip\Max7219 {
      */
     private $_segments = [];
 
+    /**
+     * Timer for animations
+     * @var object
+     */
     private $_timer = NULL;
 
     /**
@@ -55,6 +56,7 @@ namespace Carica\Chip\Max7219 {
      * @param int $dataPin
      * @param int $clockPin
      * @param int $latchPin
+     * @param int $length
      */
     public function __construct(
       Firmata\Board $board, $dataPin, $clockPin, $latchPin, $length = 8
@@ -72,13 +74,18 @@ namespace Carica\Chip\Max7219 {
       $this->brightness(0.01);
     }
 
+    /**
+     * Set the length and initialize the segment objects
+     *
+     * @param $length
+     */
     private function setLength($length) {
       $this->transfer(self::MODE_SCAN_LIMIT, $length - 1);
       $this->_segments = [];
       for ($i = 0; $i < $length; $i++) {
         $this->_segments[] = $segment = new Segment();
         $segment->onChange(
-          function ($segment) use ($i) {
+          function (Segment $segment) use ($i) {
             $this->transfer($i + 1, $segment->getValue());
           }
         );
@@ -86,6 +93,8 @@ namespace Carica\Chip\Max7219 {
     }
 
     /**
+     * Transfer a command to the display hardware
+     *
      * @param int $address
      * @param int $value
      */
@@ -95,16 +104,30 @@ namespace Carica\Chip\Max7219 {
       $this->_latch->digital = TRUE;
     }
 
+    /**
+     * Activate the display
+     * @return $this
+     */
     public function on() {
       $this->transfer(self::MODE_POWER, self::VALUE_TRUE);
       return $this;
     }
 
+    /**
+     * Dectivate the display
+     * @return $this
+     */
     public function off() {
       $this->transfer(self::MODE_POWER, self::VALUE_FALSE);
       return $this;
     }
 
+    /**
+     * Set the brightness from lowest to highest value
+     *
+     * @param float $value
+     * @return $this
+     */
     public function brightness($value) {
       $max = 15;
       $value = round($max * $value);
@@ -117,6 +140,11 @@ namespace Carica\Chip\Max7219 {
       return $this;
     }
 
+    /**
+     * Set all segments off
+     *
+     * @return $this
+     */
     public function clear() {
       for ($i = 1; $i <= 8; $i++) {
         $this->transfer($i, 0x00);
@@ -124,18 +152,25 @@ namespace Carica\Chip\Max7219 {
       return $this;
     }
 
+    /**
+     * @param \Traversable|int[] $bytes
+     * @return $this
+     */
     public function show($bytes) {
-      $this->stop();
-      $this->clear();
+      $this->stop(TRUE);
       foreach ($bytes as $index => $byte) {
         $this->_segments[$index]->setValue($byte);
       }
       return $this;
     }
 
+    /**
+     * @param \Traversable|int[] $bytes
+     * @param int $speed animation speed in milliseconds
+     * @return $this
+     */
     public function scroll($bytes, $speed = 200) {
-      $this->stop();
-      $this->clear();
+      $this->stop(TRUE);
       $bytes = iterator_to_array($bytes);
       $this->_timer = $this->loop()->setInterval(
         $next = function() use ($bytes) {
@@ -164,14 +199,23 @@ namespace Carica\Chip\Max7219 {
       return $this;
     }
 
-    public function stop() {
+    /**
+     * Stop the current animation
+     *
+     * @param bool $clear
+     */
+    public function stop($clear = FALSE) {
       if (isset($this->_timer)) {
-
+        $this->loop()->remove($this->_timer);
+      }
+      if ($clear) {
+        $this->clear();
       }
     }
 
     /**
      * Return true if a segment with that index exists
+     *
      * @param int $offset
      * @return bool
      */
@@ -181,6 +225,7 @@ namespace Carica\Chip\Max7219 {
 
     /**
      * Get the segment object for a give offset
+     *
      * @param int $offset
      * @return \Carica\Chip\Max7219\SegmentDisplay\Segment
      */
@@ -190,6 +235,8 @@ namespace Carica\Chip\Max7219 {
 
     /**
      * Allow to change the value of an segemnt or assign it from another segment
+     * @param int $offset
+     * @param Segment $value
      * @return void
      */
     public function offsetSet($offset, $value) {
@@ -206,6 +253,7 @@ namespace Carica\Chip\Max7219 {
     /**
      * Reset the segment value to 0
      *
+     * @param int $offset
      * @return void
      */
     public function offsetUnset($offset) {

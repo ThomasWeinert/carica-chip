@@ -55,6 +55,7 @@ namespace Carica\Chip\Max7219\SegmentDisplay\Map {
      ];
 
     private $_text = '';
+
     private $_iterator = null;
 
     public function __construct($text) {
