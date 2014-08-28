@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3"
+                "reference": "b2907c92ad5675fa2bf059bfa7dcd9804160483b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3",
-                "reference": "ac1e7ddd7d923594b7cded34d8d1d5ece1b95df3",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/b2907c92ad5675fa2bf059bfa7dcd9804160483b",
+                "reference": "b2907c92ad5675fa2bf059bfa7dcd9804160483b",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2014-06-17 11:36:00"
+            "time": "2014-08-28 23:02:55"
         },
         {
             "name": "carica/io",
@@ -71,7 +71,7 @@
                     "Carica\\Io\\": "src\\"
                 }
             },
-            "notification-url": "http://packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -142,7 +142,9 @@
             "time": "2014-04-16 14:49:56"
         }
     ],
-    "aliases": [],
+    "aliases": [
+
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "carica/io": 20,
@@ -152,5 +154,7 @@
     "platform": {
         "php": ">=5.4"
     },
-    "platform-dev": []
+    "platform-dev": [
+
+    ]
 }

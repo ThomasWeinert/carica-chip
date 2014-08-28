@@ -12,9 +12,7 @@ namespace Carica\Chip\Max7219\SegmentDisplay {
    */
   class Segment {
 
-    use Emitter\Aggregation {
-      Emitter\Aggregation::callEmitter as __call;
-    }
+    use Emitter\Aggregation;
 
     const A = 64;
     const B = 32;
