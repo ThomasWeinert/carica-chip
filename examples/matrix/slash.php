@@ -5,17 +5,15 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $max = new Carica\Chip\Max7219\SegmentDisplay(
+      $max = new Carica\Chip\Max7219\MatrixDisplay(
         $board,
         11,// white, data
         12, // blue, clock
         8, // green, latch,
         8
       );
-      // show one led on each segment
-      $leds = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'dp'];
-      foreach ($leds as $index => $led) {
-        $max[$index]->setSegment($led, TRUE);
+      for ($i = 0; $i < 8; $i++) {
+        $max[$i][$i] = TRUE;
       }
       $max->brightness(0)->on();
     }
