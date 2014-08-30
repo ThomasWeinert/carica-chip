@@ -3,7 +3,6 @@
 namespace Carica\Chip\Max7219 {
 
   use Carica\Chip\Max7219\MatrixDisplay\Row;
-  use Carica\Chip\Max7219\SegmentDisplay\Segment;
   use Carica\Firmata;
   use Carica\Io\Event;
 
@@ -44,11 +43,11 @@ namespace Carica\Chip\Max7219 {
     }
 
     public function offsetSet($offset, $value) {
-      throw \LogicException('Not a valid row');
+      throw new \LogicException('Not a valid row');
     }
 
     public function offsetUnset($offset) {
-      throw \LogicException('Not a valid row');
+      throw new \LogicException('Not a valid row');
     }
   }
 }
