@@ -2,6 +2,7 @@
 
 namespace Carica\Chip\Max7219\MatrixDisplay {
 
+  use Carica\Chip\Max7219\MatrixDisplay;
   use Carica\Firmata;
   use Carica\Io\Event\Emitter;
 
@@ -14,19 +15,11 @@ namespace Carica\Chip\Max7219\MatrixDisplay {
 
     use Emitter\Aggregation;
 
-    private $_columns = [
-      1, 2, 4, 8, 16, 32, 64, 128
-    ];
+    private $_display;
 
-    private $_value = 0;
-
-    /**
-     * Get the byte value of the segment
-     *
-     * @return int
-     */
-    public function getValue() {
-      return $this->_value;
+    public function __construct(MatrixDisplay $display, $index) {
+      $this->_display = $display;
+      $this->_index = $index;
     }
 
     public function offsetExists($offset) {
@@ -35,29 +28,17 @@ namespace Carica\Chip\Max7219\MatrixDisplay {
 
     public function offsetGet($offset) {
       if ($this->offsetExists($offset)) {
-        $bit = $this->_columns[$offset];
-        return ($this->_value & $bit) == $bit;
+        return $this->_display->getDot($this->_index, $offset);
       }
       return FALSE;
     }
 
     public function offsetSet($offset, $active) {
-      if ($this->offsetExists($offset)) {
-        $bit = $this->_columns[$offset];
-        if ($active) {
-          $value = $this->_value | $bit;
-        } else {
-          $value = $this->_value & ~$bit;
-        }
-        if ($value !== $this->_value) {
-          $this->_value = $value;
-          $this->emitEvent('change', $this);
-        }
-      }
+      $this->_display->setDot($this->_index, $offset, $active);
     }
 
     public function offsetUnset($offset) {
-      $this->offsetSet($offset, FALSE);
+      $this->_display->setDot($this->_index, $offset, FALSE);
     }
   }
 }

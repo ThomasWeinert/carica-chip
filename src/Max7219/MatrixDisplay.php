@@ -12,6 +12,12 @@ namespace Carica\Chip\Max7219 {
 
     private $_rows = [];
 
+    private $_dots = [
+      0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0
+    ];
+
+    private $_bits = [1, 2, 4, 8, 16, 32, 64, 128];
+
     public function __construct(
       Firmata\Board $board, $dataPin, $clockPin, $latchPin
     ) {
@@ -22,13 +28,8 @@ namespace Carica\Chip\Max7219 {
     }
 
     private function setUp() {
-      for ($i = 0; $i < 8; $i++) {
-        $this->_rows[] = $row = new Row();
-        $row->onChange(
-          function (Row $row) use ($i) {
-            $this->transfer($i + 1, $row->getValue());
-          }
-        );
+      for ($y = 0; $y < 8; $y++) {
+        $this->_rows[] = $row = new Row($this, $y);
       }
     }
     public function offsetExists($offset) {
@@ -48,6 +49,49 @@ namespace Carica\Chip\Max7219 {
 
     public function offsetUnset($offset) {
       throw new \LogicException('Not a valid row');
+    }
+
+    public function getDot($x, $y) {
+      if ($position = $this->getPosition($x, $y)) {
+        $bit = $this->_bits[$x];
+        return ($this->_dots[$y] & $bit) == $bit;
+      }
+      return FALSE;
+    }
+
+    public function setDot($x, $y, $active) {
+      if ($bytes = $this->change($x, $y, $active)) {
+        $this->update($bytes);
+      }
+    }
+
+    private function change($x, $y, $active) {
+      if ($position = $this->getPosition($x, $y)) {
+        $bit = $this->_bits[$x];
+        if ($active) {
+          $value = $this->_dots[$y] | $bit;
+        } else {
+          $value = $this->_dots[$y] & ~$bit;
+        }
+        if ($value !== $this->_dots[$y]) {
+          $this->_dots[$y] = $value;
+          return [$y => $value];
+        }
+      }
+      return [];
+    }
+
+    private function update(array $byteIndex) {
+      foreach ($byteIndex as $index => $value) {
+        $this->transfer($index + 1, $value);
+      }
+    }
+
+    private function getPosition($x, $y) {
+      if ($x >= 0 && $y >= 0 && $x < 8 && $y < 8) {
+        return [$x, $y];
+      }
+      return FALSE;
     }
   }
 }
