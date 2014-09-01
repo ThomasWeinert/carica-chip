@@ -15,7 +15,7 @@ $board
       );
       $max
         ->brightness(0.6)
-        ->scroll(new SegmentDisplay\Map\Text('Einen Milchkaffee bitte. - '), 150)
+        ->scroll(new SegmentDisplay\Map\Text('Hello from PHP - '), 150)
         ->on();
     }
   )
