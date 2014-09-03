@@ -6,6 +6,15 @@ namespace Carica\Chip\Max7219\SegmentDisplay\Map {
 
   class Iterator extends \ArrayIterator {
 
+    /**
+     * Convert the text string into an array of bytes using the mapping.
+     *
+     * Be aware that the last character in the string is the first byte. The
+     * segment display starts from the right.
+     *
+     * @param array $string
+     * @param array $map
+     */
     public function __construct($string, array $map) {
       $bytes = [];
       $length = strlen($string);
