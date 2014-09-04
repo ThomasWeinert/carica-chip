@@ -35,13 +35,10 @@ namespace Carica\Chip\Max7219 {
       parent::__construct(
         $board, $dataPin, $clockPin, $latchPin
       );
-      $this->transfer(self::MODE_SCAN_LIMIT, 7);
       for ($y = 0; $y < 8; $y++) {
         $this->_rows[] = $row = new Row($this, $y);
       }
       $this->_rotation = $rotation;
-      $this->clear();
-      $this->off();
     }
 
     /**

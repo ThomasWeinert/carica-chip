@@ -9,6 +9,8 @@ namespace Carica\Chip {
 
   abstract class Max7219 {
 
+    const INDEX_ALL = -1;
+
     const MODE_DECODE = 0x09;
     const MODE_INTENSITY = 0x0A;
     const MODE_SCAN_LIMIT = 0x0B;
@@ -26,9 +28,9 @@ namespace Carica\Chip {
      */
     private $_board = NULL;
     /**
-     * @var Firmata\Pin
+     * @var int
      */
-    private $_latch = NULL;
+    private $_latchPin = NULL;
     /**
      * @var int
      */
@@ -38,16 +40,37 @@ namespace Carica\Chip {
      */
     private $_clockPin = 0;
 
+    /**
+     * @var int
+     */
+    private $_index = 0;
+
+    /**
+     * @var int
+     */
+    private $_count = 0;
+
     public function __construct(
       Firmata\Board $board, $dataPin, $clockPin, $latchPin
     ) {
       $this->_board = $board;
-      $this->_latch = $board->pins[$latchPin];
-      $this->_latch->mode = Firmata\Pin::MODE_OUTPUT;
+      $this->_latchPin = $latchPin;
       $this->_clockPin = $clockPin;
       $this->_dataPin = $dataPin;
+      $board->pins[$latchPin]->mode = Firmata\Pin::MODE_OUTPUT;
       $board->pins[$clockPin]->mode = Firmata\Pin::MODE_OUTPUT;
       $board->pins[$dataPin]->mode = Firmata\Pin::MODE_OUTPUT;
+      $this->setIndex(0);
+    }
+
+    public function setIndex($index, $count = 1) {
+      $this->_index = $index;
+      $this->_count = $count;
+      $this->transfer(self::MODE_POWER, self::VALUE_TRUE);
+      $this->transfer(self::MODE_SCAN_LIMIT, 7);
+      $this->transfer(self::MODE_DECODE, 0x00);
+      $this->clear();
+      $this->off();
     }
 
     /**
@@ -57,9 +80,25 @@ namespace Carica\Chip {
      * @param int $value
      */
     protected function transfer($address, $value) {
-      $this->_latch->digital = FALSE;
-      $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
-      $this->_latch->digital = TRUE;
+      $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_LOW);
+      if ($this->_index == self::INDEX_ALL) {
+        for ($i = 0; $i < $this->_count; $i++) {
+          $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
+        }
+      } elseif ($this->_index < $this->_count) {
+        for ($i = 0; $i < $this->_index; $i++) {
+          $this->_board->shiftOut(
+            $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
+          );
+        }
+        $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
+        for ($i = $this->_index + 1; $i < $this->_count; $i++) {
+          $this->_board->shiftOut(
+            $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
+          );
+        }
+      }
+      $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_HIGH);
     }
 
     /**
