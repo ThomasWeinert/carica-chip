@@ -21,6 +21,7 @@ namespace Carica\Chip {
     const VALUE_TRUE = 0x01;
     const VALUE_FALSE = 0x00;
 
+    const DECODE_NONE = 0x00;
     const DECODE_B = 0xFF;
 
     /**
@@ -43,12 +44,18 @@ namespace Carica\Chip {
     /**
      * @var int
      */
-    private $_index = 0;
+    private $_index = self::INDEX_ALL;
 
     /**
      * @var int
      */
-    private $_count = 0;
+    private $_count = 1;
+
+    /**
+     * Display is started (initialized)
+     * @var bool
+     */
+    private $_started = FALSE;
 
     public function __construct(
       Firmata\Board $board, $dataPin, $clockPin, $latchPin
@@ -60,17 +67,19 @@ namespace Carica\Chip {
       $board->pins[$latchPin]->mode = Firmata\Pin::MODE_OUTPUT;
       $board->pins[$clockPin]->mode = Firmata\Pin::MODE_OUTPUT;
       $board->pins[$dataPin]->mode = Firmata\Pin::MODE_OUTPUT;
-      $this->setIndex(0);
     }
 
+    /**
+     * Sets the index of the matrix if here is more then one connected.
+     * Set it to self::INDEX_ALL to controll all connected displays.
+     *
+     * @param int $index
+     * @param int $count
+     */
     public function setIndex($index, $count = 1) {
       $this->_index = $index;
       $this->_count = $count;
-      $this->transfer(self::MODE_POWER, self::VALUE_TRUE);
-      $this->transfer(self::MODE_SCAN_LIMIT, 7);
-      $this->transfer(self::MODE_DECODE, 0x00);
-      $this->clear();
-      $this->off();
+      $this->_started = FALSE;
     }
 
     /**
@@ -80,25 +89,39 @@ namespace Carica\Chip {
      * @param int $value
      */
     protected function transfer($address, $value) {
+      $this->startUp();
       $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_LOW);
       if ($this->_index == self::INDEX_ALL) {
         for ($i = 0; $i < $this->_count; $i++) {
           $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
         }
       } elseif ($this->_index < $this->_count) {
-        for ($i = 0; $i < $this->_index; $i++) {
+        for ($i = $this->_count - 1; $i > $this->_index; $i--) {
           $this->_board->shiftOut(
             $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
           );
         }
         $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
-        for ($i = $this->_index + 1; $i < $this->_count; $i++) {
+        for ($i = $this->_index; $i > 0; $i--) {
           $this->_board->shiftOut(
             $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
           );
         }
       }
       $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_HIGH);
+    }
+
+    /**
+     * Start the display. This is a lazy init triggered by transfer().
+     */
+    private function startUp() {
+      if (!$this->_started) {
+        $this->_started = TRUE;
+        $this->transfer(self::MODE_TEST, self::VALUE_FALSE);
+        $this->transfer(self::MODE_POWER, self::VALUE_FALSE);
+        $this->transfer(self::MODE_SCAN_LIMIT, 7);
+        $this->transfer(self::MODE_DECODE, self::DECODE_NONE);
+      }
     }
 
     /**
