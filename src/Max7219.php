@@ -69,6 +69,18 @@ namespace Carica\Chip {
       $board->pins[$dataPin]->mode = Firmata\Pin::MODE_OUTPUT;
     }
 
+    public function getBoard() {
+      return $this->_board;
+    }
+
+    public function getPins() {
+      return [
+        'latch' => $this->_latchPin,
+        'clock' => $this->_clockPin,
+        'data' => $this->_dataPin,
+      ];
+    }
+
     /**
      * Sets the index of the matrix if here is more then one connected.
      * Set it to self::INDEX_ALL to controll all connected displays.
