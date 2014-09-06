@@ -13,11 +13,22 @@ $board
         12, // blue, clock
         8 // green, latch
       );
-      $max->addDisplay(0,0);
-      $max->addDisplay(1,0);
-      $max->addDisplay(2,0);
+      $displayCount = 1;
+      for ($i = 0; $i < $displayCount; $i++) {
+        $max->addDisplay($displayCount, 0);
+      }
+      $max->brightness(0)->on();
       $image = imagecreatefrompng(__DIR__.'/elephpant.png');
-      $max->draw($image);
+      $loop->setInterval(
+        function() use ($max, $image) {
+          static $offset = 0;
+          $max->draw($image, $offset);
+          if (--$offset < -15) {
+            $offset = 0;
+          }
+        },
+        200
+      );
     }
   )
   ->fail(

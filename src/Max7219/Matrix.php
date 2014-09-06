@@ -3,15 +3,16 @@
 namespace Carica\Chip\Max7219 {
 
   use Carica\Chip\Max7219;
+  use Carica\Firmata\Board;
 
   class Matrix extends Max7219 {
 
     private $_displays = [];
+
     private $_width = 8;
     private $_height = 8;
 
     private $_buffer = null;
-    private $_colorOn;
     private $_colorOff;
 
     public function addDisplay($x, $y, $rotation = MatrixDisplay::ROTATION_NONE) {
@@ -26,16 +27,13 @@ namespace Carica\Chip\Max7219 {
       $this->_width = max($this->_width, ($x + 1) * 8);
       $this->_height = max($this->_height, ($y + 1) * 8);
       $this->_buffer = NULL;
+      parent::setIndex(self::INDEX_ALL, count($this->_displays));
     }
 
     private function getBuffer() {
       if (!$this->_buffer) {
         $this->_buffer = imagecreate($this->_width, $this->_height);
-        $this->_colorOn = imagecolorallocate($this->_buffer, 255, 255, 255);
         $this->_colorOff = imagecolorallocate($this->_buffer, 0, 0, 0);
-        imagefilledrectangle(
-          $this->_buffer, 0, 0, $this->_width, $this->_height, $this->_colorOff
-        );
       }
       return $this->_buffer;
     }
@@ -46,22 +44,21 @@ namespace Carica\Chip\Max7219 {
       $sourceX = 0, $sourceY = 0, $sourceWidth = 0, $sourceHeight = 0
     ) {
       $buffer = $this->getBuffer();
+      imagefilledrectangle(
+        $this->_buffer, 0, 0, $this->_width, $this->_height, $this->_colorOff
+      );
       $sourceWidth = $sourceWidth > 0 ? $sourceWidth : imagesx($image);
       $sourceHeight = $sourceHeight > 0 ? $sourceHeight : imagesy($image);
       imagecopy(
         $buffer, $image, $targetX, $targetY, $sourceX, $sourceY, $sourceWidth, $sourceHeight
       );
-      $count = count($this->_displays);
       imagepng($buffer, __DIR__.'/target.png');
-      foreach ($this->_displays as $i => $item) {
+      foreach ($this->_displays as $item) {
         $display = $item['display'];
-        $display->setIndex($i, $count);
-        $display->clear()->on();
         $this->updateDisplay($display, $item['position'][0], $item['position'][1]);
-        $display->commit();
       }
+      $this->commit();
     }
-
 
     private function updateDisplay($display, $x, $y) {
       $buffer = $this->getBuffer();
@@ -74,6 +71,29 @@ namespace Carica\Chip\Max7219 {
           $display->setDot($x, $y, $isOn, FALSE);
         }
       }
+    }
+
+    private function commit() {
+      $bytes = [];
+      foreach ($this->_displays as $item) {
+        /** @var MatrixDisplay $display */
+        $display = $item['display'];
+        foreach ($display->getBytes() as $index => $value) {
+          $bytes[$index][] = $index + 1;
+          $bytes[$index][] = $value;
+        }
+      }
+      $board = $this->getBoard();
+      $pins = $this->getPins();
+      foreach ($bytes as $buffer) {
+        $board->digitalWrite($pins['latch'], Board::DIGITAL_LOW);
+        $board->shiftOut($pins['data'], $pins['clock'], $buffer);
+        $board->digitalWrite($pins['latch'], Board::DIGITAL_HIGH);
+      }
+    }
+
+    public function setIndex($index, $count = 1) {
+      throw new \LogicException('Will changed automatically with addDisplay().');
     }
   }
 }

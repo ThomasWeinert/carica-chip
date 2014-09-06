@@ -42,6 +42,13 @@ namespace Carica\Chip\Max7219 {
     }
 
     /**
+     * @return array
+     */
+    public function getBytes() {
+      return $this->_dots;
+    }
+
+    /**
      * @param int $offset
      * @return bool
      */
