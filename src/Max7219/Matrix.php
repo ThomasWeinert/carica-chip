@@ -3,8 +3,8 @@
 namespace Carica\Chip\Max7219 {
 
   use Carica\Io\Event;
-  use Carica\Chip\Max7219;
   use Carica\Firmata\Board;
+  use Carica\Chip\Max7219;
 
   class Matrix extends Max7219
     implements Event\HasLoop {
@@ -45,9 +45,9 @@ namespace Carica\Chip\Max7219 {
      * @param int $rotation
      * @return $this
      */
-    public function addDisplay($left, $top, $rotation = MatrixDisplay::ROTATION_NONE) {
+    public function addDisplay($left, $top, $rotation = Matrix\Display::ROTATION_NONE) {
       $pins = $this->getPins();
-      $display = new MatrixDisplay(
+      $display = new Matrix\Display(
         $this->getBoard(), $pins['data'], $pins['clock'], $pins['latch'], $rotation
       );
       $this->_displays[] = [$display, $left, $top];
@@ -213,7 +213,7 @@ namespace Carica\Chip\Max7219 {
       $this->commit();
     }
 
-    private function updateDisplay(MatrixDisplay $display, $left, $top) {
+    private function updateDisplay(Matrix\Display $display, $left, $top) {
       $buffer = $this->getBuffer();
       for ($x = 0; $x < 8; $x++) {
         for ($y = 0; $y < 8; $y++) {
@@ -233,7 +233,7 @@ namespace Carica\Chip\Max7219 {
     private function commit() {
       $bytes = [];
       foreach ($this->_displays as $item) {
-        /** @var MatrixDisplay $display */
+        /** @var Matrix\Display $display */
         $display = $item[0];
         foreach ($display->getBytes() as $index => $value) {
           $bytes[$index][] = $index + 1;

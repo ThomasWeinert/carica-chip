@@ -1,11 +1,10 @@
 <?php
 
-namespace Carica\Chip\Max7219 {
+namespace Carica\Chip\Max7219\Matrix {
 
-  use Carica\Chip\Max7219\MatrixDisplay\Row;
   use Carica\Firmata;
 
-  class MatrixDisplay
+  class Display
     extends \Carica\Chip\Max7219
     implements \ArrayAccess {
 
@@ -36,7 +35,7 @@ namespace Carica\Chip\Max7219 {
         $board, $dataPin, $clockPin, $latchPin
       );
       for ($y = 0; $y < 8; $y++) {
-        $this->_rows[] = $row = new Row($this, $y);
+        $this->_rows[] = $row = new Display\Row($this, $y);
       }
       $this->_rotation = $rotation;
     }
@@ -58,7 +57,7 @@ namespace Carica\Chip\Max7219 {
 
     /**
      * @param int $offset
-     * @return Row
+     * @return Display\Row
      */
     public function offsetGet($offset) {
       if ($this->offsetExists($offset)) {
@@ -70,6 +69,7 @@ namespace Carica\Chip\Max7219 {
     /**
      * @param int $offset
      * @param mixed $value
+     * @throws \LogicException
      */
     public function offsetSet($offset, $value) {
       throw new \LogicException('Not a valid row');
@@ -77,6 +77,7 @@ namespace Carica\Chip\Max7219 {
 
     /**
      * @param int $offset
+     * @throws \LogicException
      */
     public function offsetUnset($offset) {
       throw new \LogicException('Not a valid row');
@@ -117,7 +118,7 @@ namespace Carica\Chip\Max7219 {
      * Set the status of a dot by its coordinates.
      *
      * @param int $x
-     * @param int $x
+     * @param int $y
      * @param bool $active
      * @param bool $implicitCommit
      */
@@ -129,7 +130,7 @@ namespace Carica\Chip\Max7219 {
     /**
      * Set the dots of a specified row
      *
-     * @param int $x
+     * @param int $y
      * @param bool|int|bool[]|int[] $dots
      * @param bool $implicitCommit
      */
@@ -172,8 +173,8 @@ namespace Carica\Chip\Max7219 {
      *
      *   An array of booleans with the status of each dot.
      *
-     * @param int|bool|bool[]|int[]
-     * @arrau TRUE[]
+     * @param int|bool|bool[]|int[] $dots
+     * @return array TRUE[]
      */
     private function expandDotsArgument($dots) {
       $result = [];

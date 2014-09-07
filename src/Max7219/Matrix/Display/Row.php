@@ -1,8 +1,8 @@
 <?php
 
-namespace Carica\Chip\Max7219\MatrixDisplay {
+namespace Carica\Chip\Max7219\Matrix\Display {
 
-  use Carica\Chip\Max7219\MatrixDisplay;
+  use Carica\Chip\Max7219\Matrix\Display;
   use Carica\Firmata;
   use Carica\Io\Event\Emitter;
 
@@ -17,7 +17,7 @@ namespace Carica\Chip\Max7219\MatrixDisplay {
 
     private $_display;
 
-    public function __construct(MatrixDisplay $display, $index) {
+    public function __construct(Display $display, $index) {
       $this->_display = $display;
       $this->_index = $index;
     }
