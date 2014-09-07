@@ -232,9 +232,9 @@ namespace Carica\Chip\Max7219 {
 
     private function commit() {
       $bytes = [];
-      foreach ($this->_displays as $item) {
+      for ($i = count($this->_displays) - 1; $i >= 0; $i--) {
         /** @var Matrix\Display $display */
-        $display = $item[0];
+        $display = $this->_displays[$i][0];
         foreach ($display->getBytes() as $index => $value) {
           $bytes[$index][] = $index + 1;
           $bytes[$index][] = $value;
