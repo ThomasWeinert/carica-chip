@@ -7,18 +7,16 @@ $board
   ->activate()
   ->done(
     function () use ($board, $loop) {
-      $max = new Carica\Chip\Max7219\Matrix(
+      $max = new Carica\Chip\Max7219\Matrix\Display(
         $board,
         11,// white, data
         12, // blue, clock
         8 // green, latch
       );
-      $displayCount = 4;
-      for ($i = 0; $i < $displayCount; $i++) {
-        $max->addDisplay($i * 8, 0);
+      for ($i = 0; $i < 8; $i++) {
+        $max[$i][7 - $i] = TRUE;
       }
-      $image = imagecreatefrompng(__DIR__.'/elephpant.png');
-      $max->draw($image)->brightness(0.5)->on();
+      $max->brightness(0)->on();
     }
   )
   ->fail(

@@ -7,15 +7,23 @@ $board
   ->activate()
   ->done(
     function () use ($board, $loop) {
-      $max = new Carica\Chip\Max7219\MatrixDisplay(
+      $max = new Carica\Chip\Max7219\Matrix\Display(
         $board,
         11,// white, data
         12, // blue, clock
         8 // green, latch
       );
-      for ($i = 0; $i < 8; $i++) {
-        $max[$i][7 - $i] = TRUE;
-      }
+      $loop->setInterval(
+        function () use ($max) {
+          static $i = 0;
+          $max->setRow($i, FALSE, FALSE);
+          if (++$i > 7) {
+            $i = 0;
+          }
+          $max->setRow($i, TRUE, TRUE);
+        },
+        200
+      );
       $max->brightness(0)->on();
     }
   )
