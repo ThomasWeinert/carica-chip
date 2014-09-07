@@ -15,20 +15,10 @@ $board
       );
       $displayCount = 1;
       for ($i = 0; $i < $displayCount; $i++) {
-        $max->addDisplay($displayCount, 0);
+        $max->addDisplay($i, 0);
       }
-      $max->brightness(0)->on();
       $image = imagecreatefrompng(__DIR__.'/elephpant.png');
-      $loop->setInterval(
-        function() use ($max, $image) {
-          static $offset = 0;
-          $max->draw($image, $offset);
-          if (--$offset < -15) {
-            $offset = 0;
-          }
-        },
-        200
-      );
+      $max->scrollX($image)->brightness(0)->on();
     }
   )
   ->fail(
