@@ -6,6 +6,9 @@ namespace Carica\Chip\Max7219 {
   use Carica\Firmata\Board;
   use Carica\Chip\Max7219;
 
+  /**
+   * A matrix build from several MAX7219 canvas displays, connected to the same pins.
+   */
   class Matrix extends Max7219
     implements Event\HasLoop {
 
@@ -38,7 +41,8 @@ namespace Carica\Chip\Max7219 {
     /**
      * Add a display by the coordinates of the upper left led.
      *
-     * Displays can have margins between them or overlap.
+     * Displays can have margins between them or overlap. The internal canvas is resized
+     * depending on the displays.
      *
      * @param int $left
      * @param int $top
@@ -206,6 +210,10 @@ namespace Carica\Chip\Max7219 {
       return $this->_buffer;
     }
 
+    /**
+     * Read data from canvas, update displays and commit status to the
+     * actual hardware.
+     */
     private function updateDisplays() {
       foreach ($this->_displays as $display) {
         $this->updateDisplay($display[0], $display[1], $display[2]);
@@ -213,6 +221,10 @@ namespace Carica\Chip\Max7219 {
       $this->commit();
     }
 
+    /**
+     * Update a display with the canvas data, but do not yet transfer
+     * the status to the hardware.
+     */
     private function updateDisplay(Matrix\Display $display, $left, $top) {
       $buffer = $this->getBuffer();
       for ($x = 0; $x < 8; $x++) {
@@ -230,6 +242,11 @@ namespace Carica\Chip\Max7219 {
       }
     }
 
+    /**
+     * Transfer display status to the actual hardware.
+     *
+     * This aproach to allows with a single command for each register.
+     */
     private function commit() {
       $bytes = [];
       for ($i = count($this->_displays) - 1; $i >= 0; $i--) {
@@ -249,6 +266,13 @@ namespace Carica\Chip\Max7219 {
       }
     }
 
+    /**
+     * Index and count are updated by addDidplay, throw in exception
+     * if someone tries to set it.
+     *
+     * @param int $index
+     * @param int $count
+     */
     public function setIndex($index, $count = 1) {
       throw new \LogicException('Will changed automatically with addDisplay().');
     }
