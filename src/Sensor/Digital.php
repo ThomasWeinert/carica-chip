@@ -18,9 +18,7 @@ namespace Carica\Chip\Sensor {
    */
   class Digital {
 
-    use Emitter\Aggregation {
-      Emitter\Aggregation::callEmitter as __call;
-    }
+    use Emitter\Aggregation;
 
     /**
      * @var Pin $_pin
