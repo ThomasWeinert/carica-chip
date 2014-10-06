@@ -17,6 +17,8 @@ devices connected to an Arduino (or compatible microcontroller) running Firmata.
 
 ***It's a learning project not a product. Use it at your own risk.***
 
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ThomasWeinert/carica-chip)
+
 Basics
 ------
 
