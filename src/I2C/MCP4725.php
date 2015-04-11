@@ -22,18 +22,19 @@ namespace Carica\Chip\I2C {
     private $_board = NULL;
 
     /**
-     * @var Pin $addressPin
+     * @var Pin|boolean $_useAddressTwo
      */
-    private $_addressPin = NULL; 
+    private $_useAddressTwo = FALSE; 
 
     /**
      * Create object, store pin and attach events
      *
      * @param Board $board
+     * @param Pin|boolean $useAddressTwo
      */
-    public function __construct(Board $board, Pin $addressPin = NULL) {
+    public function __construct(Board $board, $useAddressTwo = FALSE) {
       $this->_board = $board;
-      $this->_addressPin = $addressPin;
+      $this->_useAddressTwo = $useAddressTwo;
     }
 
     /**
@@ -47,11 +48,9 @@ namespace Carica\Chip\I2C {
       } else {
         $value = (int)floor(4095 * $analog); 
       }
-      if ($this->_addressPin instanceof Pin && $this->_addressPin->digital) {
-        $address = self::ADDRESS_TWO;
-      } else {
-        $address = self::ADDRESS_ONE;
-      }
+      $useAddressTwo = ($this->_useAddressTwo instanceof Pin)
+        ? $this->_useAddressTwo->digital : (bool)$this->_useAddressTwo;
+      $address = $useAddressTwo ? self::ADDRESS_TWO : self::ADDRESS_ONE;
       $this->_board->sendI2CWriteRequest(
         $address, [($value >> 8) & 0x0F, $value & 0xFF]
       );
