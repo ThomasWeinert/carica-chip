@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8f1e175a3ac792955a08d97a28f4cc03",
+    "hash": "be5c23f11e7d52ed6de3c62e70ed522a",
     "packages": [
         {
             "name": "carica/firmata",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "b2907c92ad5675fa2bf059bfa7dcd9804160483b"
+                "reference": "ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/b2907c92ad5675fa2bf059bfa7dcd9804160483b",
-                "reference": "b2907c92ad5675fa2bf059bfa7dcd9804160483b",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd",
+                "reference": "ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd",
                 "shasum": ""
             },
             "require": {
@@ -27,7 +27,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Carica\\Firmata\\": "src\\"
+                    "Carica\\Firmata\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -46,7 +46,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2014-08-28 23:02:55"
+            "time": "2015-04-11 20:40:23"
         },
         {
             "name": "carica/io",
@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "0dd3d24ef1c68c6d0ec0356a7beb5be72515f892"
+                "reference": "f6de56236694ef07021e80bbd6009ccb22d52ad4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/0dd3d24ef1c68c6d0ec0356a7beb5be72515f892",
-                "reference": "0dd3d24ef1c68c6d0ec0356a7beb5be72515f892",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/f6de56236694ef07021e80bbd6009ccb22d52ad4",
+                "reference": "f6de56236694ef07021e80bbd6009ccb22d52ad4",
                 "shasum": ""
             },
             "require": {
@@ -68,7 +68,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Carica\\Io\\": "src\\"
+                    "Carica\\Io\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -87,22 +87,22 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-08-10 13:27:28"
+            "time": "2014-11-24 17:03:27"
         }
     ],
     "packages-dev": [
         {
             "name": "phake/phake",
-            "version": "v1.0.5",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mlively/Phake.git",
-                "reference": "14e4788698e4a21774220c22f3dcaa2e97648b61"
+                "reference": "c5a3d7a75fc7431e8a5e21a922f084af95456bc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlively/Phake/zipball/14e4788698e4a21774220c22f3dcaa2e97648b61",
-                "reference": "14e4788698e4a21774220c22f3dcaa2e97648b61",
+                "url": "https://api.github.com/repos/mlively/Phake/zipball/c5a3d7a75fc7431e8a5e21a922f084af95456bc6",
+                "reference": "c5a3d7a75fc7431e8a5e21a922f084af95456bc6",
                 "shasum": ""
             },
             "require": {
@@ -111,7 +111,7 @@
             "require-dev": {
                 "doctrine/common": "2.3.*",
                 "ext-soap": "*",
-                "hamcrest/hamcrest-php": "1.1.*",
+                "hamcrest/hamcrest-php": "1.1.0",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
@@ -139,22 +139,19 @@
                 "mock",
                 "testing"
             ],
-            "time": "2014-04-16 14:49:56"
+            "time": "2015-01-27 15:48:39"
         }
     ],
-    "aliases": [
-
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "carica/io": 20,
         "carica/firmata": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": {
         "php": ">=5.4"
     },
-    "platform-dev": [
-
-    ]
+    "platform-dev": []
 }
