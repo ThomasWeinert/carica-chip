@@ -3,7 +3,7 @@
 namespace Carica\Chip\I2C {
 
   use Carica\Firmata\I2C;
-  use Carica\Firmata\Rest\Pin;
+  use Carica\Firmata\Pin;
   use Carica\Io\Event\Emitter;
 
   /**
