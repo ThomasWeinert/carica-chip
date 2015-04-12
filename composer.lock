@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd"
+                "reference": "eb05e1ad53c88c5e920e5985977e2832e3ed309d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd",
-                "reference": "ed928c22ee97d2d3f77aedff1cf8c99a11d8fffd",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/eb05e1ad53c88c5e920e5985977e2832e3ed309d",
+                "reference": "eb05e1ad53c88c5e920e5985977e2832e3ed309d",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2015-04-11 20:40:23"
+            "time": "2015-04-12 20:10:01"
         },
         {
             "name": "carica/io",

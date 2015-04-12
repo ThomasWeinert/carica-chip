@@ -2,9 +2,9 @@
 
 namespace Carica\Chip\I2C {
 
+  use Carica\Firmata\I2C;
   use Carica\Firmata\Rest\Pin;
   use Carica\Io\Event\Emitter;
-  use Carica\Firmata\Board;
 
   /**
    * A MCP4725 DAC
@@ -17,9 +17,9 @@ namespace Carica\Chip\I2C {
     const ADDRESS_TWO = 0x63;
     
     /**
-     * @var Board $_board
+     * @var I2C $_i2c
      */
-    private $_board = NULL;
+    private $_i2c = NULL;
 
     /**
      * @var Pin|boolean $_useAddressTwo
@@ -29,11 +29,11 @@ namespace Carica\Chip\I2C {
     /**
      * Create object, store pin and attach events
      *
-     * @param Board $board
-     * @param Pin|boolean $useAddressTwo
+     * @param I2C $i2c
+     * @param Pin|bool $useAddressTwo
      */
-    public function __construct(Board $board, $useAddressTwo = FALSE) {
-      $this->_board = $board;
+    public function __construct(I2C $i2c, $useAddressTwo = FALSE) {
+      $this->_i2c = $i2c;
       $this->_useAddressTwo = $useAddressTwo;
     }
 
@@ -51,7 +51,7 @@ namespace Carica\Chip\I2C {
       $useAddressTwo = ($this->_useAddressTwo instanceof Pin)
         ? $this->_useAddressTwo->digital : (bool)$this->_useAddressTwo;
       $address = $useAddressTwo ? self::ADDRESS_TWO : self::ADDRESS_ONE;
-      $this->_board->sendI2CWriteRequest(
+      $this->_i2c->write(
         $address, [($value >> 8) & 0x0F, $value & 0xFF]
       );
     }

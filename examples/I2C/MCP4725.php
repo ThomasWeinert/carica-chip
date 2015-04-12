@@ -7,7 +7,9 @@ $board
   ->activate()
   ->done(
     function () use ($loop, $board) {
-      $dac = new Carica\Chip\I2C\MCP4725($board);
+      $dac = new Carica\Chip\I2C\MCP4725(
+        new Carica\Firmata\I2C($board)
+      );
       $loop->setInterval(
         function() use ($dac) {
           static $counter = 1;
