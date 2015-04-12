@@ -16,6 +16,9 @@ namespace Carica\Chip\I2C {
     const ADDRESS_ONE = 0x62;
     const ADDRESS_TWO = 0x63;
     
+    const WRITEDAC = 0x40;
+    const WRITEDACEEPROM = 0x60;
+    
     /**
      * @var I2C $_i2c
      */
@@ -38,9 +41,10 @@ namespace Carica\Chip\I2C {
     }
 
     /**
-     * @param float $value
+     * @param float $analog
+     * @param bool $persistent
      */
-    public function setValue($analog) {
+    public function setValue($analog, $persistent = FALSE) {
       if ($analog >= 1) {
         $value = 4095;
       } elseif ($analog <= 0) {
@@ -52,7 +56,12 @@ namespace Carica\Chip\I2C {
         ? $this->_useAddressTwo->digital : (bool)$this->_useAddressTwo;
       $address = $useAddressTwo ? self::ADDRESS_TWO : self::ADDRESS_ONE;
       $this->_i2c->write(
-        $address, [($value >> 8) & 0x0F, $value & 0xFF]
+        $address, 
+        [
+          $persistent ? self::WRITEDACEEPROM : self::WRITEDAC,
+          ($value >> 8) & 0x0F, 
+          $value & 0xFF
+        ]
       );
     }
   }
