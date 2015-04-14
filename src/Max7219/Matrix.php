@@ -50,10 +50,7 @@ namespace Carica\Chip\Max7219 {
      * @return $this
      */
     public function addDisplay($left, $top, $rotation = Matrix\Display::ROTATION_NONE) {
-      $pins = $this->getPins();
-      $display = new Matrix\Display(
-        $this->getBoard(), $pins['data'], $pins['clock'], $pins['latch'], $rotation
-      );
+      $display = new Matrix\Display($this->getShiftOut(), $rotation);
       $this->_displays[] = [$display, $left, $top];
       $this->_width = max($this->_width, $left + 8);
       $this->_height = max($this->_height, $top + 8);
@@ -257,12 +254,9 @@ namespace Carica\Chip\Max7219 {
           $bytes[$index][] = $value;
         }
       }
-      $board = $this->getBoard();
-      $pins = $this->getPins();
+      $shiftOut = $this->getShiftOut();
       foreach ($bytes as $buffer) {
-        $board->digitalWrite($pins['latch'], Board::DIGITAL_LOW);
-        $board->shiftOut($pins['data'], $pins['clock'], $buffer);
-        $board->digitalWrite($pins['latch'], Board::DIGITAL_HIGH);
+        $shiftOut->write($buffer);
       }
     }
 

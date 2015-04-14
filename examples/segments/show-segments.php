@@ -6,10 +6,11 @@ $board
   ->done(
     function () use ($board) {
       $max = new Carica\Chip\Max7219\SegmentDisplay(
-        $board,
-        11,// white, data
-        12, // blue, clock
-        8, // green, latch,
+        new \Carica\Firmata\ShiftOut(
+          $board->pins[8], // green, latch
+          $board->pins[12], // blue, clock
+          $board->pins[11] // white, data
+        ),
         8
       );
       // show one led on each segment

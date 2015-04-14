@@ -8,10 +8,11 @@ $board
   ->done(
     function () use ($board, $loop) {
       $max = new Carica\Chip\Max7219\Matrix(
-        $board,
-        11,// white, data
-        12, // blue, clock
-        8 // green, latch
+        new \Carica\Firmata\ShiftOut(
+          $board->pins[8], // green, latch
+          $board->pins[12], // blue, clock
+          $board->pins[11] // white, data
+        )
       );
       $displayCount = 4;
       for ($i = 0; $i < $displayCount; $i++) {

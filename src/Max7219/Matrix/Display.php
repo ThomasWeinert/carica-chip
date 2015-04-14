@@ -28,12 +28,8 @@ namespace Carica\Chip\Max7219\Matrix {
 
     private $_rotation = self::ROTATION_NONE;
 
-    public function __construct(
-      Firmata\Board $board, $dataPin, $clockPin, $latchPin, $rotation = self::ROTATION_NONE
-    ) {
-      parent::__construct(
-        $board, $dataPin, $clockPin, $latchPin
-      );
+    public function __construct(Firmata\ShiftOut $shiftOut, $rotation = self::ROTATION_NONE) {
+      parent::__construct($shiftOut);
       for ($y = 0; $y < 8; $y++) {
         $this->_rows[] = $row = new Display\Row($this, $y);
       }
@@ -90,7 +86,7 @@ namespace Carica\Chip\Max7219\Matrix {
      */
     public function clear() {
       for ($i = 1; $i <= 8; $i++) {
-        $this->transfer($i, 0);
+        $this->sendCommand($i, 0);
       }
       $this->_dots = [
         0 => 0, 1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0, 6 => 0, 7 => 0
@@ -237,7 +233,7 @@ namespace Carica\Chip\Max7219\Matrix {
     public function commit($forceAll = FALSE) {
       $rows = array_keys($forceAll ? $this->_dots : $this->_modified);
       foreach ($rows as $index) {
-        $this->transfer($index + 1, $this->_dots[$index]);
+        $this->sendCommand($index + 1, $this->_dots[$index]);
       }
       $this->_modified = [];
     }

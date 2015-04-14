@@ -25,26 +25,14 @@ namespace Carica\Chip {
     const DECODE_B = 0xFF;
 
     /**
-     * @var Firmata\Board
-     */
-    private $_board = NULL;
-    /**
-     * @var int
-     */
-    private $_latchPin = NULL;
-    /**
-     * @var int
-     */
-    private $_dataPin = 0;
-    /**
-     * @var int
-     */
-    private $_clockPin = 0;
-
-    /**
      * @var int
      */
     private $_index = self::INDEX_ALL;
+
+    /**
+     * @var Firmata\ShiftOut|null
+     */
+    private $_shiftOut = null;
 
     /**
      * @var int
@@ -58,27 +46,16 @@ namespace Carica\Chip {
     private $_started = FALSE;
 
     public function __construct(
-      Firmata\Board $board, $dataPin, $clockPin, $latchPin
+      Firmata\ShiftOut $shiftOut
     ) {
-      $this->_board = $board;
-      $this->_latchPin = $latchPin;
-      $this->_clockPin = $clockPin;
-      $this->_dataPin = $dataPin;
-      $board->pins[$latchPin]->mode = Firmata\Pin::MODE_OUTPUT;
-      $board->pins[$clockPin]->mode = Firmata\Pin::MODE_OUTPUT;
-      $board->pins[$dataPin]->mode = Firmata\Pin::MODE_OUTPUT;
+      $this->_shiftOut = $shiftOut;
     }
 
-    public function getBoard() {
-      return $this->_board;
-    }
-
-    public function getPins() {
-      return [
-        'latch' => $this->_latchPin,
-        'clock' => $this->_clockPin,
-        'data' => $this->_dataPin,
-      ];
+    /**
+     * @return Firmata\ShiftOut
+     */
+    public function getShiftOut() {
+      return $this->_shiftOut;
     }
 
     /**
@@ -100,27 +77,24 @@ namespace Carica\Chip {
      * @param int $address
      * @param int $value
      */
-    protected function transfer($address, $value) {
+    protected function sendCommand($address, $value) {
       $this->startUp();
-      $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_LOW);
+      $shiftOut = $this->getShiftOut();
+      $shiftOut->begin();
       if ($this->_index == self::INDEX_ALL) {
         for ($i = 0; $i < $this->_count; $i++) {
-          $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
+          $shiftOut->transfer([$address, $value]);
         }
       } elseif ($this->_index < $this->_count) {
         for ($i = $this->_count - 1; $i > $this->_index; $i--) {
-          $this->_board->shiftOut(
-            $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
-          );
+          $shiftOut->transfer([self::MODE_NOOP, self::MODE_NOOP]);
         }
-        $this->_board->shiftOut($this->_dataPin, $this->_clockPin, [$address, $value]);
+        $this->_shiftOut->transfer([$address, $value]);
         for ($i = $this->_index; $i > 0; $i--) {
-          $this->_board->shiftOut(
-            $this->_dataPin, $this->_clockPin, [self::MODE_NOOP, self::MODE_NOOP]
-          );
+          $shiftOut->transfer([self::MODE_NOOP, self::MODE_NOOP]);
         }
       }
-      $this->_board->digitalWrite($this->_latchPin, Firmata\Board::DIGITAL_HIGH);
+      $shiftOut->end();
     }
 
     /**
@@ -129,10 +103,10 @@ namespace Carica\Chip {
     private function startUp() {
       if (!$this->_started) {
         $this->_started = TRUE;
-        $this->transfer(self::MODE_TEST, self::VALUE_FALSE);
-        $this->transfer(self::MODE_POWER, self::VALUE_FALSE);
-        $this->transfer(self::MODE_SCAN_LIMIT, 7);
-        $this->transfer(self::MODE_DECODE, self::DECODE_NONE);
+        $this->sendCommand(self::MODE_TEST, self::VALUE_FALSE);
+        $this->sendCommand(self::MODE_POWER, self::VALUE_FALSE);
+        $this->sendCommand(self::MODE_SCAN_LIMIT, 7);
+        $this->sendCommand(self::MODE_DECODE, self::DECODE_NONE);
       }
     }
 
@@ -141,7 +115,7 @@ namespace Carica\Chip {
      * @return $this
      */
     public function on() {
-      $this->transfer(self::MODE_POWER, self::VALUE_TRUE);
+      $this->sendCommand(self::MODE_POWER, self::VALUE_TRUE);
       return $this;
     }
 
@@ -150,7 +124,7 @@ namespace Carica\Chip {
      * @return $this
      */
     public function off() {
-      $this->transfer(self::MODE_POWER, self::VALUE_FALSE);
+      $this->sendCommand(self::MODE_POWER, self::VALUE_FALSE);
       return $this;
     }
 
@@ -168,7 +142,7 @@ namespace Carica\Chip {
       } elseif ($value > $max) {
         $value = $max;
       }
-      $this->transfer(self::MODE_INTENSITY, (int)$value);
+      $this->sendCommand(self::MODE_INTENSITY, (int)$value);
       return $this;
     }
 
@@ -179,7 +153,7 @@ namespace Carica\Chip {
      */
     public function clear() {
       for ($i = 1; $i <= 8; $i++) {
-        $this->transfer($i, 0x00);
+        $this->sendCommand($i, 0x00);
       }
       return $this;
     }

@@ -24,18 +24,11 @@ namespace Carica\Chip\Max7219 {
     private $_timer = NULL;
 
     /**
-     * @param Firmata\Board $board
-     * @param int $dataPin
-     * @param int $clockPin
-     * @param int $latchPin
+     * @param Firmata\ShiftOut $shiftOut
      * @param int $length
      */
-    public function __construct(
-      Firmata\Board $board, $dataPin, $clockPin, $latchPin, $length = 8
-    ) {
-      parent::__construct(
-        $board, $dataPin, $clockPin, $latchPin
-      );
+    public function __construct(Firmata\ShiftOut $shiftOut, $length = 8) {
+      parent::__construct($shiftOut);
       $this->setLength($length);
       $this->off();
       $this->brightness(0.01);
@@ -47,13 +40,13 @@ namespace Carica\Chip\Max7219 {
      * @param $length
      */
     private function setLength($length) {
-      $this->transfer(self::MODE_SCAN_LIMIT, $length - 1);
+      $this->sendCommand(self::MODE_SCAN_LIMIT, $length - 1);
       $this->_segments = [];
       for ($i = 0; $i < $length; $i++) {
         $this->_segments[] = $segment = new Segment();
         $segment->onChange(
           function (Segment $segment) use ($i) {
-            $this->transfer($i + 1, $segment->getValue());
+            $this->sendCommand($i + 1, $segment->getValue());
           }
         );
       }
