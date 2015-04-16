@@ -52,7 +52,6 @@ namespace Carica\Chip\I2C {
       $defer->done(
         function($coefficients) {
           $this->_coefficients = $coefficients;
-          var_dump($coefficients);
         }
       );
       $this->_i2c->write(self::ADDRESS, [self::REGISTER_A0_COEFF_MSB]);
