@@ -8,6 +8,8 @@ namespace Carica\Chip\I2C {
 
   /**
    * A MPL115A2 I2C Barometric Pressure = Temperatur Sensor
+   * 
+   * This is a port of https://github.com/adafruit/Adafruit_MPL115A2
    */
   class MPL115A2 {
     
@@ -81,7 +83,11 @@ namespace Carica\Chip\I2C {
       $this
         ->read()
         ->done(
-          function($pressure, $temperature) use ($defer) {
+        /**
+         * @param $pressure
+         * @param $temperature
+         */
+        function($pressure, $temperature) use ($defer) {
             $defer->resolve($temperature);
           }
         )
@@ -132,7 +138,7 @@ namespace Carica\Chip\I2C {
                   // Return pressure and temperature as floating point values
                   $defer->resolve(
                     ((65.0 / 1023.0) * $pressureComp) + 50.0, 
-                    ((float) $temperature - 498.0) / -5.35 +25.0
+                    ($temperature - 498.0) / -5.35 +25.0
                   );
                 } else {
                   $defer->reject('Data read failed');

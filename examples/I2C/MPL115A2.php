@@ -14,13 +14,14 @@ $board
       $sensor
         ->read()
         ->done(
-          function() {
-            var_dump(func_get_args());
+          function($pressure, $temperature) {
+            echo "Pressure: ", number_format($pressure, 4), " kPa\n";
+            echo "Temp: ", number_format($temperature, 1), " °C\n";
           }
         )
         ->fail(
           function($message) {
-            var_dump('ERROR', $message);
+            echo 'ERROR: ', $message, "\n";
           }
         );
     }
