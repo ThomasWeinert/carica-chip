@@ -16,12 +16,28 @@ $board
         ->done(
           function($pressure, $temperature) {
             echo "Pressure: ", number_format($pressure, 4), " kPa\n";
-            echo "Temp: ", number_format($temperature, 1), " °C\n";
+            echo "Temperature: ", number_format($temperature, 1), " degC\n";
           }
         )
         ->fail(
           function($message) {
             echo 'ERROR: ', $message, "\n";
+          }
+        );
+      
+      $sensor
+        ->getPressure()
+        ->done(
+          function($pressure) {
+            echo "Pressure: ", number_format($pressure, 4), " kPa\n";
+          }
+        );
+      
+      $sensor
+        ->getTemperature()
+        ->done(
+          function($temperature) {
+            echo "Temperature: ", number_format($temperature, 1), " degC\n";
           }
         );
     }

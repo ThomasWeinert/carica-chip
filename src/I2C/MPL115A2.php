@@ -8,8 +8,6 @@ namespace Carica\Chip\I2C {
 
   /**
    * A MPL115A2 I2C Barometric Pressure = Temperatur Sensor
-   * 
-   * This is a port of https://github.com/adafruit/Adafruit_MPL115A2
    */
   class MPL115A2 {
     
@@ -79,107 +77,69 @@ namespace Carica\Chip\I2C {
     }
     
     public function getTemperature() {
-      $defer = new Deferred();
-      $this
+      return $this
         ->read()
-        ->done(
-        /**
-         * @param $pressure
-         * @param $temperature
-         */
-        function($pressure, $temperature) use ($defer) {
-            $defer->resolve($temperature);
-          }
-        )
-        ->fail(
-          function() use ($defer) {
-            $defer->reject();
+        ->pipe(
+          function($pressure, $temperature) {
+            return $temperature;
           }
         );
-      return $defer->promise();
     }
     
     public function getPressure() {
-      $defer = new Deferred();
-      $this
+      return $this
         ->read()
-        ->done(
-          function($pressure) use ($defer) {
-            $defer->resolve($pressure);
-          }
-        )
-        ->fail(
-          function() use ($defer) {
-            $defer->reject();
+        ->pipe(
+          function($pressure) {
+            return $pressure;
           }
         );
-      return $defer->promise();
     }
     
     public function read() {
       $defer = new Deferred();
-      if ($this->_coefficients) {
-        $this->_i2c->write(self::ADDRESS, [self::REGISTER_STARTCONVERSION, 0x00]);
-        $this->loop()->setTimeout(
-          function() use ($defer) {
-            $this->_i2c->write(self::ADDRESS, [self::REGISTER_PRESSURE_MSB]);
-            $this->_i2c->read(
-              self::ADDRESS,
-              4,
-              function($bytes) use ($defer) {
-                if (count($bytes) == 4) {
-                  $pressure = (($bytes[0] << 8) | $bytes[1]) >> 6;
-                  $temperature = (($bytes[2] << 8) |$bytes[3]) >> 6;
-                  
-                  $c = $this->_coefficients;
-                  $pressureComp = 
-                    $c['a0'] + ($c['b1'] + $c['c12'] * $temperature) * $pressure + $c['b2'] * $temperature;
-
-                  // Return pressure and temperature as floating point values
-                  $defer->resolve(
-                    ((65.0 / 1023.0) * $pressureComp) + 50.0, 
-                    ($temperature - 498.0) / -5.35 +25.0
-                  );
-                } else {
-                  $defer->reject('Data read failed');
+      Deferred::when(
+        $this->_coefficients ? $this->_coefficients : $this->readCoefficients()
+      )->then(
+        function($coefficients) use ($defer) {
+          $this->_i2c->write(self::ADDRESS, [self::REGISTER_STARTCONVERSION, 0x00]);
+          $this->loop()->setTimeout(
+            function() use ($defer, $coefficients) {
+              $this->_i2c->write(self::ADDRESS, [self::REGISTER_PRESSURE_MSB]);
+              $this->_i2c->read(
+                self::ADDRESS,
+                4,
+                function($bytes) use ($defer, $coefficients) {
+                  if (count($bytes) == 4) {
+                    $pressure = (($bytes[0] << 8) | $bytes[1]) >> 6;
+                    $temperature = (($bytes[2] << 8) |$bytes[3]) >> 6;
+                    
+                    $c = $coefficients;
+                    $pressureComp = 
+                      $c['a0'] + ($c['b1'] + $c['c12'] * $temperature) * $pressure + $c['b2'] * $temperature;
+  
+                    // Return pressure and temperature as floating point values
+                    $defer->resolve(
+                      ((65.0 / 1023.0) * $pressureComp) + 50.0, 
+                      ($temperature - 498.0) / -5.35 +25.0
+                    );
+                  } else {
+                    $defer->reject('Data read failed');
+                  }
                 }
-              }
-            );
-          },
-          5
-        );
-      } else {
-        $this
-          ->readCoefficients()
-          ->done(
-            function() use ($defer) {
-              $this
-                ->read()
-                ->done(
-                  function($pressure, $temperature) use($defer) {
-                    $defer->resolve($pressure, $temperature);
-                  }
-                )
-                ->fail(
-                  function($message) use ($defer) {
-                    $defer->reject($message);
-                  }
-                );
-            }
-          )
-          ->fail(
-            function($message) use ($defer) {
-              $defer->reject($message);
-            }
+              );
+            },
+            5
           );
-      }
+        }
+      );
       $this->loop()->setTimeout(
         function() use ($defer) {
           $defer->reject('Timeout');
         },
         5000
       );
-      return $defer->promise();
+      return $defer;
     }
   }
 }
