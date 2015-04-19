@@ -60,12 +60,16 @@ namespace Carica\Chip\I2C {
         8,
         function($bytes) use ($defer) {
           if (count($bytes) == 8) {
+            $A0 = (($bytes[0] << 8) | $bytes[1]);
+            $B1 = 0xFFFF0000 | (($bytes[2] << 8) | $bytes[3]);
+            $B2 = 0xFFFF0000 | (($bytes[4] << 8) | $bytes[5]);
+            $C12 = (((($bytes[6] << 8) | $bytes[7])) >> 2);
             $defer->resolve(
               [
-                'a0' => (($bytes[0] << 8) | $bytes[1]) / 8.0,
-                'b1' => (($bytes[2] << 8) | $bytes[3]) / 8192.0,
-                'b2' => (($bytes[4] << 8) | $bytes[5]) / 16384.0,
-                'c12' => (((($bytes[6] << 8) | $bytes[7])) >> 2) / 4194304.0
+                'a0' => $A0 / 8.0,
+                'b1' => $B1 / 8192.0,
+                'b2' => $B2 / 16384.0,
+                'c12' => $C12 / 4194304.0
               ]
             );
           } else {
