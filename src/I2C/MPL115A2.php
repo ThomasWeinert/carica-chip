@@ -2,7 +2,7 @@
 
 namespace Carica\Chip\I2C {
 
-  use Carica\Firmata\I2C;
+  use Carica\Io\Device\I2C;
   use Carica\Io\Deferred;
   use Carica\Io\Event\Emitter;
 

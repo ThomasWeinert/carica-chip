@@ -5,7 +5,7 @@ namespace Carica\Chip {
   use Carica\Io;
   use Carica\Io\Deferred;
   use Carica\Io\Event;
-  use Carica\Firmata\Pin;
+  use Carica\Io\Device\Pin;
 
   /**
    * A class for an single color led. You can switch it on and off, set the
@@ -59,8 +59,8 @@ namespace Carica\Chip {
     public function __construct(Pin $pin) {
       $this->_pin = $pin;
       if ($pin->supports(Pin::MODE_PWM)) {
-        $this->_pin->mode = Pin::MODE_PWM;
-        if ($brightness = $this->_pin->analog) {
+        $this->_pin->setMode(Pin::MODE_PWM);
+        if ($brightness = $this->_pin->getAnalog()) {
           $this->_brightness = $brightness;
           $this->_on = $this->_brightness > 0;
         } else {
@@ -69,8 +69,8 @@ namespace Carica\Chip {
         }
         $this->_supportsPwm = TRUE;
       } else {
-        $this->_pin->mode = Pin::MODE_OUTPUT;
-        $this->_on = $this->_pin->digital;
+        $this->_pin->setMode(Pin::MODE_OUTPUT);
+        $this->_on = $this->_pin->getDigital();
       }
     }
 
@@ -101,9 +101,9 @@ namespace Carica\Chip {
     public function on() {
       if (!$this->_timer) {
         if ($this->_supportsPwm) {
-          $this->_pin->analog = $this->_brightness;
+          $this->_pin->setAnalog($this->_brightness);
         } else {
-          $this->_pin->digital = TRUE;
+          $this->_pin->setDigital(TRUE);
         }
       }
       $this->_on = TRUE;
@@ -116,9 +116,9 @@ namespace Carica\Chip {
      */
     public function off() {
       if ($this->_supportsPwm) {
-        $this->_pin->analog = 0;
+        $this->_pin->setAnalog(0);
       } else {
-        $this->_pin->digital = FALSE;
+        $this->_pin->setDigital(FALSE);
       }
       $this->_on = FALSE;
       return $this;
@@ -154,7 +154,7 @@ namespace Carica\Chip {
       } else {
         $this->_brightness = (float)$brightness;
       }
-      $this->_pin->analog = $this->_brightness;
+      $this->_pin->setAnalog($this->_brightness);
       $this->_on = $this->_brightness > 0;
       return $this;
     }
@@ -182,7 +182,7 @@ namespace Carica\Chip {
       } else {
         $to = (float)$brightness / 255;
       }
-      $this->_brightness = $this->_pin->analog;
+      $this->_brightness = $this->_pin->getAnalog();
       $steps = round(abs($to - $this->_brightness) * 255);
       $this->_defer = $defer = new Deferred();
       if ($steps > 0) {
@@ -190,7 +190,7 @@ namespace Carica\Chip {
         $this->_timer = $timer = $this->loop()->setInterval(
           function () use ($to, $step, $defer) {
             $valueAt = ($this->_brightness += $step);
-            $this->_pin->analog = $valueAt;
+            $this->_pin->setAnalog($valueAt);
             if ($step > 0) {
               if ($valueAt >= $to || $valueAt >= 1) {
                 $defer->resolve();
@@ -250,9 +250,9 @@ namespace Carica\Chip {
           function () {
             if ($this->isOn()) {
               if ($this->_supportsPwm) {
-                $this->_pin->analog = $this->_pin->analog > 0 ? 0 : $this->_brightness;
+                $this->_pin->setAnalog($this->_pin->getAnalog() > 0 ? 0 : $this->_brightness);
               } else {
-                $this->_pin->digital = !$this->_pin->digital;
+                $this->_pin->setDigital(!$this->_pin->getDigital());
               }
             }
           },
@@ -282,7 +282,7 @@ namespace Carica\Chip {
               $this->_direction = -1;
             }
             $this->_brightness += ($step * $this->_direction);
-            $this->_pin->analog = $this->_brightness;
+            $this->_pin->setAnalog($this->_brightness);
           }
         },
         $to

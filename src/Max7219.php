@@ -5,7 +5,7 @@ namespace Carica\Chip {
   use Carica\Io;
   use Carica\Io\Deferred;
   use Carica\Io\Event;
-  use Carica\Firmata;
+  use Carica\Io\Device\ShiftOut;
 
   abstract class Max7219 {
 
@@ -30,7 +30,7 @@ namespace Carica\Chip {
     private $_index = self::INDEX_ALL;
 
     /**
-     * @var Firmata\ShiftOut|null
+     * @var ShiftOut|null
      */
     private $_shiftOut = null;
 
@@ -46,13 +46,13 @@ namespace Carica\Chip {
     private $_started = FALSE;
 
     public function __construct(
-      Firmata\ShiftOut $shiftOut
+      ShiftOut $shiftOut
     ) {
       $this->_shiftOut = $shiftOut;
     }
 
     /**
-     * @return Firmata\ShiftOut
+     * @return ShiftOut
      */
     public function getShiftOut() {
       return $this->_shiftOut;

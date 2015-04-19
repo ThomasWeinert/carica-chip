@@ -2,8 +2,8 @@
 
 namespace Carica\Chip {
 
-  use Carica\Firmata\Pin;
   use Carica\Io;
+  use Carica\Io\Device\Pin;
 
   /**
    * A DC motor control for up to 3 pins (h bridge). Single pin will allow only forward, backward will
@@ -72,9 +72,9 @@ namespace Carica\Chip {
     public function forward($speed) {
       $this->setPinModes();
       if (NULL !== $this->_directionPin) {
-        $this->_directionPin->digital = FALSE;
+        $this->_directionPin->setDigital(FALSE);
         if (NULL !== $this->_reverseDirectionPin) {
-          $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
+          $this->_reverseDirectionPin->setDigital(!$this->_directionPin->getDigital());
         }
       }
       $this->setPower($speed);
@@ -92,9 +92,9 @@ namespace Carica\Chip {
       if (NULL == $this->_directionPin) {
         throw new \LogicException('No direction pin(s) provided.');
       }
-      $this->_directionPin->digital = TRUE;
+      $this->_directionPin->setDigital(TRUE);
       if (NULL !== $this->_reverseDirectionPin) {
-        $this->_reverseDirectionPin->digital = !$this->_directionPin->digital;
+        $this->_reverseDirectionPin->setDigital(!$this->_directionPin->getDigital());
       }
       $this->setPower($speed);
     }
@@ -104,11 +104,11 @@ namespace Carica\Chip {
      */
     public function stop() {
       $this->setPinModes();
-      $this->_speedPin->analog = 0;
+      $this->_speedPin->setAnalog(0);
       if (NULL !== $this->_directionPin) {
-        $this->_directionPin->digital = FALSE;
+        $this->_directionPin->setDigital(FALSE);
         if (NULL !== $this->_reverseDirectionPin) {
-          $this->_directionPin->digital = FALSE;
+          $this->_directionPin->setDigital(FALSE);
         }
       }
     }
@@ -117,26 +117,26 @@ namespace Carica\Chip {
      * Set the modes of all provided pins.
      */
     private function setPinModes() {
-      $this->_speedPin->mode = Pin::MODE_PWM;
+      $this->_speedPin->setMode(Pin::MODE_PWM);
       if (NULL !== $this->_directionPin) {
-        $this->_directionPin->mode = Pin::MODE_OUTPUT;
+        $this->_directionPin->setMode(Pin::MODE_OUTPUT);
       }
       if (NULL !== $this->_reverseDirectionPin) {
-        $this->_directionPin->mode = Pin::MODE_OUTPUT;
+        $this->_directionPin->setMode(Pin::MODE_OUTPUT);
       }
     }
 
     private function setPower($speed) {
       if ($speed < $this->_threshold) {
-        $this->_speedPin->analog = $this->_threshold;
+        $this->_speedPin->setAnalog($this->_threshold);
         $this->loop()->setTimeout(
           function() use ($speed) {
-            $this->_speedPin->analog = $speed;
+            $this->_speedPin->setAnalog($speed);
           },
           10
         );
       } else {
-        $this->_speedPin->analog = $speed;
+        $this->_speedPin->setAnalog($speed);
       }
     }
   }

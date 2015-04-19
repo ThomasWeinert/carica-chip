@@ -4,7 +4,7 @@ namespace Carica\Chip {
 
   use Carica\Io\Event;
   use Carica\Io\Deferred;
-  use Carica\Firmata\Pin;
+  use Carica\Io\Device\Pin;
 
   class Servo {
 
@@ -39,7 +39,7 @@ namespace Carica\Chip {
      * @return integer
      */
     public function getPosition() {
-      $position = round($this->_pin->analog * 360);
+      $position = round($this->_pin->getAnalog() * 360);
       return ($this->_invert)  ? $this->_range - $position : $position;
     }
 
@@ -82,7 +82,7 @@ namespace Carica\Chip {
       $offset = abs($this->getPosition() - $position);
       $defer = new Deferred();
       $position = ($this->_invert)  ? $this->_range - $position : $position;
-      $this->_pin->analog = $position / 360;
+      $this->_pin->setAnalog($position / 360);
       $this->loop()->setTimeout(
         function () use ($defer, $position) {
           $defer->resolve($position);

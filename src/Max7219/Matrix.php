@@ -3,7 +3,6 @@
 namespace Carica\Chip\Max7219 {
 
   use Carica\Io\Event;
-  use Carica\Firmata\Board;
   use Carica\Chip\Max7219;
 
   /**

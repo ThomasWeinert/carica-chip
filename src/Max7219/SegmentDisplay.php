@@ -3,7 +3,7 @@
 namespace Carica\Chip\Max7219 {
 
   use Carica\Chip\Max7219\SegmentDisplay\Segment;
-  use Carica\Firmata;
+  use Carica\Io\Device\ShiftOut;
   use Carica\Io\Event;
 
   class SegmentDisplay
@@ -24,10 +24,10 @@ namespace Carica\Chip\Max7219 {
     private $_timer = NULL;
 
     /**
-     * @param Firmata\ShiftOut $shiftOut
+     * @param ShiftOut $shiftOut
      * @param int $length
      */
-    public function __construct(Firmata\ShiftOut $shiftOut, $length = 8) {
+    public function __construct(ShiftOut $shiftOut, $length = 8) {
       parent::__construct($shiftOut);
       $this->setLength($length);
       $this->off();

@@ -6,7 +6,7 @@ namespace Carica\Chip {
 
   use Phake;
 
-  use Carica\Firmata\Board;
+  use Carica\Io\Device\Pin;
   use Carica\Io\Event\Loop\Clock;
 
   class LedTest extends TestCase {
@@ -16,7 +16,7 @@ namespace Carica\Chip {
      */
     public function testConstructor() {
       $pin = $this->getMockForPin();
-      Phake::when($pin)->supports(Board::PIN_MODE_PWM)->thenReturn(FALSE);
+      Phake::when($pin)->supports(Pin::MODE_PWM)->thenReturn(FALSE);
 
       $led = new Led($pin);
       $this->assertAttributeSame(
@@ -26,8 +26,8 @@ namespace Carica\Chip {
         $led->isDimmable()
       );
 
-      Phake::verify($pin)->__set('mode', Board::PIN_MODE_OUTPUT);
-      Phake::verify($pin)->__get('digital');
+      Phake::verify($pin)->setMode(Pin::MODE_OUTPUT);
+      Phake::verify($pin)->getDigital();
     }
 
     /**
@@ -35,16 +35,16 @@ namespace Carica\Chip {
      */
     public function testConstructorForPwmPin() {
       $pin = $this->getMockForPin();
-      Phake::when($pin)->supports(Board::PIN_MODE_PWM)->thenReturn(TRUE);
-      Phake::when($pin)->__get('analog')->thenReturn(0.5);
+      Phake::when($pin)->supports(Pin::MODE_PWM)->thenReturn(TRUE);
+      Phake::when($pin)->getAnalog()->thenReturn(0.5);
 
       $led = new Led($pin);
       $this->assertTrue(
         $led->isDimmable()
       );
 
-      Phake::verify($pin)->__set('mode', Board::PIN_MODE_PWM);
-      Phake::verify($pin)->__get('analog');
+      Phake::verify($pin)->setMode(Pin::MODE_PWM);
+      Phake::verify($pin)->getAnalog();
     }
 
     /**
@@ -52,7 +52,7 @@ namespace Carica\Chip {
      */
     public function testIsOnExpectingTrue() {
       $pin = $this->getMockForPin();
-      Phake::when($pin)->__get('digital')->thenReturn(TRUE);
+      Phake::when($pin)->getDigital()->thenReturn(TRUE);
 
       $led = new Led($pin);
       $this->assertTrue($led->isOn());
@@ -63,7 +63,7 @@ namespace Carica\Chip {
      */
     public function testIsOnExpectingFalse() {
       $pin = $this->getMockForPin();
-      Phake::when($pin)->__get('digital')->thenReturn(FALSE);
+      Phake::when($pin)->getDigital()->thenReturn(FALSE);
 
       $led = new Led($pin);
       $this->assertFalse($led->isOn());
@@ -78,8 +78,8 @@ namespace Carica\Chip {
       $led = new Led($pin);
       $led->on();
 
-      Phake::verify($pin)->__set('mode', Board::PIN_MODE_OUTPUT);
-      Phake::verify($pin)->__set('digital', TRUE);
+      Phake::verify($pin)->setMode(Pin::MODE_OUTPUT);
+      Phake::verify($pin)->setDigital(TRUE);
     }
 
     /**
@@ -91,8 +91,8 @@ namespace Carica\Chip {
       $led = new Led($pin);
       $led->off();
 
-      Phake::verify($pin)->__set('mode', Board::PIN_MODE_OUTPUT);
-      Phake::verify($pin)->__set('digital', FALSE);
+      Phake::verify($pin)->setMode(Pin::MODE_OUTPUT);
+      Phake::verify($pin)->setDigital(FALSE);
     }
 
     /**
@@ -101,7 +101,7 @@ namespace Carica\Chip {
     public function testStrobeChanges3TimesIn3Seconds() {
       $pin = $this->getMockForPin();
       Phake::when($pin)
-        ->__get('digital')
+        ->getDigital()
         ->thenReturn(FALSE)
         ->thenReturn(FALSE)
         ->thenReturn(TRUE)
@@ -113,8 +113,8 @@ namespace Carica\Chip {
       $led->strobe()->on();
       $loop->tick(3000);
 
-      $on = Phake::verify($pin, Phake::times(2))->__set('digital', TRUE);
-      $off = Phake::verify($pin)->__set('digital', FALSE);
+      $on = Phake::verify($pin, Phake::times(2))->setDigital(TRUE);
+      $off = Phake::verify($pin)->setDigital(FALSE);
       Phake::inOrder(
         $on, $off, $on
       );
@@ -133,7 +133,7 @@ namespace Carica\Chip {
       $led->stop();
       $loop->tick(3000);
 
-      Phake::verify($pin, Phake::never())->__set();
+      Phake::verify($pin, Phake::never())->setMode();
     }
   }
 }

@@ -3,7 +3,6 @@
 namespace Carica\Chip\Max7219\Matrix\Display {
 
   use Carica\Chip\Max7219\Matrix\Display;
-  use Carica\Firmata;
   use Carica\Io\Event\Emitter;
 
   /**

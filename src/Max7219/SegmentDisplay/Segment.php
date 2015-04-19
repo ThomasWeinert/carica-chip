@@ -2,7 +2,6 @@
 
 namespace Carica\Chip\Max7219\SegmentDisplay {
 
-  use Carica\Firmata;
   use Carica\Io\Event\Emitter;
 
   /**

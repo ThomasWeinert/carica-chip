@@ -7,10 +7,10 @@ namespace Carica\Chip {
   abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
     /**
-     * @return \Phake_IMock|\Carica\Firmata\Pin
+     * @return \Phake_IMock|\Carica\Io\Device\Pin
      */
     protected function getMockForPin() {
-      $pin = Phake::mock('\\Carica\\Firmata\\Pin');
+      $pin = Phake::mock('\\Carica\\Io\\Device\\Pin');
       return $pin;
     }
   }

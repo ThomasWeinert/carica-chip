@@ -2,8 +2,8 @@
 
 namespace Carica\Chip\I2C {
 
-  use Carica\Firmata\I2C;
-  use Carica\Firmata\Pin;
+  use Carica\Io\Device\I2C;
+  use Carica\Io\Device\Pin;
   use Carica\Io\Event\Emitter;
 
   /**
@@ -50,7 +50,7 @@ namespace Carica\Chip\I2C {
         $value = (int)floor(4095 * $analog); 
       }
       $useAddressTwo = ($this->_useAddressTwo instanceof Pin)
-        ? $this->_useAddressTwo->digital : (bool)$this->_useAddressTwo;
+        ? $this->_useAddressTwo->getDigital() : (bool)$this->_useAddressTwo;
       $address = $useAddressTwo ? self::ADDRESS_TWO : self::ADDRESS_ONE;
       $this->_i2c->write(
         $address,

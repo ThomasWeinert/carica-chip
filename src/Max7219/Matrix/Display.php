@@ -2,7 +2,7 @@
 
 namespace Carica\Chip\Max7219\Matrix {
 
-  use Carica\Firmata;
+  use Carica\Io\Device\ShiftOut;
 
   class Display
     extends \Carica\Chip\Max7219
@@ -28,7 +28,7 @@ namespace Carica\Chip\Max7219\Matrix {
 
     private $_rotation = self::ROTATION_NONE;
 
-    public function __construct(Firmata\ShiftOut $shiftOut, $rotation = self::ROTATION_NONE) {
+    public function __construct(ShiftOut $shiftOut, $rotation = self::ROTATION_NONE) {
       parent::__construct($shiftOut);
       for ($y = 0; $y < 8; $y++) {
         $this->_rows[] = $row = new Display\Row($this, $y);

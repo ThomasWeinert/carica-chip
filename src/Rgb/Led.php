@@ -3,8 +3,8 @@
 namespace Carica\Chip\Rgb {
 
   use Carica\Io;
-  use Carica\Firmata\Pin;
   use Carica\Io\Deferred;
+  use Carica\Io\Device\Pin;
 
   class Led
     implements
@@ -51,14 +51,14 @@ namespace Carica\Chip\Rgb {
     private $_status = FALSE;
 
     public function __construct(Pin $pinRed, Pin $pinGreen, Pin $pinBlue) {
-      $pinRed->mode = Pin::MODE_PWM;
-      $pinGreen->mode = Pin::MODE_PWM;
-      $pinBlue->mode = Pin::MODE_PWM;
-      if ($pinRed->value + $pinGreen->value + $pinBlue->value > 0) {
+      $pinRed->setMode(Pin::MODE_PWM);
+      $pinGreen->setMode(Pin::MODE_PWM);
+      $pinBlue->setMode(Pin::MODE_PWM);
+      if ($pinRed->getAnalog() + $pinGreen->getAnalog() + $pinBlue->getAnalog() > 0) {
         $this->_color = [
-          $pinRed->analog,
-          $pinGreen->analog,
-          $pinBlue->analog
+          round($pinRed->getAnalog() * 255),
+          round($pinGreen->getAnalog() * 255),
+          round($pinBlue->getAnalog() * 255)
         ];
         $this->_isActive = TRUE;
       }
@@ -286,9 +286,9 @@ namespace Carica\Chip\Rgb {
      * @param array $color
      */
     private function update($color) {
-      $this->_pinRed->analog = $color[0];
-      $this->_pinGreen->analog = $color[1];
-      $this->_pinBlue->analog = $color[2];
+      $this->_pinRed->setAnalog($color[0]);
+      $this->_pinGreen->setAnalog($color[1]);
+      $this->_pinBlue->setAnalog($color[2]);
     }
 
     /**

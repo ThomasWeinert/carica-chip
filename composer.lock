@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "be5c23f11e7d52ed6de3c62e70ed522a",
+    "hash": "9cf2739f21922ba2a0bcabd485150e71",
     "packages": [
         {
             "name": "carica/firmata",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "3053e2cbf74f6c5a91bbe8ffb97f3f644dd0df69"
+                "reference": "a55ccf72cb71d516add64f4633eaf33bc167f8c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/3053e2cbf74f6c5a91bbe8ffb97f3f644dd0df69",
-                "reference": "3053e2cbf74f6c5a91bbe8ffb97f3f644dd0df69",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/a55ccf72cb71d516add64f4633eaf33bc167f8c4",
+                "reference": "a55ccf72cb71d516add64f4633eaf33bc167f8c4",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2015-04-14 20:43:07"
+            "time": "2015-04-16 18:16:11"
         },
         {
             "name": "carica/io",
@@ -54,12 +54,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "f6de56236694ef07021e80bbd6009ccb22d52ad4"
+                "reference": "e1f9a17f7084cc62e0296b632095d7c1012e079e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/f6de56236694ef07021e80bbd6009ccb22d52ad4",
-                "reference": "f6de56236694ef07021e80bbd6009ccb22d52ad4",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/e1f9a17f7084cc62e0296b632095d7c1012e079e",
+                "reference": "e1f9a17f7084cc62e0296b632095d7c1012e079e",
                 "shasum": ""
             },
             "require": {
@@ -87,7 +87,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2014-11-24 17:03:27"
+            "time": "2015-04-18 20:28:10"
         }
     ],
     "packages-dev": [

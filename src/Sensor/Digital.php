@@ -3,7 +3,7 @@
 namespace Carica\Chip\Sensor {
 
   use Carica\Io\Event\Emitter;
-  use Carica\Firmata\Pin;
+  use Carica\Io\Device\Pin;
 
   /**
    * A digital sensor. It read a low/high value from an pin and triggers events if the
@@ -33,8 +33,7 @@ namespace Carica\Chip\Sensor {
     public function __construct(Pin $pin) {
       $this->_pin = $pin;
       $pin->mode = Pin::MODE_INPUT;
-      $pin->events()->on(
-        'change-value',
+      $pin->onChange(
         function () {
           $this->emitEvent($this->isHigh() ? 'high' : 'low', $this);
           $this->emitEvent('change', $this);
