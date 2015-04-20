@@ -10,8 +10,7 @@
   ],
   "require": {
     "php": ">=5.4",
-    "carica/io": "dev-master",
-    "carica/firmata": "dev-master"
+    "carica/io": "dev-master"
   },
   "require-dev": {
     "phake/phake": "1.*"

@@ -4,50 +4,8 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9cf2739f21922ba2a0bcabd485150e71",
+    "hash": "3e1dd4d3713f76346fa045b4ff1b1d54",
     "packages": [
-        {
-            "name": "carica/firmata",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "36334013db1a504e2043622f01b83669da668bab"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/36334013db1a504e2043622f01b83669da668bab",
-                "reference": "36334013db1a504e2043622f01b83669da668bab",
-                "shasum": ""
-            },
-            "require": {
-                "carica/io": "dev-master",
-                "php": ">=5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Carica\\Firmata\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Weinert",
-                    "email": "thomas@weinert.info"
-                }
-            ],
-            "description": "Firmata client library",
-            "homepage": "https://github.com/ThomasWeinert/carica-firmata",
-            "keywords": [
-                "arduino",
-                "firmata"
-            ],
-            "time": "2015-04-18 21:34:56"
-        },
         {
             "name": "carica/io",
             "version": "dev-master",
@@ -145,8 +103,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "carica/io": 20,
-        "carica/firmata": 20
+        "carica/io": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
