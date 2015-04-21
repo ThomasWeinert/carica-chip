@@ -46,11 +46,22 @@ namespace Carica\Chip\Rgb {
     private $_isActive = FALSE;
 
     /**
+     * @var float $_gamma gamma correction value
+     */
+    private $_gamma = false;
+
+    /**
      * @var array|FALSE color or FALSE
      */
     private $_status = FALSE;
 
-    public function __construct(Pin $pinRed, Pin $pinGreen, Pin $pinBlue) {
+    /**
+     * @param Pin $pinRed
+     * @param Pin $pinGreen
+     * @param Pin $pinBlue
+     * @param FALSE|float $gamma Gamma correction value (2.8 might be good)
+     */
+    public function __construct(Pin $pinRed, Pin $pinGreen, Pin $pinBlue, $gamma = FALSE) {
       $pinRed->setMode(Pin::MODE_PWM);
       $pinGreen->setMode(Pin::MODE_PWM);
       $pinBlue->setMode(Pin::MODE_PWM);
@@ -65,6 +76,25 @@ namespace Carica\Chip\Rgb {
       $this->_pinRed = $pinRed;
       $this->_pinGreen = $pinGreen;
       $this->_pinBlue = $pinBlue;
+      $this->setGamma($gamma);
+    }
+
+    /**
+     * @param float|int|NULL|FALSE $gamma
+     */
+    public function setGamma($gamma) {
+      if (NULL === $gamma || FALSE === $gamma) {
+        $this->_gamma = FALSE;
+      } else {
+        $this->_gamma = (float)$gamma;
+      }
+    }
+
+    /**
+     * @return float|FALSE
+     */
+    public function getGamma() {
+      return $this->_gamma;
     }
 
     /**
@@ -353,10 +383,17 @@ namespace Carica\Chip\Rgb {
         }
       }
       if (is_integer($value)) {
-        return (float)($value / 255);
+        $value = (float)($value / 255);
       } else {
-        return (float)$value;
+        $value = (float)$value;
       }
+      $value = $this->_gamma !== FALSE ? pow($value, $this->_gamma) : $value;
+      if ($value < 0.0) {
+        return 0.0;
+      } elseif ($value > 1.0) {
+        return 1.0;
+      }
+      return $value;
     }
 
     /**
