@@ -7,7 +7,7 @@ namespace Carica\Chip\I2C {
   use Carica\Io\Event\Emitter;
 
   /**
-   * A MPL115A2 I2C Barometric Pressure = Temperatur Sensor
+   * A MPL115A2 I2C Barometric Pressure = Temperature Sensor
    */
   class MPL115A2 {
     
