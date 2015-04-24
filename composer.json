@@ -13,7 +13,8 @@
     "carica/io": "dev-master"
   },
   "require-dev": {
-    "phake/phake": "1.*"
+    "phake/phake": "1.*",
+    "carica/firmata": "dev-master"
   },
   "autoload": {
     "psr-4": {

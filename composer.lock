@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3e1dd4d3713f76346fa045b4ff1b1d54",
+    "hash": "0714fdd996e435dd2e728c335c6dcbe0",
     "packages": [
         {
             "name": "carica/io",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "e1f9a17f7084cc62e0296b632095d7c1012e079e"
+                "reference": "e9631f8e54875b4180d929fb7bc81d9ca37f2fb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/e1f9a17f7084cc62e0296b632095d7c1012e079e",
-                "reference": "e1f9a17f7084cc62e0296b632095d7c1012e079e",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/e9631f8e54875b4180d929fb7bc81d9ca37f2fb9",
+                "reference": "e9631f8e54875b4180d929fb7bc81d9ca37f2fb9",
                 "shasum": ""
             },
             "require": {
@@ -45,10 +45,55 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2015-04-18 20:28:10"
+            "time": "2015-04-24 09:09:39"
         }
     ],
     "packages-dev": [
+        {
+            "name": "carica/firmata",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ThomasWeinert/carica-firmata.git",
+                "reference": "5cacd2adabe09163c915d0e3cedebcc1d4d43ecc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/5cacd2adabe09163c915d0e3cedebcc1d4d43ecc",
+                "reference": "5cacd2adabe09163c915d0e3cedebcc1d4d43ecc",
+                "shasum": ""
+            },
+            "require": {
+                "carica/io": "dev-master",
+                "php": ">=5.4"
+            },
+            "provide": {
+                "carica/io-devices": "0.0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Carica\\Firmata\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Weinert",
+                    "email": "thomas@weinert.info"
+                }
+            ],
+            "description": "Firmata client library",
+            "homepage": "https://github.com/ThomasWeinert/carica-firmata",
+            "keywords": [
+                "arduino",
+                "firmata"
+            ],
+            "time": "2015-04-24 08:37:22"
+        },
         {
             "name": "phake/phake",
             "version": "1.0.8",
@@ -103,7 +148,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "carica/io": 20
+        "carica/io": 20,
+        "carica/firmata": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -48,42 +48,36 @@ namespace Carica\Chip\I2C {
     }
     
     private function readCoefficients() {
-      $defer = new Deferred();
-      $defer->done(
-        function($coefficients) {
-          $this->_coefficients = $coefficients;
-        }
-      );
       $this->_i2c->write(self::ADDRESS, [self::REGISTER_A0_COEFF_MSB]);
-      $this->_i2c->read(
-        self::ADDRESS, 
-        8,
-        function($bytes) use ($defer) {
-          if (count($bytes) == 8) {
-            $A0 = (($bytes[0] << 8) | $bytes[1]);
-            $B1 = 0xFFFF0000 | (($bytes[2] << 8) | $bytes[3]);
-            $B2 = 0xFFFF0000 | (($bytes[4] << 8) | $bytes[5]);
-            $C12 = (((($bytes[6] << 8) | $bytes[7])) >> 2);
-            $defer->resolve(
-              [
+      return
+        $this
+          ->_i2c
+          ->read(self::ADDRESS, 8)
+          ->done(
+            function($bytes) {
+              $A0 = (($bytes[0] << 8) | $bytes[1]);
+              $B1 = 0xFFFF0000 | (($bytes[2] << 8) | $bytes[3]);
+              $B2 = 0xFFFF0000 | (($bytes[4] << 8) | $bytes[5]);
+              $C12 = (((($bytes[6] << 8) | $bytes[7])) >> 2);
+              return $this->_coefficients = [
                 'a0' => $A0 / 8.0,
                 'b1' => $B1 / 8192.0,
                 'b2' => $B2 / 16384.0,
                 'c12' => $C12 / 4194304.0
-              ]
-            );
-          } else {
-            $defer->reject('Initialization failed');
+              ];
+            }
+          )
+        ->fail(
+          function() {
+            return 'Initialization failed';
           }
-        }
-      );
-      return $defer->promise();
+        );
     }
     
     public function getTemperature() {
       return $this
         ->read()
-        ->pipe(
+        ->then(
           function($pressure, $temperature) {
             return $temperature;
           }
@@ -93,7 +87,7 @@ namespace Carica\Chip\I2C {
     public function getPressure() {
       return $this
         ->read()
-        ->pipe(
+        ->then(
           function($pressure) {
             return $pressure;
           }
@@ -104,32 +98,36 @@ namespace Carica\Chip\I2C {
       $defer = new Deferred();
       Deferred::when(
         $this->_coefficients ? $this->_coefficients : $this->readCoefficients()
-      )->then(
-        function($coefficients) use ($defer) {
+      )->done(
+        function() use ($defer) {
           $this->_i2c->write(self::ADDRESS, [self::REGISTER_STARTCONVERSION, 0x00]);
           $this->loop()->setTimeout(
-            function() use ($defer, $coefficients) {
+            function() use ($defer) {
               $this->_i2c->write(self::ADDRESS, [self::REGISTER_PRESSURE_MSB]);
-              $this->_i2c->read(
-                self::ADDRESS,
-                4,
-                function($bytes) use ($defer, $coefficients) {
-                  if (count($bytes) == 4) {
+              $this
+                ->_i2c
+                ->read(self::ADDRESS, 4)
+                ->done(
+                  function($bytes) use ($defer) {
                     $pressure = (($bytes[0] << 8) | $bytes[1]) >> 6;
-                    $temperature = (($bytes[2] << 8) |$bytes[3]) >> 6;
-                    
-                    $c = $coefficients;
-                    $pressureComp = 
-                      $c['a0'] + ($c['b1'] + $c['c12'] * $temperature) * $pressure + $c['b2'] * $temperature;
-  
+                    $temperature = (($bytes[2] << 8) | $bytes[3]) >> 6;
+
+                    $c = $this->_coefficients;
+                    $pressureComp =
+                      $c['a0'] +
+                      ($c['b1'] + $c['c12'] * $temperature) * $pressure +
+                      $c['b2'] * $temperature;
+
                     // Return pressure and temperature as floating point values
                     $defer->resolve(
-                      ((65.0 / 1023.0) * $pressureComp) + 50.0, 
+                      ((65.0 / 1023.0) * $pressureComp) + 50.0,
                       ($temperature - 498.0) / -5.35 +25.0
                     );
-                  } else {
-                    $defer->reject('Data read failed');
                   }
+                )
+              ->fail(
+                function() use ($defer) {
+                  $defer->reject('Data read failed');
                 }
               );
             },
