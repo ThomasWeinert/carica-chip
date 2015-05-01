@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0714fdd996e435dd2e728c335c6dcbe0",
+    "hash": "0d52a8fc63674c386b228873c1ebcabb",
     "packages": [
         {
             "name": "carica/io",
@@ -55,12 +55,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "5cacd2adabe09163c915d0e3cedebcc1d4d43ecc"
+                "reference": "305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/5cacd2adabe09163c915d0e3cedebcc1d4d43ecc",
-                "reference": "5cacd2adabe09163c915d0e3cedebcc1d4d43ecc",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3",
+                "reference": "305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +92,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2015-04-24 08:37:22"
+            "time": "2015-04-26 15:09:57"
         },
         {
             "name": "phake/phake",
