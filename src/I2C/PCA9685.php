@@ -13,6 +13,12 @@ namespace Carica\Chip\I2C {
 
     const LED_ON_LOW = 0x06;
 
+    const A0 = 1;
+    const A1 = 2;
+    const A3 = 4;
+    const A4 = 8;
+    const A5 = 16;
+
     /**
      * @var I2C $_i2c
      */
@@ -37,9 +43,9 @@ namespace Carica\Chip\I2C {
       15 => NULL
     ];
 
-    public function __construct(I2C $i2c) {
+    public function __construct(I2C $i2c, $addressOffset = 0) {
       $this->_i2c = $i2c;
-      $this->_address = self::ADDRESS;
+      $this->_address = self::ADDRESS & $addressOffset;
     }
 
     public function reset() {
@@ -63,10 +69,10 @@ namespace Carica\Chip\I2C {
         $this->_address,
         [
           self::LED_ON_LOW + (4 * $pinNumber),
-          $on,
+          $on & ~0xFF00,
           $on >> 8,
-          $off,
-          $off >> 8
+          $off & ~0xFF00,
+          $off >> 8,
         ]
       );
     }
