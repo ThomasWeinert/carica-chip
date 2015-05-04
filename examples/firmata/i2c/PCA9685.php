@@ -6,9 +6,16 @@ $board
   ->done(
     function () use ($board) {
       $pwmPins = new \Carica\Chip\I2C\PCA9685(
-        new Carica\Firmata\I2C($board)
+        $i2c = new Carica\Firmata\I2C($board)
       );
-      $led = new Carica\Chip\Led($pwmPins[0]);
+      $i2c->debug(FALSE);
+      $i2c->events()->on(
+        'debug',
+        function($method, $address, $binary) {
+          echo $method, ' ', $address, ': ', $binary, "\n";
+        }
+      );
+      $led = new Carica\Chip\Led($pwmPins[1]);
       $led->pulse()->on();
     }
   )
