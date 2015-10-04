@@ -14,12 +14,11 @@ $board
         $board->pins[6]
       );
       $led->color('#000');
-      $index = 0;
       $next = function() use ($led, $colors, &$next) {
         static $index = 0;
         if (isset($colors[$index])) {
           $color = $colors[$index];
-          $led->fade($color)->done($next);
+          $led->fade($color, 1000)->done($next);
         }
         if (++$index >= count($colors)) {
           $index = 0;
