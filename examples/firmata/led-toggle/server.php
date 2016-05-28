@@ -21,7 +21,7 @@ $board
             $message = 'OFF';
           }
           $response = $request->createResponse();
-          $response->content = new Http\Response\Content\String(
+          $response->content = new Http\Response\Content\Text(
             $message, 'text/plain; charset=utf-8'
           );
           return $response;

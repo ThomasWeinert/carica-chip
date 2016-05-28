@@ -17,7 +17,7 @@ $board
             $motorLeft->speed($request->query['left']);
             $motorRight->speed($request->query['right']);
             $response = $request->createResponse();
-            $response->content = new Http\Response\Content\String(
+            $response->content = new Http\Response\Content\Text(
               'ok', 'text/plain; charset=utf-8'
             );
             return $response;
@@ -29,7 +29,7 @@ $board
             $motorLeft->stop();
             $motorRight->stop();
             $response = $request->createResponse();
-            $response->content = new Http\Response\Content\String(
+            $response->content = new Http\Response\Content\Text(
               'stop', 'text/plain; charset=utf-8'
             );
             return $response;

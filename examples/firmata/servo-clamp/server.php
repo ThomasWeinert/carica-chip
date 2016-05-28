@@ -15,7 +15,7 @@ $board
         function (Http\Request $request, array $parameters) use ($servo) {
           $servo->moveTo((int)$parameters['position']);
           $response = $request->createResponse();
-          $response->content = new Http\Response\Content\String(
+          $response->content = new Http\Response\Content\Text(
             $servo->getPosition(), 'text/plain; charset=utf-8'
           );
           return $response;

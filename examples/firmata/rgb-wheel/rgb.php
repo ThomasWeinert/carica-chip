@@ -23,7 +23,7 @@ $board
             ? $request->query['color'] : '#000';
           $led->color($color)->on();
           $response = $request->createResponse();
-          $response->content = new Http\Response\Content\String(
+          $response->content = new Http\Response\Content\Text(
             'Color: '.$color
           );
           return $response;

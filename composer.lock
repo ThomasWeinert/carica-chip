@@ -1,10 +1,11 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "hash": "0d52a8fc63674c386b228873c1ebcabb",
+    "content-hash": "0ec37caa4caa1b72df80c07a09b16048",
     "packages": [
         {
             "name": "carica/io",
@@ -12,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "e9631f8e54875b4180d929fb7bc81d9ca37f2fb9"
+                "reference": "ecb24e2c3708823f59cb6224b4b82bdb49e0eab2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/e9631f8e54875b4180d929fb7bc81d9ca37f2fb9",
-                "reference": "e9631f8e54875b4180d929fb7bc81d9ca37f2fb9",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/ecb24e2c3708823f59cb6224b4b82bdb49e0eab2",
+                "reference": "ecb24e2c3708823f59cb6224b4b82bdb49e0eab2",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +46,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2015-04-24 09:09:39"
+            "time": "2016-05-28 11:48:00"
         }
     ],
     "packages-dev": [
@@ -55,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3"
+                "reference": "44448e88247004c59287567f8cbc4fcad1e375a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3",
-                "reference": "305f0e3d89e1f5eb88cdbbb6ee2a73c49ba3aec3",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/44448e88247004c59287567f8cbc4fcad1e375a9",
+                "reference": "44448e88247004c59287567f8cbc4fcad1e375a9",
                 "shasum": ""
             },
             "require": {
@@ -92,7 +93,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2015-04-26 15:09:57"
+            "time": "2015-08-13 09:47:52"
         },
         {
             "name": "phake/phake",
