@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7572bd6c22903d5ba351af84e0428bc4",
-    "content-hash": "78ae1ad9bc09c14c644a80b7036553ff",
+    "hash": "b8e1c53f45debd8a0fa2df89c1b78a2f",
+    "content-hash": "93dde3d43b664e21d1233f62d7faac15",
     "packages": [
         {
             "name": "carica/io",
@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "08ba98f0776a611a8c687bfd93f0cb12a8b0ff45"
+                "reference": "8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/08ba98f0776a611a8c687bfd93f0cb12a8b0ff45",
-                "reference": "08ba98f0776a611a8c687bfd93f0cb12a8b0ff45",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e",
+                "reference": "8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2016-07-16 15:56:29"
+            "time": "2016-07-17 15:51:37"
         }
     ],
     "packages-dev": [
@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-gpio.git",
-                "reference": "d0b89ef608e4688ecced523f8ae71b2973aae416"
+                "reference": "3b48688512f710c02aee71b4c442014a5a013110"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/d0b89ef608e4688ecced523f8ae71b2973aae416",
-                "reference": "d0b89ef608e4688ecced523f8ae71b2973aae416",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/3b48688512f710c02aee71b4c442014a5a013110",
+                "reference": "3b48688512f710c02aee71b4c442014a5a013110",
                 "shasum": ""
             },
             "require": {
@@ -135,7 +135,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2016-07-17 13:37:45"
+            "time": "2016-07-17 15:56:31"
         },
         {
             "name": "phake/phake",
@@ -198,7 +198,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.4"
+        "php": ">=5.6"
     },
     "platform-dev": []
 }
