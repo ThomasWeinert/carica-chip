@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0d52a8fc63674c386b228873c1ebcabb",
-    "content-hash": "0ec37caa4caa1b72df80c07a09b16048",
+    "hash": "7572bd6c22903d5ba351af84e0428bc4",
+    "content-hash": "78ae1ad9bc09c14c644a80b7036553ff",
     "packages": [
         {
             "name": "carica/io",
@@ -13,16 +13,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "ecb24e2c3708823f59cb6224b4b82bdb49e0eab2"
+                "reference": "08ba98f0776a611a8c687bfd93f0cb12a8b0ff45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/ecb24e2c3708823f59cb6224b4b82bdb49e0eab2",
-                "reference": "ecb24e2c3708823f59cb6224b4b82bdb49e0eab2",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/08ba98f0776a611a8c687bfd93f0cb12a8b0ff45",
+                "reference": "08ba98f0776a611a8c687bfd93f0cb12a8b0ff45",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4"
+                "php": ">=5.6"
             },
             "type": "library",
             "autoload": {
@@ -46,7 +46,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2016-05-28 11:48:00"
+            "time": "2016-07-16 15:56:29"
         }
     ],
     "packages-dev": [
@@ -94,6 +94,48 @@
                 "firmata"
             ],
             "time": "2015-08-13 09:47:52"
+        },
+        {
+            "name": "carica/gpio",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ThomasWeinert/carica-gpio.git",
+                "reference": "d0b89ef608e4688ecced523f8ae71b2973aae416"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/d0b89ef608e4688ecced523f8ae71b2973aae416",
+                "reference": "d0b89ef608e4688ecced523f8ae71b2973aae416",
+                "shasum": ""
+            },
+            "require": {
+                "carica/io": "dev-master",
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Carica\\Gpio\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Thomas Weinert",
+                    "email": "thomas@weinert.info"
+                }
+            ],
+            "description": "Gpio library implementing Carica Io Devices",
+            "homepage": "https://github.com/ThomasWeinert/carica-gpio",
+            "keywords": [
+                "arduino",
+                "firmata"
+            ],
+            "time": "2016-07-17 13:37:45"
         },
         {
             "name": "phake/phake",
@@ -150,7 +192,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "carica/io": 20,
-        "carica/firmata": 20
+        "carica/firmata": 20,
+        "carica/gpio": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

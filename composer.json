@@ -14,7 +14,8 @@
   },
   "require-dev": {
     "phake/phake": "1.*",
-    "carica/firmata": "dev-master"
+    "carica/firmata": "dev-master",
+    "carica/gpio": "dev-master"
   },
   "autoload": {
     "psr-4": {
