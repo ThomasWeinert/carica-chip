@@ -13,12 +13,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-io.git",
-                "reference": "8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e"
+                "reference": "1d412d25df71cd7823524b98cb14222fb4c407f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e",
-                "reference": "8e3b9800cc5356ec5f8c5ae1da31571d2ac09f0e",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-io/zipball/1d412d25df71cd7823524b98cb14222fb4c407f3",
+                "reference": "1d412d25df71cd7823524b98cb14222fb4c407f3",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 "asynchronous-io",
                 "non-blocking-io"
             ],
-            "time": "2016-07-17 15:51:37"
+            "time": "2016-07-18 20:06:46"
         }
     ],
     "packages-dev": [
@@ -56,12 +56,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-firmata.git",
-                "reference": "44448e88247004c59287567f8cbc4fcad1e375a9"
+                "reference": "752b7086d57708d7fa90f9cc0f76ee6edaab2217"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/44448e88247004c59287567f8cbc4fcad1e375a9",
-                "reference": "44448e88247004c59287567f8cbc4fcad1e375a9",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-firmata/zipball/752b7086d57708d7fa90f9cc0f76ee6edaab2217",
+                "reference": "752b7086d57708d7fa90f9cc0f76ee6edaab2217",
                 "shasum": ""
             },
             "require": {
@@ -93,7 +93,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2015-08-13 09:47:52"
+            "time": "2016-07-18 20:03:43"
         },
         {
             "name": "carica/gpio",
@@ -101,17 +101,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-gpio.git",
-                "reference": "3b48688512f710c02aee71b4c442014a5a013110"
+                "reference": "93d3db211c24e0ff5bd4db9a0029da99b3f409a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/3b48688512f710c02aee71b4c442014a5a013110",
-                "reference": "3b48688512f710c02aee71b4c442014a5a013110",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/93d3db211c24e0ff5bd4db9a0029da99b3f409a2",
+                "reference": "93d3db211c24e0ff5bd4db9a0029da99b3f409a2",
                 "shasum": ""
             },
             "require": {
                 "carica/io": "dev-master",
-                "php": ">=5.4"
+                "php": ">=5.6"
             },
             "type": "library",
             "autoload": {
@@ -135,7 +135,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2016-07-17 15:56:31"
+            "time": "2016-07-19 07:15:47"
         },
         {
             "name": "phake/phake",
