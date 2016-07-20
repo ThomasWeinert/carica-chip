@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-gpio.git",
-                "reference": "93d3db211c24e0ff5bd4db9a0029da99b3f409a2"
+                "reference": "83a81eff0033e27886043e3d41d28140f352cc3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/93d3db211c24e0ff5bd4db9a0029da99b3f409a2",
-                "reference": "93d3db211c24e0ff5bd4db9a0029da99b3f409a2",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/83a81eff0033e27886043e3d41d28140f352cc3c",
+                "reference": "83a81eff0033e27886043e3d41d28140f352cc3c",
                 "shasum": ""
             },
             "require": {
@@ -135,7 +135,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2016-07-19 07:15:47"
+            "time": "2016-07-19 20:55:12"
         },
         {
             "name": "phake/phake",
