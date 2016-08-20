@@ -1,11 +1,11 @@
 <?php
+/** @var \Carica\Gpio\Board $board */
 $board = require(__DIR__.'/../bootstrap.php');
 
 use \Carica\Chip\Max7219;
-use \Carica\Gpio\ShiftOut;
 
 $max = new Max7219\Matrix(
-  new ShiftOut($board->pins[38], $board->pins[40], $board->pins[36])
+  $board->createShiftOut(38, 40, 36)
 );
 $displayCount = 6;
 for ($i = 0; $i < $displayCount; $i++) {

@@ -1,5 +1,4 @@
 <?php
-
 use Carica\Gpio\Board;
 
 require(__DIR__.'/../../vendor/autoload.php');
@@ -18,5 +17,5 @@ $configuration = new Board\Configuration(
   ]
 );
 
-return $factory->getBoard($configuration);
+return $factory->createBoard($configuration);
 
