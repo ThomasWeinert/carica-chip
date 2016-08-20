@@ -11,4 +11,4 @@ define('GPIO_BOARD', \Carica\Gpio\Boards\RaspberryPi\Rev2::class);
  * The commands define the used method to configure the pins. You
  * can use sysfs or gpio-tools (WiringPi).
  */
-define('GPIO_COMMANDS', \Carica\Gpio\Commands\GpioTools::class);
+define('GPIO_COMMANDS', \Carica\Gpio\Sysfs\Commands::class);

@@ -101,17 +101,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThomasWeinert/carica-gpio.git",
-                "reference": "83a81eff0033e27886043e3d41d28140f352cc3c"
+                "reference": "693a3c84dadad7ef97326de02420dcc83521078d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/83a81eff0033e27886043e3d41d28140f352cc3c",
-                "reference": "83a81eff0033e27886043e3d41d28140f352cc3c",
+                "url": "https://api.github.com/repos/ThomasWeinert/carica-gpio/zipball/693a3c84dadad7ef97326de02420dcc83521078d",
+                "reference": "693a3c84dadad7ef97326de02420dcc83521078d",
                 "shasum": ""
             },
             "require": {
                 "carica/io": "dev-master",
                 "php": ">=5.6"
+            },
+            "suggest": {
+                "ext/wires": "Bindings for the WiringPi library"
             },
             "type": "library",
             "autoload": {
@@ -135,7 +138,7 @@
                 "arduino",
                 "firmata"
             ],
-            "time": "2016-07-19 20:55:12"
+            "time": "2016-08-20 08:53:24"
         },
         {
             "name": "phake/phake",
