@@ -15,7 +15,12 @@ namespace Carica\Chip\I2C {
      * I2C ADDRESS/BITS
      * 1001 000 (ADDR = GND)
      */
-    const ADDRESS = 0x48;
+    const ADDRESS_ONE = 0x48;
+    /**
+     * I2C ADDRESS/BITS
+     * 1001 001 (ADDR = GND)
+     */
+    const ADDRESS_TWO = 0x49;
         // 
     /**
      * CONVERSION DELAY (in mS)
@@ -96,9 +101,8 @@ namespace Carica\Chip\I2C {
       $this->_i2c = $i2c;
     }
 
-    private function writeRegister(register, value) {
+    private function writeRegister($register, $value) {
       $this->_i2c->write(
-        $this->_address,
         [
           register,
           value >> 8,
@@ -107,7 +111,7 @@ namespace Carica\Chip\I2C {
       );
     }
 
-    private function readRegister(register) {
+    private function readRegister($register) {
       $this->_i2c->write($this->_address, self::REG_POINTER_CONVERT);
       return
         $this->_i2c->read($this->_address, 2)->then(

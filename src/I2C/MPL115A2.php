@@ -48,11 +48,11 @@ namespace Carica\Chip\I2C {
     }
     
     private function readCoefficients() {
-      $this->_i2c->write(self::ADDRESS, [self::REGISTER_A0_COEFF_MSB]);
+      $this->_i2c->write([self::REGISTER_A0_COEFF_MSB]);
       return
         $this
           ->_i2c
-          ->read(self::ADDRESS, 8)
+          ->read(8)
           ->done(
             function($bytes) {
               $A0 = (($bytes[0] << 8) | $bytes[1]);
@@ -100,13 +100,13 @@ namespace Carica\Chip\I2C {
         $this->_coefficients ? $this->_coefficients : $this->readCoefficients()
       )->done(
         function() use ($defer) {
-          $this->_i2c->write(self::ADDRESS, [self::REGISTER_STARTCONVERSION, 0x00]);
+          $this->_i2c->write([self::REGISTER_STARTCONVERSION, 0x00]);
           $this->loop()->setTimeout(
             function() use ($defer) {
-              $this->_i2c->write(self::ADDRESS, [self::REGISTER_PRESSURE_MSB]);
+              $this->_i2c->write([self::REGISTER_PRESSURE_MSB]);
               $this
                 ->_i2c
-                ->read(self::ADDRESS, 4)
+                ->read(4)
                 ->done(
                   function($bytes) use ($defer) {
                     $pressure = (($bytes[0] << 8) | $bytes[1]) >> 6;

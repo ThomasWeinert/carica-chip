@@ -6,7 +6,7 @@ $board
   ->done(
     function () use ($board) {
       $pwmPins = new \Carica\Chip\I2C\PCA9685(
-        $i2c = new Carica\Firmata\I2C($board)
+        $i2c = new Carica\Firmata\I2C($board, \Carica\Chip\I2C\PCA9685::ADDRESS)
       );
       $i2c->debug(FALSE);
       $i2c->events()->on(

@@ -8,7 +8,7 @@ $board
   ->done(
     function () use ($loop, $board) {
       $dac = new Carica\Chip\I2C\MCP4725(
-        $i2c = new Carica\Firmata\I2C($board)
+        $i2c = new Carica\Firmata\I2C($board, \Carica\Chip\I2C\MCP4725::ADDRESS_ONE)
       );
       $steps = 5;
       $voltage = 3.3;

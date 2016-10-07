@@ -40,11 +40,9 @@ namespace Carica\Chip\I2C {
      * Create object, store pin and attach events
      *
      * @param I2C $i2c
-     * @param Pin|bool $useAddressTwo
      */
-    public function __construct(I2C $i2c, $useAddressTwo = FALSE) {
+    public function __construct(I2C $i2c) {
       $this->_i2c = $i2c;
-      $this->_useAddressTwo = $useAddressTwo;
     }
 
     /**
@@ -58,11 +56,7 @@ namespace Carica\Chip\I2C {
         $percent = 1.0;
       }
       $value = (int)floor(4095 * $percent);
-      $useAddressTwo = ($this->_useAddressTwo instanceof Pin)
-        ? $this->_useAddressTwo->getDigital() : (bool)$this->_useAddressTwo;
-      $address = $useAddressTwo ? self::ADDRESS_TWO : self::ADDRESS_ONE;
       $this->_i2c->write(
-        $address,
         $persistent 
           ? [0x60, (int)($value / 16), ($value % 16 << 4)] // write eeprom
           : [($value >> 8) & 0x0F, $value & 0xFF] // fast mode

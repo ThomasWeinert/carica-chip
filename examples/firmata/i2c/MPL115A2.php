@@ -8,7 +8,7 @@ $board
   ->done(
     function () use ($loop, $board) {
       $sensor = new Carica\Chip\I2C\MPL115A2(
-        $i2c = new Carica\Firmata\I2C($board)
+        $i2c = new Carica\Firmata\I2C($board, \Carica\Chip\I2C\MPL115A2::ADDRESS)
       );
       
       $sensor
