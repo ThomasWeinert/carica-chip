@@ -2,7 +2,6 @@ Carica Chip
 ===========
 
 [![Build Status](https://travis-ci.org/ThomasWeinert/carica-chip.svg?branch=master)](https://travis-ci.org/ThomasWeinert/carica-chip)
-[![HHVM Status](http://hhvm.h4cc.de/badge/carica/chip.png)](http://hhvm.h4cc.de/package/carica/chip)
 [![License](https://poser.pugx.org/carica/chip/license.svg)](https://packagist.org/packages/carica/chip)
 [![Total Downloads](https://poser.pugx.org/carica/chip/downloads.svg)](https://packagist.org/packages/carica/chip)
 [![Latest Stable Version](https://poser.pugx.org/carica/chip/v/stable.svg)](https://packagist.org/packages/carica/chip)
@@ -10,14 +9,14 @@ Carica Chip
 
 License: [The MIT License](http://www.opensource.org/licenses/mit-license.php)
 
-Copyright: 2013-2015 Thomas Weinert <thomas@weinert.info>
+Copyright: 2013-2018 Thomas Weinert <thomas@weinert.info>
 
 Carica Chip provides abstraction for hardware access. It implements classes for physical
 devices connected to an Arduino (or compatible microcontroller) running Firmata.
 
 ***It's a learning project not a product. Use it at your own risk.***
 
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ThomasWeinert/carica-chip)
+[![Gitter chat](https://img.shields.io/badge/gitter-join--chat-blue.svg)](https://gitter.im/ThomasWeinert/carica-chip)
 
 Basics
 ------
@@ -30,7 +29,7 @@ It is inspired by the [Johnny Five project](https://github.com/rwaldron/johnny-f
 Dependencies
 ------------
 
-Carica Chip uses Carica Io a non blocking I/O library for PHP. At least PHP 5.4 is needed.
+Carica Chip uses Carica Io a non blocking I/O library for PHP. At least PHP 7.1 is needed.
 Carica Io defines several intefaces for hardware devices (Pin, ShiftOut, I2C). An implementation
 of these interfaces is required for Carica Chip. 
 

@@ -1,18 +1,24 @@
 language: php
 
 php:
-  - 5.6
-  - 7.0
+  - 7.1
+  - 7.1snapshot
+  - 7.2
+  - 7.2snapshot
   - nightly
-  - hhvm
 
 matrix:
   allow_failures:
     - php: nightly
 
+before_install:
+  - composer self-update
+  - composer clear-cache
+  - wget https://phar.phpunit.de/phpunit.phar
+
 install: composer install
 
-script: phpunit --configuration phpunit.xml.dist
+script: php phpunit.phar --configuration phpunit.xml.dist tests
 
 notifications:
   webhooks:
