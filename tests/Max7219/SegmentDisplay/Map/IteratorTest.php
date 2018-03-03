@@ -11,7 +11,7 @@ namespace Carica\Chip\Max7219\SegmentDisplay\Map {
   class IteratorTest extends TestCase {
 
     /**
-     * @covers Carica\Chip\Max7219\SegmentDisplay\Map\Iterator
+     * @covers \Carica\Chip\Max7219\SegmentDisplay\Map\Iterator
      * @dataProvider provideTextAndBytes
      */
     public function testIterator($expectedBytes, $text) {

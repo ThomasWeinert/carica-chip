@@ -2,16 +2,17 @@
 
 namespace Carica\Chip {
 
-  use Phake;
+  use Carica\Io\Device\Pin;
+  use PHPUnit\Framework\MockObject\MockObject;
 
-  abstract class TestCase extends \PHPUnit_Framework_TestCase {
+  abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
     /**
-     * @return \Phake_IMock|\Carica\Io\Device\Pin
+     * @return MockObject|\Carica\Io\Device\Pin
+     * @throws \ReflectionException
      */
     protected function getMockForPin() {
-      $pin = Phake::mock('\\Carica\\Io\\Device\\Pin');
-      return $pin;
+      return $this->createMock(Pin::class);
     }
   }
 }

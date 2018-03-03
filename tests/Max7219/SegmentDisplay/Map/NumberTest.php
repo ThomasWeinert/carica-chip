@@ -10,7 +10,7 @@ namespace Carica\Chip\Max7219\SegmentDisplay\Map {
   class NumberTest extends TestCase {
 
     /**
-     * @covers Carica\Chip\Max7219\SegmentDisplay\Map\Number
+     * @covers \Carica\Chip\Max7219\SegmentDisplay\Map\Number
      * @dataProvider provideNumbersAndBytes
      */
     public function testIterator($expectedBytes, $number, $decimals = 0) {
