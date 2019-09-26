@@ -30,9 +30,6 @@ namespace Carica\Chip {
         ->method('getDigital');
 
       $led = new Led($pin);
-      $this->assertAttributeSame(
-        $pin, '_pin', $led
-      );
       $this->assertFalse(
         $led->isDimmable()
       );

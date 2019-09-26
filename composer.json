@@ -9,11 +9,11 @@
     {"name": "Thomas Weinert", "email": "thomas@weinert.info"}
   ],
   "require": {
-    "php": ">=7.1",
-    "carica/io": "^1.0"
+    "php": ">=7.2",
+    "carica/io": "^1.1"
   },
   "require-dev": {
-    "carica/firmata": "^1.0",
+    "carica/firmata": "^1.1",
     "carica/gpio": "^0.0"
   },
   "autoload": {

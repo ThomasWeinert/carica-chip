@@ -1,7 +1,6 @@
 <phpunit
   backupGlobals="false"
-  backupStaticAttributes="false"
-  syntaxCheck="false">
+  backupStaticAttributes="false">
   <testsuites>
     <testsuite name="Carica\Chip">
       <directory suffix="Test.php">tests</directory>
