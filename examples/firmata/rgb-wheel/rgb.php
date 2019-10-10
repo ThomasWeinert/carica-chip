@@ -11,16 +11,15 @@ $board
   ->done(
     function () use ($board) {
       $led = new Carica\Chip\Rgb\Led(
-        $board->pins[3],
-        $board->pins[5],
-        $board->pins[6]
+        $board->pins[FIRMATA_PINS['RGB_LED_RED']],
+        $board->pins[FIRMATA_PINS['RGB_LED_GREEN']],
+        $board->pins[FIRMATA_PINS['RGB_LED_BLUE']]
       );
       $route = new Http\Route();
       $route->match(
         '/rgb',
         function (Http\Request $request) use ($led) {
-          $color = isset($request->query['color'])
-            ? $request->query['color'] : '#000';
+          $color = $request->query['color'] ?? '#000';
           $led->color($color)->on();
           $response = $request->createResponse();
           $response->content = new Http\Response\Content\Text(
@@ -34,6 +33,7 @@ $board
 
       $server = new Http\Server($route);
       $server->listen(8080);
+      echo "Server started on http://localhost:8080.\n";
     }
   )
   ->fail(

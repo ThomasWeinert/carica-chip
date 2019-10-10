@@ -2,22 +2,29 @@
 
 /**
  * The connection mode
- * 
+ *
  * serial - serial connection
  * tcp - tcp connection (network shield or serproxy)
- * 
+ *
  * @var string
  */
-define('CARICA_FIRMATA_MODE', 'serial');
+const CARICA_FIRMATA_MODE = 'tcp';
 
 /**
- * serial connection options * 
+ * serial connection options *
  */
-define('CARICA_FIRMATA_SERIAL_DEVICE', '/dev/tty0');
-//define('CARICA_FIRMATA_SERIAL_BAUD', 57600); // default is 57600
+const CARICA_FIRMATA_SERIAL_DEVICE = '/dev/tty0';
 
 /**
  * tcp connection options *
  */
-define('CARICA_FIRMATA_TCP_SERVER', '127.0.0.1');
-define('CARICA_FIRMATA_TCP_PORT', 5339);
+const CARICA_FIRMATA_TCP_SERVER = '127.0.0.1';
+const CARICA_FIRMATA_TCP_PORT = 5330;
+
+const FIRMATA_PINS = [
+  'PIN_LED' => 13,
+  'RGB_LED_RED' => 9,
+  'RGB_LED_GREEN' => 10,
+  'RGB_LED_BLUE' => 11
+];
+

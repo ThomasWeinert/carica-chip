@@ -6,9 +6,9 @@ $board
   ->done(
     function () use ($board) {
       $led = new Carica\Chip\Rgb\Led(
-        $board->pins[3],
-        $board->pins[5],
-        $board->pins[6]
+        $board->pins[FIRMATA_PINS['RGB_LED_RED']],
+        $board->pins[FIRMATA_PINS['RGB_LED_GREEN']],
+        $board->pins[FIRMATA_PINS['RGB_LED_BLUE']]
       );
       $led->color('#F00')->fadeIn(5000);
     }

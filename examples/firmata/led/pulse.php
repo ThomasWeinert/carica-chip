@@ -5,7 +5,7 @@ $board
   ->activate()
   ->done(
     function () use ($board) {
-      $led = new Carica\Chip\Led($board->pins[3]);
+      $led = new Carica\Chip\Led($board->pins[FIRMATA_PINS['PIN_LED']]);
       $led->pulse(3000)->on();
     }
   )

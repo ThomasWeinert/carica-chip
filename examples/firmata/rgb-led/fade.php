@@ -9,9 +9,9 @@ $board
         '#F00', '#0F0', '#00F'
       );
       $led = new Carica\Chip\Rgb\Led(
-        $board->pins[3],
-        $board->pins[5],
-        $board->pins[6]
+        $board->pins[FIRMATA_PINS['RGB_LED_RED']],
+        $board->pins[FIRMATA_PINS['RGB_LED_GREEN']],
+        $board->pins[FIRMATA_PINS['RGB_LED_BLUE']]
       );
       $led->color('#000');
       $next = function() use ($led, $colors, &$next) {
